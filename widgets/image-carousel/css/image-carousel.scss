@@ -1,0 +1,42 @@
+.eel--image-img img{
+    display: block;
+    width: 100%;
+}
+.eel-all-slider {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.eel-all-slider.swiper-initialized {
+    opacity: 1;
+}
+.swiper-navigation .swiper-next,
+.swiper-navigation .swiper-prev{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 2px;
+    border: none;
+}
+.swiper-navigation .swiper-next{
+    left:auto;
+    right:0;
+}
+.swiper-navigation svg{
+    height:1em;
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+    font-size:14px;
+}
+.swiper-button-next, .swiper-button-prev, .swiper-rtl .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    height: 32px;
+    border-radius:3px;
+    outline:none;
+    border: none;
+    width: 32px;
+}

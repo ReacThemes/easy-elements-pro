@@ -1,0 +1,92 @@
+:root {    
+    --e-global-color-primary: #EAA638;
+    --e-global-color-secondary: #0B3665; 
+    --e-global-color-text: #7A8986;
+}
+
+.eel-all-slider {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    position: relative;
+}
+.eel-all-slider.swiper-initialized {
+    opacity: 1;
+}
+
+.elementor-widget-eel-process-slider .eel-all-slider{
+    overflow: visible;
+}
+
+.swiper-navigation .swiper-next,
+.swiper-navigation .swiper-prev{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 2px;
+    border: none;
+    display: inline-grid;
+    place-content: center;
+}
+.swiper-navigation .swiper-next{
+    left:auto;
+    right:0;
+}
+.swiper-navigation svg{
+    height:1em;
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+    font-size:14px;
+}
+.swiper-button-next, .swiper-button-prev, .swiper-rtl .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    height: 32px;
+    border-radius:3px;
+    outline:none;
+    border: none;
+    width: 32px;
+    transition: all 0.3s ease;
+}
+
+.swiper-navigation-top .swiper-button-prev, .swiper-navigation-top .swiper-button-next{
+    left: auto;
+    right: 0;
+    top: -90px;
+}
+
+.swiper-navigation-top .swiper-button-prev{
+    right: 66px;
+}
+
+.swiper-pagination-progressbar{
+    opacity: 0;
+}
+
+.eel-time-line-item{
+
+       display: flex;
+    gap: 24px;
+     @media screen and (max-width: 767px){
+          display: block;
+    }
+    .ee--time-line-box{
+        img{
+            min-width: 200px;
+        }
+    }
+    .eel-timeline-separator{
+        display: block;
+        margin-top: 30%;
+        min-width: 70px;
+        max-width: 70px;
+        margin-right: 24px;
+        @media screen and (max-width: 767px){
+            display: none;
+        }
+    }
+}
+

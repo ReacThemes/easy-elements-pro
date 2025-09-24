@@ -1,0 +1,50 @@
+.eel-feature-project {
+  overflow: hidden;
+  border-radius: 16px;
+  display: block;
+}
+.eel-feature-project-image {
+  border-radius: 16px;
+}
+.eel-feature-project-meta {
+  padding: 32px;
+}
+.eel-feature-project-meta .eel-title {
+  color: var(--e-global-color-secondary);
+  margin-bottom: 0;
+}
+.eel-feature-project-meta .eel-description {
+  color: var(--e-global-color-text);
+  margin: 0;
+  margin-top: 5px;
+}
+.eel-feature-project .eel-project-features {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.eel-feature-project .eel-project-features .eel-feature {
+  flex: 1;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(0, 0, 0, 0.15);
+  border-top: 0;
+  border-bottom: 0;
+  border-left: 0;
+}
+.eel-feature-project .eel-project-features .eel-feature:last-child {
+  border-right: none;
+}
+.eel-feature-project .eel-project-features .eel-feature .eel-feature-icon {
+  text-align: left;
+}
+.eel-feature-project .eel-project-features .eel-feature .eel-feature-title {
+  display: block;
+  color: var(--e-global-color-text);
+  margin-bottom: 0;
+  font-size: 14px;
+  margin-top: 10px;
+}/*# sourceMappingURL=featured-project.css.map */

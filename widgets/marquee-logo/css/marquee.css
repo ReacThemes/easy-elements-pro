@@ -1,0 +1,106 @@
+:root {
+  --e-global-color-primary: #EAA638;
+  --e-global-color-text: #7A8986;
+}
+
+.eel-marquee-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.eel-marquee-container.eel-marquee-two-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.eel-marquee-track {
+  display: flex;
+  align-items: center;
+  width: -moz-max-content;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+  will-change: transform;
+  justify-content: center;
+}
+
+.eel-marquee-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f8f6;
+  border-radius: 80px;
+  padding: 10px 20px;
+  margin: 8px;
+  min-width: 280px;
+  min-height: 80px;
+  transition: box-shadow 0.2s;
+}
+
+.eel-marquee-logo img {
+  max-height: 48px;
+  width: auto;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.3s;
+}
+
+.eel-marquee-logo:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.eel-marquee-logo:hover img {
+  filter: grayscale(0%);
+}
+
+@media (max-width: 600px) {
+  .eel-marquee-logo {
+    min-width: 120px;
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    margin: 6px 8px;
+  }
+  .eel-marquee-logo img {
+    max-height: 20px;
+  }
+}
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-25%);
+  }
+}
+.eel-marquee-track.reverse {
+  animation-direction: reverse;
+}
+
+.eel-marquee-title {
+  display: inline-flex;
+  color: #121212;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  margin: 0;
+  align-items: center;
+}
+.eel-marquee-title .eel-m-title-icon {
+  width: 64px;
+  height: 64px;
+  display: inline-grid;
+  place-content: center;
+  background: var(--e-global-color-primary);
+  border-radius: 100%;
+  margin-right: 16px;
+}
+.eel-marquee-title .eel-m-title-icon svg {
+  width: 24px;
+}
+
+.eel-marquee-container.reverse-item .eel-marquee-track {
+  animation-direction: reverse;
+}
+.eel-marquee-container.reverse-item .eel-marquee-track.reverse {
+  animation-direction: normal;
+}/*# sourceMappingURL=marquee.css.map */

@@ -1,0 +1,50 @@
+.easyel-image-accordion {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  .easyel-image-item {
+    flex: 1;
+    transition: flex 0.5s ease;
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: none;
+      display: block;
+    }
+
+    &:hover,
+    &.active {
+      flex: 2;
+      z-index: 2;
+    }
+
+    .easyel_image_meta {
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      background-color: var(--e-global-color-secondary);
+      padding: 20px;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+
+      .easyel-image-title {
+        color: #fff;
+      }
+    }
+
+    &.active .easyel_image_meta {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  &:hover .easyel-image-item {
+    flex: 0.4;
+  }
+}

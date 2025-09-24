@@ -1,0 +1,186 @@
+:root {    
+    --e-global-color-primary: #EAA638;
+}
+.eel-advance-button {
+    padding: 14px 36px;
+    border: 1px solid #00000026;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 8px;
+    svg,
+    svg path,
+    i{
+        fill: currentColor;
+        color: currentColor;
+        height: 1em;
+    }
+    &.eel-default{
+        &::after{
+            content: "";
+            position: absolute;
+            width: 0;
+            height: 100%;
+            background: var(--e-global-color-primary);
+            top: 0;
+            left: 0;
+            z-index: 0;
+            transition: 0.4s all cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        span{
+            position: relative;
+            z-index: 1;
+        }
+        &:hover{
+            background: transparent;
+            &::after{
+                width: 100%;
+            }
+        }
+    }
+    &:hover{
+        background: var(--e-global-color-primary);
+        border-color: var(--e-global-color-primary);
+        color: #fff;
+        svg,
+        svg path,
+        i{
+            fill: currentColor;
+            color: currentColor;
+        }
+    }
+}
+
+.eel-advance-button-text {
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease-out;
+    gap: 10px;
+}
+
+// Skin 2
+
+/* ---- Button Effect 2 - Switch Text (Smooth) ---- */
+@for $i from 1 through 50 {
+    .eel-btn--effect-tw span:nth-child(#{$i}) { 
+        transition-delay: ($i * 0.01s);
+        transition-property: opacity, transform;
+        transition-duration: 0.25s;
+        transition-timing-function: cubic-bezier(0.85, 0, 0.2, 1);
+    }
+}
+
+.eel-btn--effect-tw {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    transition: all 0.5s;
+    &:before,
+    span {
+        transition: all 0.4s cubic-bezier(0.60, 0, 0.2, 1);
+        backface-visibility: hidden;
+        will-change: transform, opacity;
+    }
+    &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        content: attr(data-text);
+        transform: translate3d(0, 10px, 0);
+        opacity: 1;
+        display: flex;
+        justify-content: center;
+        padding: 4px;
+    }
+    span {
+        display: inline-block;
+        opacity: 0;
+        transform: translate3d(0, -10px, 0);
+    }
+    &:hover {
+        &:before {
+            opacity: 0;
+            transform: translate3d(0, 40px, 0);
+        }
+        span {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+    }
+}
+
+.eel-advance-button-defualt3{
+    height: 60px;
+    width: 200px;
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    border: none;
+    .eel-btn-main {
+        position: absolute;
+        transition: all 0.5s ease;
+        top: 0;
+    }
+    .eel-btn-main div {
+        height: 60px;
+        width: 200px;
+        text-align: center;
+        line-height: 60px;
+        display: inline-flex;
+        place-content: center;
+    }
+    &:hover{
+        border: var(--e-global-color-primary);
+        .eel-btn-main { 
+            top: -60px; 
+            transition: all 0.3s ease; 
+        }
+    }
+    .eel-btn-one { 
+        background-color: var(--e-global-color-primary); 
+    }
+    .eel-btn-two { 
+        background-color: green; 
+    }
+}
+.eel-btn-letter-effect-tw{
+    background: var(--e-global-color-primary);
+    color: var(--e-global-color-accent);
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 20px;
+    border-radius: 30px;
+    text-align: center;
+    border: none;
+    line-height: normal;
+    span{
+        display: block;
+        position: relative;
+        transition: all .3s ease-in-out;
+    }
+    &::before{
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transform: translate(0, -100%);
+        transition: all 0.3s ease-in-out;
+    }
+    &:hover{
+        color: var(--e-global-color-accent);
+        background: var(--e-global-color-secondary);
+        span{
+            transform: translate(0, 40px); 
+            opacity: 0;
+        }
+        &::before{
+            opacity: 1;
+            transform: translate(0, 0);
+        }
+    }
+}

@@ -1,0 +1,80 @@
+.e-e-clients-logo .e-e-grid-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.eel-all-slider {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+.eel-all-slider.swiper-initialized {
+    opacity: 1;
+}
+.swiper-navigation .swiper-next,
+.swiper-navigation .swiper-prev{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 2px;
+    border: none;
+}
+.swiper-navigation .swiper-next{
+    left:auto;
+    right:0;
+}
+.swiper-navigation svg{
+    height:1em;
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+    font-size:14px;
+}
+.swiper-button-next, .swiper-button-prev, .swiper-rtl .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    height: 32px;
+    border-radius:3px;
+    outline:none;
+    border: none;
+    width: 32px;
+}
+
+.swiper-wrapper{
+    align-items: center;
+}
+
+
+.ee--logo-img {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+}
+
+.ee--logo-img-normal,
+.ee--logo-img-hover {
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Default states */
+.ee--logo-img-normal {
+    transform: translateY(0);
+}
+.ee--logo-img-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(100%);
+}
+
+/* On hover swap */
+.ee--logo-img:hover .ee--logo-img-normal {
+    transform: translateY(-100%);
+}
+.ee--logo-img:hover .ee--logo-img-hover {
+    transform: translateY(0);
+}

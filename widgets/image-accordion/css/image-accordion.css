@@ -1,0 +1,43 @@
+.easyel-image-accordion {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.easyel-image-accordion .easyel-image-item {
+  flex: 1;
+  transition: flex 0.5s ease;
+  position: relative;
+  overflow: hidden;
+}
+.easyel-image-accordion .easyel-image-item img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: none;
+     object-fit: none;
+  display: block;
+}
+.easyel-image-accordion .easyel-image-item:hover, .easyel-image-accordion .easyel-image-item.active {
+  flex: 2;
+  z-index: 2;
+}
+.easyel-image-accordion .easyel-image-item .easyel_image_meta {
+  position: absolute;
+  left: 30px;
+  bottom: 30px;
+  background-color: var(--e-global-color-secondary);
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.5s ease;
+}
+.easyel-image-accordion .easyel-image-item .easyel_image_meta .easyel-image-title {
+  color: #fff;
+}
+.easyel-image-accordion .easyel-image-item.active .easyel_image_meta {
+  opacity: 1;
+  visibility: visible;
+}
+.easyel-image-accordion:hover .easyel-image-item {
+  flex: 0.4;
+}/*# sourceMappingURL=image-accordion.css.map */

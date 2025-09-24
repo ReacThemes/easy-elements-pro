@@ -1,0 +1,42 @@
+/* Main cursor */
+:root {    
+    --e-global-color-primary: #EAA638;
+}
+.eel-cursor {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    margin-left: -20px;
+    margin-top: -20px;
+    border-radius: 50%;
+    border: 1px solid var(--e-global-color-primary);
+    transition: 0.3s;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 1000;
+}
+.eel-cursor2 {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    margin-left: -20px;
+    margin-top: -20px;
+    border-radius: 100%;
+    background-color: var(--e-global-color-primary);
+    transform: translate(-50%, -50%);
+    transition: 0.1s;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.eel-grow,
+.eel-grow-small {
+    transform: scale(2.5);
+    background: #fff;
+    mix-blend-mode: difference;
+    border: none;
+}
+
+.eel-grow-small {
+    transform: scale(2);
+}

@@ -1,0 +1,200 @@
+:root {    
+    --e-global-color-primary: #EAA638;
+    --e-global-color-secondary: #0B3665; 
+    --e-global-color-text: #7A8986;
+}
+
+.swiper-navigation .swiper-next,
+.swiper-navigation .swiper-prev{
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 2px;
+    border: none;
+}
+.swiper-navigation .swiper-next{
+    left:auto;
+    right:0;
+}
+.swiper-navigation svg{
+    height:1em;
+}
+.swiper-button-next:after, .swiper-button-prev:after{
+    font-size:14px;
+}
+.swiper-button-next, .swiper-button-prev, .swiper-rtl .swiper-button-prev, .swiper-rtl .swiper-button-next {
+    height: 32px;
+    border-radius:3px;
+    outline:none;
+    border: none;
+    width: 32px;
+}
+
+.swiper-pagination{
+    span{
+        font-size: 0;
+    }
+}
+
+.eel-pagination-number-yes.swiper-pagination{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    span{
+        font-size: 20px;
+        background: none;      
+        transition: all .3s ease;  
+        width: 30px;
+        text-align: left;
+        &.swiper-pagination-bullet-active{
+            position: relative;
+            width: 60px !important;
+            &::after{                
+                content: '';
+                position: absolute;
+                top: 12px;
+                left: 30px;
+                background: #000;
+                height: 1px;
+                width: 32px;
+            }
+        }
+        &:last-child{
+            text-align: right;            
+            &::after{
+                left: -7px;
+            }
+        }
+    }
+}
+
+.ee--icon-box-slider{
+    width: 100%;
+    background: #F5F9F9;
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(0, 0, 0, 0.15); 
+    transition: all .5s ease;   
+    position: relative;
+    overflow: hidden;
+    .icon-box-title{
+        color: var(--e-global-color-secondary);
+        margin-bottom: 14px;
+        transition: all .5s ease; 
+        a{
+            color: currentColor;
+        }
+    }
+    .eel-icon{
+        min-width: 60px;
+        height: 60px;
+        background: var(--e-global-color-primary);
+        display: inline-grid;
+        margin-bottom: 75px;
+        border-radius: 16px;
+        font-size: 20px;
+        place-content: center;
+        transition: all .5s ease; 
+        svg{
+            height: 20px;
+        }
+    }
+    .icon-box-description{
+        font-size: 18px;
+        color: var(--e-global-color-text);
+        transition: all .5s ease; 
+        a{
+            color: currentColor;
+        }
+    }
+    &.right,
+    &.left{
+        display: flex;
+        gap: 20px;
+        .eel-icon{
+            margin-bottom: 0;
+            margin-top: 4px;
+        }
+    }
+    &.right{
+        .eel-icon{
+            order: 2;
+        }
+    }
+}
+.eel--top-icon{
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 60px;
+    height: 60px;
+    opacity: .05;
+}
+.eel-read-more-icon{
+    margin-top: 20px;
+    display: inline-block;
+    svg{
+        height: 16px;
+    }
+}
+
+.eel-read-more-text{
+    display: inline-flex;
+    margin-top: 20px;
+    gap: 5px;
+    align-items: center;
+    span{
+        line-height: 100%;
+    }
+    svg{
+        height: 16px;
+        width: 16px;
+    }
+}
+.eel-read-more{
+    .eel-icon-to-text{
+        font-size: 15px;
+        font-weight: bold;
+        display: inline-block;
+        position: relative;
+        text-align: center;
+        max-width: 36px;
+        height: 36px;
+        border-radius: 36px;
+        overflow: hidden;
+        border: solid 1px var(--e-global-color-text);
+        color: var(--e-global-color-text);
+        transition: .5s;
+        .eel-text{
+            opacity: 0;
+            display: inline-block;
+            overflow: hidden;
+            margin-left: 36px;
+            line-height: 2.2em;
+            padding-right: 15px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: .5s;
+        }
+        .eel-read-more-text-icon{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 7px;
+            font-size: 22px;
+            display: inline-flex;
+        }
+        &:hover{
+            max-width: 100%;
+            .eel-text{
+                opacity: 1;
+            }
+        }
+    }
+}

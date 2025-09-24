@@ -1,0 +1,18 @@
+:root {
+  --e-global-color-primary: #FFD012;
+  --e-global-color-secondary: #0B3665;
+}
+
+.eel-post-tags-widget .eel-tags-label {
+  font-size: 24px;
+}
+.eel-post-tags-widget a {
+  padding: 8px 14px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.0392156863);
+  color: var(--e-global-color-secondary);
+  font-size: 16px;
+  transition: 0.3s;
+  display: inline-block;
+  margin-bottom: 5px;
+}/*# sourceMappingURL=post-tag.css.map */
