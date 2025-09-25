@@ -11,6 +11,8 @@
 }
 .eel-featured-image-inner img {
   display: block;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 
 .eel-featured-image-editor-preview {
