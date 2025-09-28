@@ -32,6 +32,7 @@ $files_to_include = [
     'inc/custom-fonts.php',
     'inc/hook.php',
     'inc/easy-elements-cursor.php',
+    
     'inc/theme-builder/builder-functions.php',
 ];
 

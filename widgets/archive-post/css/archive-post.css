@@ -27,6 +27,10 @@
   width: 100%;
 }
 
+.elementor-widget-eel-archive-post .eel--blog-img {
+  overflow: hidden;
+}
+
 .eel-post-grid-wrap .grid-item img {
   max-width: 100%;
   height: auto;
