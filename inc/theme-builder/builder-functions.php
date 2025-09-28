@@ -15,8 +15,8 @@ class EasyEL_Free_Pro_Unlock {
      */
     private function __construct() {
         // Register hooks
-        add_filter( 'easyel_singulars_data', [ $this, 'easyel_builder_unlock_pro_items' ] );
-        add_filter('easyel_archives_data', [ $this, 'easyel_unlock_pro_archives' ] );
+        add_filter( 'easyel_singulars_data', [ $this, 'easyel_builder_singular_data_func' ] );
+        add_filter('easyel_archives_data', [ $this, 'easyel_builder_archive_data_func'] );
     }
 
     /**
@@ -29,35 +29,200 @@ class EasyEL_Free_Pro_Unlock {
         return self::$instance;
     }
 
-    /**
-     * Unlock pro items and remove label [Pro]
-     */
-    public function easyel_builder_unlock_pro_items( $singulars ) {
-        foreach ( $singulars as &$item ) {
-            if ( isset( $item['pro'] ) && $item['pro'] === true ) {
-                $item['pro'] = false;
-                $item['label'] = str_replace( ' [Pro]', '', $item['label'] );
-            }
+    public function easyel_builder_singular_data_func( $singulars ) {
+
+        // ---- Core (Pro) ----
+        $singulars[] = [
+            'value' => 'front_page',
+            'label' => __('Front Page','easy-elements'),
+            'group' => null
+        ];
+
+        // ---- Posts ----
+        $post_items = [
+            ['value'=>'post','label'=>__('Posts','easy-elements')],
+            ['value'=>'in_category','label'=>__('In Category','easy-elements')],
+            ['value'=>'in_category_children','label'=>__('In Category Children','easy-elements')],
+            ['value'=>'in_post_tag','label'=>__('In Tag','easy-elements')],
+            ['value'=>'post_by_author','label'=>__('Posts By Author','easy-elements')],
+        ];
+        foreach($post_items as $item){
+            $item['group'] = 'Posts';
+            $singulars[] = $item;
         }
+
+        // ---- Pages ----
+        $page_items = [
+            ['value'=>'page','label'=>__('Pages','easy-elements')],
+            ['value'=>'page_by_author','label'=>__('Pages By Author','easy-elements')],
+        ];
+        foreach($page_items as $item){
+            $item['group'] = 'Page';
+            $singulars[] = $item;
+        }
+
+        // ---- Others ----
+        $others = [
+            ['value'=>'child_of','label'=>__('Direct Child Of','easy-elements')],
+            ['value'=>'any_child_of','label'=>__('Any Child Of','easy-elements')],
+            ['value'=>'by_author','label'=>__('By Author','easy-elements')],
+            ['value'=>'not_found404','label'=>__('404 Page','easy-elements')],
+        ];
+        foreach( $others as $item ){
+            $item['group'] = null;
+            $singulars[] = $item;
+        }
+
+        // ---- WooCommerce ----
+        if ( class_exists('WooCommerce') ) {
+            $singulars[] = [
+                'value' => 'product',
+                'label' => __('Products', 'easy-elements'),
+                'group' => 'Products'
+            ];
+            $singulars[] = [
+                'value' => 'product_by_author',
+                'label' => __('Products By Author', 'easy-elements'),
+                'group' => 'Products'
+            ];
+        }
+
         return $singulars;
     }
 
-    /**
-     * Unlock all Pro items in archives
-     *
-     * @param array $archives
-     * @return array
-     */
-    function easyel_unlock_pro_archives($archives) {
-        foreach ($archives as $group => &$items) {
-            foreach ($items as &$item) {
-                if (isset($item['pro']) && $item['pro'] === true) {
-                    $item['pro'] = false;
-                    // Optional: [Pro]  remove
-                    $item['label'] = str_replace(' [Pro]', '', $item['label']);
+
+    public function easyel_builder_archive_data_func( $archives  ) {
+
+        // Ensure Pro groups exist
+        if (!isset($archives['posts_archive'])) {
+            $archives['posts_archive'] = [];
+        }
+        if (!isset($archives['products_archive'])) {
+            $archives['products_archive'] = [];
+        }
+        if (!isset($archives['custom'])) {
+            $archives['custom'] = [];
+        }
+
+        // ---- Core (Pro) ----
+        $archives['core'][] = [
+            'value' => 'author',
+            'label' => __('Author Archive','easy-elements'),
+            'group' => 'Core'
+        ];
+        $archives['core'][] = [
+            'value' => 'search',
+            'label' => __('Search Results','easy-elements'),
+            'group' => 'Core'
+        ];
+        $archives['core'][] = [
+            'value' => 'date',
+            'label' => __('Date Archive','easy-elements'),
+            'pro'   => true,
+            'group' => 'Core'
+        ];
+
+        // ---- Posts Archive (Pro) ----
+        $archives['posts_archive'][] = [
+            'value'=>'post_archive',
+            'label'=>__('Posts archive','easy-elements'),
+            'group'=>'Posts'
+        ];
+        $archives['posts_archive'][] = [
+            'value'=>'category',
+            'label'=>__('Categories','easy-elements'),
+            'group'=>'Posts'
+        ];
+        $archives['posts_archive'][] = [
+            'value'=>'child_of_category',
+            'label'=>__('Direct child Category of','easy-elements'),
+            'group'=>'Posts'
+        ];
+        $archives['posts_archive'][] = [
+            'value'=>'any_child_of_category',
+            'label'=>__('Any child Category of','easy-elements'),
+            'group'=>'Posts'
+        ];
+
+        $tags = get_terms(['taxonomy'=>'post_tag','hide_empty'=>false]);
+        if ( ! empty($tags) ) {
+            $archives['posts_archive'][] = [
+                'value'=>'post_tag',
+                'label'=>__('Tags','easy-elements'),
+                'group'=> 'Posts'
+            ];
+        }
+
+        // ---- WooCommerce (Pro) ----
+        if ( class_exists('WooCommerce') ) {
+            $archives['products_archive'][] = [
+                'value' => 'all_product_archive',
+                'label' => __('All Product Archives', 'easy-elements'),
+                'group' => 'Products'
+            ];
+
+            $woo_taxonomies = ['shop_page', 'product_search', 'product_brand', 'product_cat', 'product_tag'];
+            foreach ($woo_taxonomies as $tax) {
+                if ($tax === 'shop_page') {
+                    $archives['products_archive'][] = [
+                        'value' => $tax,
+                        'label' => __('Shop Page', 'easy-elements'),
+                        'group' => 'Products'
+                    ];
+                } elseif ($tax === 'product_search') {
+                    $archives['products_archive'][] = [
+                        'value' => $tax,
+                        'label' => __('Search Results', 'easy-elements'),
+                        'group' => 'Products'
+                    ];
+                } else {
+                    $taxonomy_obj = get_taxonomy($tax);
+                    if ($taxonomy_obj) {
+                        $archives['products_archive'][] = [
+                            'value' => $tax,
+                            'label' => "Product " . $taxonomy_obj->labels->singular_name,
+                            'group' => 'Products'
+                        ];
+                    }
                 }
             }
         }
+
+        // ---- Custom Taxonomies/Post Types (Pro) ----
+        $args = [
+            'public'   => true,
+            '_builtin' => true,
+        ];
+        $post_types = get_post_types($args, 'objects');
+        unset($post_types['attachment']);
+
+        $args['_builtin'] = false;
+        $custom_post_types = get_post_types($args, 'objects');
+
+        $post_types = apply_filters('easyel_location_rule_post_types', array_merge( $post_types, $custom_post_types ) );
+        $taxonomies = get_taxonomies(['public'=>true], 'objects');
+
+        if ( ! empty( $taxonomies ) ) {
+            foreach ( $taxonomies as $taxonomy ) {
+                if ( 'post_format' === $taxonomy->name ) {
+                    continue;
+                }
+                foreach ( $post_types as $post_type ) {
+                    if ( in_array($post_type->name, $taxonomy->object_type, true) ) {
+                        $archives['custom'][] = [
+                            'value' => $taxonomy->name,
+                            'label' => sprintf(
+                                __('%1$s (%2$s)', 'easy-elements'),
+                                $taxonomy->labels->singular_name,
+                                $post_type->labels->singular_name
+                            ),
+                            'group' => 'Custom'
+                        ];
+                    }
+                }
+            }
+        }
+
         return $archives;
     }
 
