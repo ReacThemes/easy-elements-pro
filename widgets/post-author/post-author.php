@@ -42,7 +42,7 @@ class Easyel_Post_Author_Info_Widget extends Widget_Base {
 	}
 
 	public function get_categories() {
-		return [ 'easyelements_post_category' ];
+		return [ 'easyelements_category_pro' ];
 	}
 
 	public function get_keywords() {
