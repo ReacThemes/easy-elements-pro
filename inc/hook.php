@@ -470,7 +470,6 @@ function display_elementor_template($item_output, $item, $depth, $args) {
 }
 add_filter('walker_nav_menu_start_el', 'display_elementor_template', 10, 4);
 
-
 // Jaralax Hook Herer
 
 use Elementor\Controls_Manager;
