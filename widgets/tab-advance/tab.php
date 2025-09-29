@@ -54,7 +54,7 @@ class Easyel_Advance_Tab_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_categories() {
-        return [ 'easyelements_category' ];
+        return [ 'easyelements_category_pro' ];
     }
 
     protected function register_controls() {

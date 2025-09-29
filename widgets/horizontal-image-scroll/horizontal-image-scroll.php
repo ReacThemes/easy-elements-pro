@@ -38,7 +38,7 @@ class Easyel_Hr_Image_Scroll_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_categories() {
-        return [ 'easyelements_category' ];
+        return [ 'easyelements_category_pro' ];
     }
 
     public function get_keywords() {

@@ -40,7 +40,7 @@ class Easyel_Post_Pagination_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_categories() {
-		return [ 'easyelements_post_category' ];
+		return [ 'easyelements_category_pro' ];
 	}
 
 	public function get_keywords() {

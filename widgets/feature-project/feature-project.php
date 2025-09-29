@@ -39,7 +39,7 @@ class Easyel_Featured_Project_Widget extends Widget_Base {
     }
 
     public function get_categories() {
-        return [ 'basic' ];
+        return [ 'easyelements_category_pro' ];
     }
 
     protected function _register_controls() {
