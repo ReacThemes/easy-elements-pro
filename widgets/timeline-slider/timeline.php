@@ -11,11 +11,6 @@ class Easyel_Timeline_Slider_Widget extends \Elementor\Widget_Base {
     public function get_style_depends() {
         $handle = 'eel-timeline-slider';
         $css_path = plugin_dir_path( __FILE__ ) . 'css/timeline.css';
-        
-        if ( get_option( 'easyel_elements_minify_css', '0' ) === '1' && class_exists( 'Easyel_Elements_CSS_Loader_Helper' ) ) {
-            Easyel_Elements_CSS_Loader_Helper::easyel_elements_load_minified_inline_css( $handle, $css_path );
-            return [ $handle ];
-        }
 
         if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
             wp_register_style( $handle, plugins_url( 'css/timeline.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : '1.0.0' );
@@ -29,7 +24,7 @@ class Easyel_Timeline_Slider_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'Easy Timeline Slider', 'easy-elements' );
+        return esc_html__( 'Timeline Slider', 'easy-elements' );
     }
 
     public function get_icon() {
