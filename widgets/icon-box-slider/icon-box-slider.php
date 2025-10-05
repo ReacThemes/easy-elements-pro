@@ -11,11 +11,6 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
         $handle = 'eel-icon-box-slider';
         $css_path = plugin_dir_path( __FILE__ ) . 'css/icon-box-slider.css';
         
-        if ( get_option( 'easyel_elements_minify_css', '0' ) === '1' && class_exists( 'Easyel_Elements_CSS_Loader_Helper' ) ) {
-            Easyel_Elements_CSS_Loader_Helper::easyel_elements_load_minified_inline_css( $handle, $css_path );
-            return [ $handle ];
-        }
-        
         if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
             wp_register_style( $handle, plugins_url( 'css/icon-box-slider.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : '1.0.0' );
         }
@@ -28,7 +23,7 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'Easy Icon Box Slider', 'easy-elements' );
+        return esc_html__( 'Icon Box Slider', 'easy-elements' );
     }
 
     public function get_icon() {
@@ -319,18 +314,7 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
             ]
         );
 
-        $this->add_group_control(
-            \Elementor\Group_Control_Typography::get_type(),
-            [
-                'name' => 'readmore_typography',
-                'label' => esc_html__( 'Typography', 'easy-elements' ),
-                'selector' => '{{WRAPPER}} .eel-read-more-text',
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
+    
         
         $this->add_control(
             'read_more_icon',
@@ -345,221 +329,9 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
-            'read_more_icon_color',
-            [
-                'label' => esc_html__('Icon Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-icon svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .eel-read-more-icon svg path' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .eel-read-more-icon i' => 'color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => 'read_icon',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_icon_color_hovers',
-            [
-                'label' => esc_html__('Icon Hover Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover svg path' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover i' => 'color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => 'read_icon',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_icon_color_hover',
-            [
-                'label' => esc_html__('Icon Hover Color (When use with Wrap BG Hover Color)', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon svg path' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon i' => 'color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => 'read_icon',
-                ],
-            ]
-        );
-        
-        $this->add_responsive_control(
-            'read_more_icon_size',
-            [
-                'label' => esc_html__('Icon Size', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'range' => [
-                    'px' => [
-                        'min' => 10,
-                        'max' => 100,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .eel-read-more-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => 'read_icon',
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_text_color',
-            [
-                'label' => esc_html__('Text Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .eel-read-more-text svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .eel-read-more-text svg path' => 'fill: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-        $this->add_control(
-            'read_more_text_color_hover',
-            [
-                'label' => esc_html__('Text Hover Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover svg path' => 'fill: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_text_color_hovers',
-            [
-                'label' => esc_html__('Text Hover Color (When use with Wrap BG Hover Color)', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text svg path' => 'fill: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_text_bg_color',
-            [
-                'label' => esc_html__('Background Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text' => 'background-color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_text_bg_color_hover',
-            [
-                'label' => esc_html__('Text Hover Background Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover' => 'background-color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'read_more_text_bg_color_hovers',
-            [
-                'label' => esc_html__('Text Hover Background Color (When use with Wrap BG Hover Color)', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),   
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text' => 'background-color: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],    
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'read_more_text_border_radius',
-            [
-                'label' => esc_html__('Border Radius', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', '%' ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-        $this->add_responsive_control(
-            'read_more_text_padding',
-            [
-                'label' => esc_html__('Padding', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => [ 'px', 'em', '%' ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                ],
-            ]
-        );
-        $this->add_group_control(
-            \Elementor\Group_Control_Border::get_type(),
-            [
-                'name' => 'read_more_text_border',
-                'label' => esc_html__('Border', 'easy-elements'),
-                'selector' => '{{WRAPPER}} .eel-read-more-text, {{WRAPPER}} .eel-read-more-icon',
-                'condition' => [
-                    'show_read_more' => 'yes',
-                ],
-            ]
-        );
-        $this->add_control(
             'read_more_text_icon_show',
             [
-                'label' => esc_html__('Show Icon Next to Text', 'easy-elements'),
+                'label' => esc_html__('Show Icon', 'easy-elements'),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
                 'label_on' => esc_html__('Show', 'easy-elements'),
                 'label_off' => esc_html__('Hide', 'easy-elements'),
@@ -571,6 +343,8 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
+
+
         $this->add_control(
             'read_more_text_icon',
             [
@@ -579,87 +353,6 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
                 'condition' => [
                     'show_read_more' => 'yes',
                     'read_more_type' => ['read_text','read_icon_to_text'],
-                    'read_more_text_icon_show' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'read_more_text_icon_size',
-            [
-                'label' => esc_html__('Text Button Icon Size', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'range' => [
-                    'px' => [
-                        'min' => 10,
-                        'max' => 100,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .eel-read-more-text-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                    'read_more_text_icon_show' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_responsive_control(
-            'read_more_text_icon_position',
-            [
-                'label' => esc_html__('Position Top/Bottom', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'range' => [
-                    'px' => [
-                        'min' => -100,
-                        'max' => 100,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-read-more-text-icon' => 'top: {{SIZE}}{{UNIT}}; position: relative;',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                    'read_more_text_icon_show' => 'yes',
-                ],
-            ]
-        );
-        
-        $this->add_control(
-            'read_more_text_icon_color_hover',
-            [
-                'label' => esc_html__('Text Button Icon Hover Color', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon i' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon svg path' => 'fill: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],
-                    'read_more_text_icon_show' => 'yes',
-                ],
-            ]
-        );
-        $this->add_control(
-            'read_more_text_icon_color_hovers',
-            [
-                'label' => esc_html__('Text Button Icon Hover Color (When use with Wrap BG Hover Color)', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
-                'selectors' => [
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon svg' => 'fill: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon i' => 'color: {{VALUE}};',
-                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon svg path' => 'fill: {{VALUE}};',
-                ],
-                'condition' => [
-                    'show_read_more' => 'yes',
-                    'read_more_type' => ['read_text','read_icon_to_text'],    
                     'read_more_text_icon_show' => 'yes',
                 ],
             ]
@@ -1897,6 +1590,352 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .ee--icon-box-slider:hover .icon-box-description' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->end_controls_tabs();
+        $this->end_controls_section();
+
+
+        $this->start_controls_section(
+            'section_style_button',
+            [
+                'label' => esc_html__( 'Button', 'easy-elements' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        $this->start_controls_tabs('btn__tabs');
+        // Normal Tab
+        $this->start_controls_tab('btn__tabs_normal', [
+            'label' => __('Normal', 'easy-elements'),
+        ]);
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'readmore_typography',
+                'label' => esc_html__( 'Typography', 'easy-elements' ),
+                'selector' => '{{WRAPPER}} .eel-read-more-text',
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+
+
+        $this->add_control(
+            'read_more_icon_color',
+            [
+                'label' => esc_html__('Icon Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .eel-read-more-icon svg path' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .eel-read-more-icon i' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => 'read_icon',
+                ],
+            ]
+        );
+
+         $this->add_responsive_control(
+            'read_more_icon_size',
+            [
+                'label' => esc_html__('Icon Size', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => 10,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-read-more-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => 'read_icon',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_color',
+            [
+                'label' => esc_html__('Text Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .eel-read-more-text svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .eel-read-more-text svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_bg_color',
+            [
+                'label' => esc_html__('Background Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'read_more_text_border_radius',
+            [
+                'label' => esc_html__('Border Radius', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'read_more_text_padding',
+            [
+                'label' => esc_html__('Padding', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'read_more_text_border',
+                'label' => esc_html__('Border', 'easy-elements'),
+                'selector' => '{{WRAPPER}} .eel-read-more-text, {{WRAPPER}} .eel-read-more-icon',
+                'condition' => [
+                    'show_read_more' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'read_more_text_icon_size',
+            [
+                'label' => esc_html__('Text Button Icon Size', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => 10,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text-icon svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-read-more-text-icon i' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                    'read_more_text_icon_show' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'read_more_text_icon_position',
+            [
+                'label' => esc_html__('Position Top/Bottom', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'px' => [
+                        'min' => -100,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-read-more-text-icon' => 'top: {{SIZE}}{{UNIT}}; position: relative;',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                    'read_more_text_icon_show' => 'yes',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->start_controls_tab('btn__tabs_hover', [
+            'label' => __('Hover', 'easy-elements'),
+        ]);
+
+        $this->add_control(
+            'read_more_icon_color_hovers',
+            [
+                'label' => esc_html__('Icon Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover svg path' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-icon:hover i' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => 'read_icon',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_color_hover',
+            [
+                'label' => esc_html__('Text Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_bg_color_hover',
+            [
+                'label' => esc_html__('Text Background Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'read_more_text_icon_color_hover',
+            [
+                'label' => esc_html__('Text Button Icon Color', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider .eel-read-more-text:hover .eel-read-more-text-icon svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                    'read_more_text_icon_show' => 'yes',
+                ],
+            ]
+        );        
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'read_more_text_border_hover',
+                'label' => esc_html__('Border', 'easy-elements'),
+                'selector' => '{{WRAPPER}} .eel-read-more-text:hover, {{WRAPPER}} .eel-read-more-icon:hover',
+                'condition' => [
+                    'show_read_more' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_color_hovers',
+            [
+                'label' => esc_html__('Text Hover Color (When use with Wrap BG Hover Color)', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_icon_color_hovers',
+            [
+                'label' => esc_html__('Text Button Icon Hover Color (When use with Wrap BG Hover Color)', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon i' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text .eel-read-more-text-icon svg path' => 'fill: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],    
+                    'read_more_text_icon_show' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_text_bg_color_hovers',
+            [
+                'label' => esc_html__('Text Hover Background Color (When use with Wrap BG Hover Color)', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),   
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-text' => 'background-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => ['read_text','read_icon_to_text'],    
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'read_more_icon_color_hover',
+            [
+                'label' => esc_html__('Icon Color (When use with Wrap BG Hover Color)', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'description' => esc_html__('Note: This hover color will only apply if a background hover color is set for the item (Wrap BG Hover Color).'),
+                'selectors' => [
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon svg path' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .ee--icon-box-slider:hover .eel-read-more-icon i' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_read_more' => 'yes',
+                    'read_more_type' => 'read_icon',
                 ],
             ]
         );

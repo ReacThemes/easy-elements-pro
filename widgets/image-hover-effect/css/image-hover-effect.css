@@ -1,0 +1,44 @@
+.easyel-cursor-hover-list-wrap {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.easyel-cursor-hover-list-wrap li + li {
+  border-top: 1px solid rgba(0, 0, 0, 0.0901960784);
+}
+
+.easyel-cursor-hover {
+  position: fixed;
+  width: 350px;
+  height: 250px;
+  pointer-events: none;
+  border-radius: 8px;
+  background-color: transparent;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  background-size: cover;
+  background-position: center;
+}
+
+.easyel-cursor-hover-list {
+  padding: 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+  mix-blend-mode: difference;
+}
+
+.easyel-cursor-hover-title {
+  margin: 0;
+  font-size: 22px;
+  line-height: 100%;
+}
+
+.easyel-cursor-hover-list-des {
+  margin: 10px 0 0;
+  font-size: 14px;
+  line-height: 100%;
+}/*# sourceMappingURL=cursor-hover-effect.css.map */

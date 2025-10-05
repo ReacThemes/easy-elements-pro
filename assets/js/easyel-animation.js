@@ -280,4 +280,49 @@
         elementorFrontend.hooks.addAction('frontend/element_ready/column', easyel_runAnimations);
     });
 
+
+    function initEasyelCursorHover($scope){
+        var cursor = $scope.find(".easyel-cursor-hover")[0];
+        var projects = $scope.find(".easyel-cursor-hover-list");
+        if(!cursor || !projects.length) return;
+        gsap.set(cursor, {scale: 0.1, autoAlpha: 0, transformOrigin: "center center", position: "fixed", top:0, left:0, xPercent:-50, yPercent:-50});
+
+        let mouseX = 0, mouseY = 0;
+        let posX = 0, posY = 0;
+        
+        window.addEventListener("mousemove", e => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        gsap.ticker.add(() => {
+            posX += (mouseX - posX) * 0.15;
+            posY += (mouseY - posY) * 0.15;
+            gsap.set(cursor, {x: posX, y: posY});
+        });
+
+        projects.each(function(){
+            const project = this;
+            const image = project.dataset.image;
+
+            project.addEventListener("mouseenter", ()=>{
+                cursor.style.backgroundImage = `url(${image})`;
+                cursor.style.backgroundSize = "cover";
+                cursor.style.backgroundPosition = "center";
+                gsap.to(cursor, { scale:1, autoAlpha:1, duration:0.3, ease:"power3.out" });
+            });
+
+            project.addEventListener("mouseleave", ()=>{
+                gsap.to(cursor, { scale:0.1, autoAlpha:0, duration:0.3, ease:"power3.out" });
+            });
+        });
+    }
+
+    // Elementor frontend init
+    $(window).on('elementor/frontend/init', function(){
+        elementorFrontend.hooks.addAction('frontend/element_ready/widget', initEasyelCursorHover);
+        elementorFrontend.hooks.addAction('frontend/element_ready/section', initEasyelCursorHover);
+    });
+
 })(jQuery);
+

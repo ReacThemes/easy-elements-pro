@@ -11,12 +11,7 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
     public function get_style_depends() {
         $handle = 'eel-clients-logo-slider';
         $css_path = plugin_dir_path( __FILE__ ) . 'css/clients-logo.css';
-        
-        if ( get_option( 'easyel_elements_minify_css', '0' ) === '1' && class_exists( 'Easyel_Elements_CSS_Loader_Helper' ) ) {
-            Easyel_Elements_CSS_Loader_Helper::easyel_elements_load_minified_inline_css( $handle, $css_path );
-            return [ $handle ];
-        }
-        
+
         if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
             wp_register_style( $handle, plugins_url( 'css/clients-logo.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : '1.0.0' );
         }
@@ -29,7 +24,7 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'Easy Client Logo Slider', 'easy-elements' );
+        return esc_html__( 'Client Logo Slider', 'easy-elements' );
     }
 
     public function get_icon() {
@@ -378,9 +373,9 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .swiper-prev' => 'color: {{VALUE}}',                   
-                    '{{WRAPPER}} .swiper-prev svg' => 'fill: {{VALUE}}',                   
+                    '{{WRAPPER}} .swiper-prev svg, {{WRAPPER}} .swiper-prev svg path' => 'fill: {{VALUE}}',                   
                     '{{WRAPPER}} .swiper-next' => 'color: {{VALUE}}',                   
-                    '{{WRAPPER}} .swiper-next svg' => 'fill: {{VALUE}}',                   
+                    '{{WRAPPER}} .swiper-next svg, {{WRAPPER}} .swiper-next svg path' => 'fill: {{VALUE}}',                   
                 ],
                 'condition' => [ 'navigation' => 'yes' ],
             ]
@@ -417,8 +412,8 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .swiper-prev:hover' => 'color: {{VALUE}}',                 
-                    '{{WRAPPER}} .swiper-prev:hover svg' => 'fill: {{VALUE}}',                 
-                    '{{WRAPPER}} .swiper-next:hover svg' => 'fill: {{VALUE}}',                     
+                    '{{WRAPPER}} .swiper-prev:hover svg, {{WRAPPER}} .swiper-prev:hover svg path' => 'fill: {{VALUE}}',                 
+                    '{{WRAPPER}} .swiper-next:hover svg, {{WRAPPER}} .swiper-next:hover svg path' => 'fill: {{VALUE}}',                     
                     '{{WRAPPER}} .swiper-next:hover' => 'color: {{VALUE}}',                     
                 ],
                 'condition' => [ 'navigation' => 'yes' ],
