@@ -134,6 +134,7 @@ function easy_elements_pro_plugin_init() {
             'post_tags'         => [ 'class' => '\Easyel_Post_Tags_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/post-tag/post-tag.php','tab' => 'widget' ],
             'post_author'         => [ 'class' => '\Easyel_Post_Author_Info_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/post-author/post-author.php','tab' => 'widget' ],
             'timeline_slider'         => [ 'class' => '\Easyel_Timeline_Slider_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/timeline-slider/timeline.php','tab' => 'widget' ],
+            'enable_image_hover_effect'         => [ 'class' => '\Easyel_image_hover_effect__Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/image-hover-effect/image-hover-effect.php','tab' => 'widget' ],
         ];
 
         foreach ( $pro_widgets as $key => $widget ) {
