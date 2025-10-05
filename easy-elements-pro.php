@@ -134,16 +134,24 @@ function easy_elements_pro_plugin_init() {
             'post_tags'         => [ 'class' => '\Easyel_Post_Tags_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/post-tag/post-tag.php','tab' => 'widget' ],
             'post_author'         => [ 'class' => '\Easyel_Post_Author_Info_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/post-author/post-author.php','tab' => 'widget' ],
             'timeline_slider'         => [ 'class' => '\Easyel_Timeline_Slider_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/timeline-slider/timeline.php','tab' => 'widget' ],
-            'enable_image_hover_effect'         => [ 'class' => '\Easyel_image_hover_effect__Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/image-hover-effect/image-hover-effect.php','tab' => 'widget' ],
+            'enable_image_hover_effect'         => [ 'class' => '\Easyel_image_hover_effect__Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/image-hover-effect/image-hover-effect.php','tab' => 'extensions' ],
         ];
+
+        $extensions_settings = get_option( 'easy_element_extensions', [] );
 
         foreach ( $pro_widgets as $key => $widget ) {
 
-            $option_name = 'easy_element_' . $widget['tab'] . '_' . $key;
-            $enabled = get_option( $option_name, '1' );
+            $is_enabled = false;
 
-            if ( $enabled !== '1' ) {
-                continue; // Skip disabled widgets
+            if ( $widget['tab'] === 'extensions' ) {
+                $is_enabled = isset( $extensions_settings[$key] ) && $extensions_settings[$key] == 1;
+            } else {
+                $option_name = 'easy_element_' . $widget['tab'] . '_' . $key;
+                $is_enabled = get_option( $option_name, '1' ) == '1';
+            }
+
+            if ( ! $is_enabled ) {
+                continue;
             }
 
             if ( file_exists( $widget['file'] ) ) {
