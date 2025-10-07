@@ -1,7 +1,13 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-$checked = get_option('easyel_enable_cursor', 0);
-    if ( $checked != 1 ) return;
+
+$tab_slug = 'extensions';
+$extensions_settings = get_option('easy_element_' . $tab_slug, [] );
+$enable_cursor = isset( $extensions_settings['enable_cursor'] ) ? $extensions_settings['enable_cursor'] : 0;
+if(  (int) $enable_cursor !== 1 ) {
+    return;
+}
+
 /**
  * Add cursor divs in footer
  */

@@ -49,8 +49,8 @@ function enqueue_easyel_gsap_scripts() {
 
     if ( ! did_action( 'elementor/loaded' ) ) return;
 
-    $checked = get_option('easyel_enable_js_animation', 0);
-    if ( $checked != 1 ) return;
+    //$checked = get_option('easyel_enable_js_animation', 0);
+    //if ( $checked != 1 ) return;
 
     $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
@@ -135,6 +135,7 @@ function easy_elements_pro_plugin_init() {
             'post_author'         => [ 'class' => '\Easyel_Post_Author_Info_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/post-author/post-author.php','tab' => 'widget' ],
             'timeline_slider'         => [ 'class' => '\Easyel_Timeline_Slider_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/timeline-slider/timeline.php','tab' => 'widget' ],
             'enable_image_hover_effect'         => [ 'class' => '\Easyel_image_hover_effect__Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/image-hover-effect/image-hover-effect.php','tab' => 'widget' ],
+            'image_gallery_filter'         => [ 'class' => '\Easyel__Gallery_Pro_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/gallery-filter/gallery-filter.php','tab' => 'widget' ],
         ];
 
         foreach ( $pro_widgets as $key => $widget ) {

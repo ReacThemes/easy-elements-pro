@@ -4,11 +4,6 @@ class Easyel_Advance_Tab_Widget extends \Elementor\Widget_Base {
     public function get_style_depends() {
         $handle = 'eel-tab-advance';
         $css_path = plugin_dir_path( __FILE__ ) . 'css/tab.css';
-        
-        if ( get_option( 'easyel_elements_minify_css', '0' ) === '1' && class_exists( 'Easyel_Elements_CSS_Loader_Helper' ) ) {
-            Easyel_Elements_CSS_Loader_Helper::easyel_elements_load_minified_inline_css( $handle, $css_path );
-            return [ $handle ];
-        }
 
         if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
             wp_register_style( $handle, plugins_url( 'css/tab.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : '1.0.0' );
@@ -21,17 +16,6 @@ class Easyel_Advance_Tab_Widget extends \Elementor\Widget_Base {
     public function get_script_depends() {
         $handle = 'eel-tab-script';
         $js_path = plugin_dir_path( __FILE__ ) . 'js/tab.js';
-        
-        // Check if minification is enabled and helper class exists
-        if ( get_option( 'easyel_elements_minify_js', '0' ) === '1' && class_exists( 'Easyel_Elements_JS_Loader_Helper' ) ) {
-            try {
-                Easyel_Elements_JS_Loader_Helper::easyel_elements_load_minified_inline_js( $handle, $js_path );
-                return [ $handle ];
-            } catch ( Exception $e ) {
-                // Fallback to normal loading if minification fails
-                error_log( 'Easy Elements: JS minification failed for ' . $handle . ': ' . $e->getMessage() );
-            }
-        }
 
         // Normal script loading
         if ( ! wp_script_is( $handle, 'registered' ) && file_exists( $js_path ) ) {

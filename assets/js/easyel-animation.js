@@ -324,5 +324,177 @@
         elementorFrontend.hooks.addAction('frontend/element_ready/section', initEasyelCursorHover);
     });
 
+    function initParallaxOnScope($scope) {
+        var $containers = $scope.find('.eel-mouse-move-paralax');
+
+        // if root scope is document, also include top-level containers
+        if ($scope.is(document) || $scope.is(window) || $scope.length === 0) {
+            $containers = $('.eel-mouse-move-paralax');
+        }
+
+        $containers.each(function(){
+            var $el = $(this);
+
+            // avoid double-init
+            if ($el.data('eelParallaxInit')) return;
+            $el.data('eelParallaxInit', true);
+
+            var rect = $el[0].getBoundingClientRect();
+            var mouse = { x: 0, y: 0, moved: false };
+            var $items = $el.find('img');
+
+            // ensure container has relative position
+            if ( window.getComputedStyle($el[0]).position === 'static' ) {
+                $el.css('position', 'relative');
+            }
+
+            // pointer support: mouse + touch
+            $el.on('mousemove.eelParallax touchmove.eelParallax', function(e){
+                var clientX, clientY;
+                if ( e.type.indexOf('touch') === 0 ) {
+                    var t = e.originalEvent && e.originalEvent.touches ? e.originalEvent.touches[0] : null;
+                    if (!t) return;
+                    clientX = t.clientX;
+                    clientY = t.clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+
+                rect = $el[0].getBoundingClientRect();
+                mouse.moved = true;
+                mouse.x = clientX - rect.left;
+                mouse.y = clientY - rect.top;
+            });
+
+            // update rect on resize/scroll
+            $(window).on('resize.eelParallax scroll.eelParallax', function(){
+                rect = $el[0].getBoundingClientRect();
+            });
+
+            // animation loop
+            (function loop(){
+                requestAnimationFrame(function(){
+                    if (mouse.moved) {
+                        $items.each(function(index){
+                            var $item = $(this);
+                            var depthAttr = parseFloat($item.attr('data-depth'));
+                            var depth = !isNaN(depthAttr) ? depthAttr : Math.min(1, (index + 1) * 0.12);
+
+                            var factorX = (mouse.x - rect.width / 2) / rect.width;
+                            var factorY = (mouse.y - rect.height / 2) / rect.height;
+                            var movementX = factorX * (-100) * depth;
+                            var movementY = factorY * (-100) * depth;
+
+                            gsap.to($item, {
+                                x: movementX,
+                                y: movementY,
+                                duration: 0.6,
+                                ease: "power2.out"
+                            });
+                        });
+                        mouse.moved = false;
+                    }
+                    loop();
+                });
+            })();
+
+        }); // each container
+    }
+
+    // init on document ready (frontend)
+    $(document).ready(function(){
+        initParallaxOnScope($(document));
+    });
+
+    // Elementor hooks (safe check)
+    if (typeof elementorFrontend !== "undefined" && elementorFrontend.hooks) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/global', function($scope){
+            initParallaxOnScope($scope);
+        });
+    }
+    
 })(jQuery);
 
+
+(function($){
+    "use strict";
+
+    function initCursorHoverOnScope($scope) {
+        if (!$scope || $scope.length === 0) return;
+
+        var $containers = $scope.find('.eel-mouse-hover-preview');
+        if ($containers.length === 0) return;
+
+        // create main follower cursor (only once)
+        if ($('body').find('.eel-hover-cursor-follower').length === 0) {
+            $('body').append('<span class="eel-hover-cursor eel-hover-cursor-follower"></span>');
+        }
+        var $cursor = $('body').find('.eel-hover-cursor-follower');
+        gsap.set($cursor, { xPercent: -50, yPercent: -50, opacity: 1 });
+        var setX = gsap.quickTo($cursor, "x", { duration: 0.2, ease: "expo.out" });
+        var setY = gsap.quickTo($cursor, "y", { duration: 0.2, ease: "expo.out" });
+
+        $containers.each(function(){
+            var $el = $(this);
+            if ($el.data('eelCursorHoverInit')) return;
+            $el.data('eelCursorHoverInit', true);
+
+            var hoverText = $el.data('hover-text') || 'View Details';
+            var bgColor = $el.data('hover-bg') || '#000000';
+            var textColor = $el.data('hover-color') || '#ffffff';
+
+            // create hover cursor (unique per container)
+            var $cursorHover = $('<span class="eel-hover-cursor eel-cursor-hover"></span>')
+                .html(hoverText) // allow <br> tags
+                .appendTo('body');
+
+            gsap.set($cursorHover, { xPercent: -50, yPercent: -50, scale: 0, opacity: 0, backgroundColor: bgColor, color: textColor });
+
+            var setXHover = gsap.quickTo($cursorHover, "x", { duration: 0.2, ease: "expo.out" });
+            var setYHover = gsap.quickTo($cursorHover, "y", { duration: 0.2, ease: "expo.out" });
+
+            var $items = $el.find('img');
+
+            // move cursors
+            $el.on('mousemove.eelCursorHover touchmove.eelCursorHover', function(e){
+                var clientX, clientY;
+                if (e.type.indexOf('touch') === 0) {
+                    var t = e.originalEvent.touches ? e.originalEvent.touches[0] : null;
+                    if (!t) return;
+                    clientX = t.clientX;
+                    clientY = t.clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+                setX(clientX);
+                setY(clientY);
+                setXHover(clientX);
+                setYHover(clientY);
+            });
+
+            // show hover cursor on image enter
+            $items.on('mouseenter', function(){
+                gsap.to($cursorHover, { scale: 1, opacity: 1, duration: 0.1, ease: "sine.inOut" });
+            });
+
+            $items.on('mouseleave', function(){
+                gsap.to($cursorHover, { scale: 0, opacity: 0, duration: 0.1, ease: "sine.inOut" });
+            });
+        });
+    }
+
+    // frontend init
+    $(document).ready(function(){
+        initCursorHoverOnScope($(document));
+    });
+
+    // Elementor editor support
+    if (typeof elementorFrontend !== "undefined" && elementorFrontend.hooks) {
+        elementorFrontend.hooks.addAction('frontend/element_ready/global', function($scope){
+            initCursorHoverOnScope($scope);
+        });
+    }
+
+})(jQuery);

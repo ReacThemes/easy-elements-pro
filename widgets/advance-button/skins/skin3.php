@@ -1,6 +1,6 @@
 <?php defined( 'ABSPATH' ) || die(); ?>
 
-<a href="<?php echo esc_url($link); ?>" <?php echo $is_external . $nofollow; ?> class="eel-advance-button eel-advance-button-defualt3">
+<a href="<?php echo esc_url($link); ?>" <?php echo wp_kses_post($is_external); ?> class="eel-advance-button eel-advance-button-defualt3">
     <div class="eel-btn-main">
         <div class="eel-btn-one"> 
             <?php if (!empty($settings['button_icon']['value']) && $settings['icon_position'] === 'before'): ?>

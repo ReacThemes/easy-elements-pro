@@ -204,61 +204,74 @@ add_action('elementor/element/image/section_image/before_section_end', function(
     if ( ! class_exists( 'Easy_Elements_Pro' ) ) {
         return;
     }
-    $element->add_control(
-        'enable_img_scrolling',
-        [
-            'label' => esc_html__('Enable Image Scrolling', 'easy-elements'),
-            'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => esc_html__('Yes', 'easy-elements'),
-            'label_off' => esc_html__('No', 'easy-elements'),
-            'return_value' => 'yes',
-            'default' => 'no',
-        ]
-    );
-    $element->add_responsive_control(
-        'scrolling_vertical_posi',
-        [
-            'label' => esc_html__('Scrolling Vertical Position', 'easy-elements'),
-            'type' => \Elementor\Controls_Manager::SLIDER,
-            'size_units' => [ '%', 'px' ],
-            'range'      => [
-                'px' => [ 'min' => -1000, 'max' => 1000 ],
-                '%'  => [ 'min' => -100, 'max' => 100 ],
-            ],
-            'default'    => [
-                'unit' => '%',
-                'size' => 20,
-            ],
-            'condition'  => [
-                'enable_img_scrolling' => 'yes',
-            ],
-        ]
-    );
+    $tab_slug = 'extensions';
+    $extensions_settings = get_option('easy_element_' . $tab_slug, [] );
 
-    $element->add_control(
-        'enable_flip_scrolling',
-        [
-            'label' => esc_html__('Enable Flip Scrolling', 'easy-elements'),
-            'type' => \Elementor\Controls_Manager::SWITCHER,
-            'label_on' => esc_html__('Yes', 'easy-elements'),
-            'label_off' => esc_html__('No', 'easy-elements'),
-            'return_value' => 'yes',
-            'default' => 'no',
-        ]
-    );
+    $enable_image_3d_effect = isset( $extensions_settings['enable_image_3d_effect'] ) 
+        ? (int) $extensions_settings['enable_image_3d_effect'] 
+        : 0;
+    $enable_vertical_scroll_trigger = isset( $extensions_settings['enable_vertical_scroll_trigger'] ) 
+        ? (int) $extensions_settings['enable_vertical_scroll_trigger'] 
+        : 0;
+    if ( $enable_vertical_scroll_trigger === 1 ) {
+        $element->add_control(
+            'enable_img_scrolling',
+            [
+                'label' => esc_html__('Enable Image Scrolling', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'easy-elements'),
+                'label_off' => esc_html__('No', 'easy-elements'),
+                'return_value' => 'yes',
+                'default' => 'no',
+            ]
+        );
+        $element->add_responsive_control(
+            'scrolling_vertical_posi',
+            [
+                'label' => esc_html__('Scrolling Vertical Position', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ '%', 'px' ],
+                'range'      => [
+                    'px' => [ 'min' => -1000, 'max' => 1000 ],
+                    '%'  => [ 'min' => -100, 'max' => 100 ],
+                ],
+                'default'    => [
+                    'unit' => '%',
+                    'size' => 20,
+                ],
+                'condition'  => [
+                    'enable_img_scrolling' => 'yes',
+                ],
+            ]
+        );
+    }
+    
+    if ( $enable_image_3d_effect === 1 ) {
+        $element->add_control(
+            'enable_flip_scrolling',
+            [
+                'label' => esc_html__('Enable Flip Scrolling', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__('Yes', 'easy-elements'),
+                'label_off' => esc_html__('No', 'easy-elements'),
+                'return_value' => 'yes',
+                'default' => 'no',
+            ]
+        );
 
-    $element->add_control(
-        'flip_rotate_x',
-        [
-            'label' => __('Flip Rotate X (deg)', 'easy-elements'),
-            'type' => \Elementor\Controls_Manager::SLIDER,
-            'range' => [
-                'deg' => ['min'=>0,'max'=>90],
-            ],
-            'default' => ['unit'=>'deg','size'=>30],
-            'condition' => ['enable_flip_scrolling'=>'yes'],
-        ]
-    );
+        $element->add_control(
+            'flip_rotate_x',
+            [
+                'label' => __('Flip Rotate X (deg)', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'range' => [
+                    'deg' => ['min'=>0,'max'=>90],
+                ],
+                'default' => ['unit'=>'deg','size'=>30],
+                'condition' => ['enable_flip_scrolling'=>'yes'],
+            ]
+        );
+    }
 
 },10, 2);
 
@@ -329,6 +342,123 @@ add_action('elementor/element/container/section_layout/after_section_end', funct
 }, 10, 2);
 
 
+add_action('elementor/element/container/section_layout/after_section_end', function($element, $args) {
+   
+    $element->start_controls_section(
+        'eel_mouse_move_parallax_section',
+        [
+            'label' => __('Mouse Move Parallax', 'easy-elements-pro'),
+            'tab'   => \Elementor\Controls_Manager::TAB_ADVANCED,
+        ]
+    );
+
+    $element->add_control(
+        'eel_mouse_parallax_enable',
+        [
+            'label'        => __('Enable Mouse Move Parallax', 'easy-elements-pro'),
+            'type'         => \Elementor\Controls_Manager::SWITCHER,
+            'label_on'     => __('Yes', 'easy-elements-pro'),
+            'label_off'    => __('No', 'easy-elements-pro'),
+            'return_value' => 'yes',
+            'default'      => '',
+        ]
+    );
+
+    $element->add_control(
+        'eel_mouse_parallax_strength',
+        [
+            'label'     => __('Movement Strength', 'easy-elements-pro'),
+            'type'      => \Elementor\Controls_Manager::SLIDER,
+            'default'   => [
+                'size' => 100,
+                'unit' => 'px',
+            ],
+            'range'     => [
+                'px' => ['min' => 10, 'max' => 300],
+            ],
+            'condition' => ['eel_mouse_parallax_enable' => 'yes'],
+        ]
+    );
+
+    $element->add_control(
+        'eel_mouse_parallax_depth',
+        [
+            'label'     => __('Image Depth Variation', 'easy-elements-pro'),
+            'type'      => \Elementor\Controls_Manager::SLIDER,
+            'default'   => [
+                'size' => 0.15,
+                'unit' => '',
+            ],
+            'range'     => [
+                '' => ['min' => 0.05, 'max' => 0.5, 'step' => 0.05],
+            ],
+            'condition' => ['eel_mouse_parallax_enable' => 'yes'],
+        ]
+    );
+
+    $element->end_controls_section();
+    }, 10, 2);
+
+    // Add control section
+    add_action('elementor/element/container/section_layout/after_section_end', function($element, $args) {
+        
+        $element->start_controls_section(
+            'eel_hover_cursor_section',
+            [
+                'label' => __('Image Hover Cursor Effect', 'easy-elements-pro'),
+                'tab'   => \Elementor\Controls_Manager::TAB_ADVANCED,
+            ]
+        );
+
+        $element->add_control(
+            'eel_hover_cursor_enable',
+            [
+                'label'        => __('Enable Hover Cursor', 'easy-elements-pro'),
+                'type'         => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'     => __('Yes', 'easy-elements-pro'),
+                'label_off'    => __('No', 'easy-elements-pro'),
+                'return_value' => 'yes',
+                'default'      => '',
+            ]
+        );
+
+        $element->add_control(
+            'eel_hover_cursor_text',
+            [
+                'label'     => __('Hover Text', 'easy-elements-pro'),
+                'type'      => \Elementor\Controls_Manager::TEXT,
+                'default'   => __('View Details', 'easy-elements-pro'),
+                'condition' => ['eel_hover_cursor_enable' => 'yes'],
+            ]
+        );
+
+            
+        // Background color
+        $element->add_control(
+            'eel_hover_cursor_bg_color',
+            [
+                'label'     => __('Background Color', 'easy-elements'),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#ffffff',
+                'condition' => ['eel_hover_cursor_enable' => 'yes'],
+            ]
+        );
+
+        // Text color
+        $element->add_control(
+            'eel_hover_cursor_text_color',
+            [
+                'label'     => __('Text Color', 'easy-elements'),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'default'   => '#121212',
+                'condition' => ['eel_hover_cursor_enable' => 'yes'],
+            ]
+        );
+
+        $element->end_controls_section();
+    }, 10, 2);
+
+
 
 // Rendering 
 add_action('elementor/frontend/before_render', function( $element ) {
@@ -395,7 +525,30 @@ add_action('elementor/frontend/before_render', function( $element ) {
             'data-zoom-end'   => esc_attr( $zoom_end ),
         ] );
     }
+
+    if ( ! empty( $settings['eel_mouse_parallax_enable'] ) && $settings['eel_mouse_parallax_enable'] === 'yes' ) {
+        $strength = ! empty( $settings['eel_mouse_parallax_strength']['size'] ) ? $settings['eel_mouse_parallax_strength']['size'] : 100;
+        $depth    = ! empty( $settings['eel_mouse_parallax_depth']['size'] ) ? $settings['eel_mouse_parallax_depth']['size'] : 0.15;
+
+        $element->add_render_attribute( '_wrapper', 'class', 'eel-mouse-move-paralax' );
+        $element->add_render_attribute( '_wrapper', [
+            'data-parallax-strength' => esc_attr( $strength ),
+            'data-parallax-depth'    => esc_attr( $depth ),
+        ] );
+    }
+
+    if ( ! empty( $settings['eel_hover_cursor_enable'] ) && $settings['eel_hover_cursor_enable'] === 'yes' ) {
+        $hover_text   = !empty($settings['eel_hover_cursor_text']) ? esc_attr($settings['eel_hover_cursor_text']) : 'View Details';
+        $bg_color     = !empty($settings['eel_hover_cursor_bg_color']) ? esc_attr($settings['eel_hover_cursor_bg_color']) : '#ffffff';
+        $text_color   = !empty($settings['eel_hover_cursor_text_color']) ? esc_attr($settings['eel_hover_cursor_text_color']) : '#121212';
+
+        $element->add_render_attribute('_wrapper', 'class', 'eel-mouse-hover-preview');
+        $element->add_render_attribute('_wrapper', 'data-hover-text', $hover_text);
+        $element->add_render_attribute('_wrapper', 'data-hover-bg', $bg_color);
+        $element->add_render_attribute('_wrapper', 'data-hover-color', $text_color);
+    }
 }, 10);
+
 
 
 // Mega Menu Code Here
@@ -583,3 +736,6 @@ class Easyel_custom_class {
     }
 
 Easyel_custom_class::init();
+
+
+
