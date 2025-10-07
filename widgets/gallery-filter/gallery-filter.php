@@ -134,6 +134,20 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         );
 
 
+        $this->add_control(
+            'category_filter_type',
+            [
+                'label' => esc_html__( 'Category Style', 'easy-elements-pro' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => esc_html__( 'Buttons', 'easy-elements-pro' ),
+                    'with_search'         => esc_html__( 'Dropdown with Search', 'easy-elements-pro' ),
+                ],
+            ]
+        );
+
+
         $this->add_responsive_control(
             'columns',
             [
@@ -604,6 +618,36 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_responsive_control(
+            'cate_border_radius',
+            [
+                'label'      => esc_html__('Boper Radius', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-gallery-filters .eel-filter' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'cate_border_normal',
+                'label' => esc_html__('Border', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'cate_box_shadow',
+                'label'    => esc_html__('Box Shadow', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_responsive_control(
             'cate_item_spacing',
             [
                 'label'      => esc_html__('Spacing Between', 'easy-elements-pro'),
@@ -637,25 +681,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                     '{{WRAPPER}} .eel-gallery-filters' => 'margin-bottom: {{SIZE}}{{UNIT}};',
                 ],
             ]
-        );   
-        
-        $this->add_group_control(
-            \Elementor\Group_Control_Border::get_type(),
-            [
-                'name' => 'cate_border',
-                'label' => esc_html__('Border', 'easy-elements-pro'),
-                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Box_Shadow::get_type(),
-            [
-                'name'     => 'cate_box_shadow',
-                'label'    => esc_html__('Box Shadow', 'easy-elements-pro'),
-                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
-            ]
-        );
+        ); 
 
         $this->add_responsive_control(
             'cate_alignment',
@@ -736,131 +762,136 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
     }
 
     protected function render() {
-        $settings = $this->get_settings_for_display();
-        $gallery_items = $settings['gallery_items'];
-        
-        if ( empty( $gallery_items ) ) {
-            echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
-            return;
-        }
+    $settings = $this->get_settings_for_display();
+    $gallery_items = $settings['gallery_items'];
+    
+    if ( empty( $gallery_items ) ) {
+        echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
+        return;
+    }
 
-        // Flatten all images from gallery items
-        $images = [];
-        foreach ( $gallery_items as $item ) {
-            if ( ! empty( $item['gallery_images'] ) ) {
-                foreach ( $item['gallery_images'] as $image ) {
-                    $image['categories'] = $item['categories'] ?? '';
-                    $images[] = $image;
-                }
+    // Flatten all images from gallery items
+    $images = [];
+    foreach ( $gallery_items as $item ) {
+        if ( ! empty( $item['gallery_images'] ) ) {
+            foreach ( $item['gallery_images'] as $image ) {
+                $image['categories'] = $item['categories'] ?? '';
+                $images[] = $image;
             }
         }
-        
-        if ( empty( $images ) ) {
-            echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
-            return;
+    }
+    
+    if ( empty( $images ) ) {
+        echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
+        return;
+    }
+
+    // Order images
+    $order_by = $settings['order_by'];
+    if ( $order_by === 'rand' ) {
+        shuffle( $images );
+    } elseif ( $order_by !== 'menu_order' ) {
+        usort( $images, function( $a, $b ) use ( $order_by ) {
+            $a_post = get_post( $a['id'] );
+            $b_post = get_post( $b['id'] );
+            if ( ! $a_post || ! $b_post ) return 0;
+            return strcmp( strtolower( $a_post->$order_by ), strtolower( $b_post->$order_by ) );
+        });
+    }
+
+    $popup_enabled = isset( $settings['enable_popup'] ) && $settings['enable_popup'] === 'yes';
+    $popup_class   = $popup_enabled ? 'eel-popup-enabled' : '';
+
+    // Collect all categories
+    $all_categories = [];
+    foreach ( $images as $image ) {
+        if ( ! empty($image['categories']) ) {
+            $cats = array_map('trim', explode(',', $image['categories']));
+            $all_categories = array_merge($all_categories, $cats);
         }
+    }
+    $all_categories = array_unique($all_categories);
 
-        // Order images
-        $order_by = $settings['order_by'];
-        if ( $order_by === 'rand' ) {
-            shuffle( $images );
-        } elseif ( $order_by !== 'menu_order' ) {
-            usort( $images, function( $a, $b ) use ( $order_by ) {
-                $a_post = get_post( $a['id'] );
-                $b_post = get_post( $b['id'] );
-                if ( ! $a_post || ! $b_post ) return 0;
-                return strcmp( strtolower( $a_post->$order_by ), strtolower( $b_post->$order_by ) );
-            });
+    // === Search Input ===
+    echo '<div class="eel-gallery-search-wrapper" style="margin-bottom: 15px;">';
+    echo '<input type="text" class="eel-gallery-search" placeholder="' . esc_attr__('Search Images...', 'easy-elements-pro') . '">';
+    echo '</div>';
+
+    // === Category Filters ===
+    if ( ! empty($all_categories) ) {
+        echo '<div class="eel-gallery-filters">';
+        echo '<button class="eel-filter active" data-filter="*">' . esc_html( $settings['filter_all_text'] ) . '</button>';
+        foreach ($all_categories as $cat) {
+            $sanitized_cat = sanitize_title( $cat );
+            echo '<button class="eel-filter" data-filter="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</button>';
         }
+        echo '</div>';
+    }
 
-        $popup_enabled = isset( $settings['enable_popup'] ) && $settings['enable_popup'] === 'yes';
-        $popup_class   = $popup_enabled ? 'eel-popup-enabled' : '';
+    // === Gallery Items ===
+    echo '<div class="eel-gallery-filter eel-uses-isotope ' . esc_attr( $popup_class ) . '">';
+    foreach ( $images as $index => $image ) {
+        $image_url  = \Elementor\Group_Control_Image_Size::get_attachment_image_src( $image['id'], 'thumbnail', $settings ) ?: $image['url'];
+        $full_image = wp_get_attachment_image_url( $image['id'], 'full' );
+        $caption    = '';
 
-        // Collect all categories
-        $all_categories = [];
-        foreach ( $images as $image ) {
-            if ( ! empty($image['categories']) ) {
-                $cats = array_map('trim', explode(',', $image['categories']));
-                $all_categories = array_merge($all_categories, $cats);
+        if ( isset($settings['show_caption']) && $settings['show_caption'] === 'yes' ) {
+            if ( $settings['caption_source'] === 'media' ) {
+                $caption = wp_get_attachment_caption( $image['id'] );
+            } elseif ( $settings['caption_source'] === 'title' ) {
+                $caption = get_the_title( $image['id'] );
             }
         }
-        $all_categories = array_unique($all_categories);
 
-            if ( ! empty($all_categories) ) {
-            echo '<div class="eel-gallery-filters">';
-            echo '<button class="eel-filter active" data-filter="*">' . esc_html( $settings['filter_all_text'] ) . '</button>';
-            foreach ($all_categories as $cat) {
-                $sanitized_cat = sanitize_title( $cat );
-                echo '<button class="eel-filter" data-filter="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</button>';
-            }
+        $img_categories = !empty($image['categories']) ? implode(' ', array_map('sanitize_title', array_map('trim', explode(',', $image['categories'])))) : '';
+        echo '<div class="eel-gallery-item" data-category="' . esc_attr($img_categories) . '" data-title="' . esc_attr($caption) . '">';
+
+        if ( $popup_enabled ) {
+            echo '<a href="' . esc_url( $full_image ) . '" class="eel-popup-link" data-index="' . esc_attr( $index ) . '" data-elementor-open-lightbox="no">';
+        } else {
+            echo '<a href="' . esc_url( $image['url'] ) . '" target="_blank" rel="noopener" data-elementor-open-lightbox="no">';
+        }
+
+        // === Image ===
+        echo '<div class="eel-gallery-image-wrap">';
+        echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( get_post_meta( $image['id'], '_wp_attachment_image_alt', true ) ) . '" data-elementor-open-lightbox="no">';
+
+        // === Hover Content ===
+        if ( $settings['hover_style'] === 'text' && ! empty( $settings['hover_text'] ) ) {
+            echo '<div class="eel-hover-content eel-hover-text">';
+            echo '<span>' . esc_html( $settings['hover_text'] ) . '</span>';
+            echo '</div>';
+        } elseif ( $settings['hover_style'] === 'icon' && ! empty( $settings['hover_icon']['value'] ) ) {
+            echo '<div class="eel-hover-content eel-hover-icon">';
+            \Elementor\Icons_Manager::render_icon( $settings['hover_icon'], [ 'aria-hidden' => 'true' ] );
             echo '</div>';
         }
 
+        echo '</div>'; // .eel-gallery-image-wrap
+        echo '</a>';
 
-        echo '<div class="eel-gallery-filter eel-uses-isotope ' . esc_attr( $popup_class ) . '">';
-
-        foreach ( $images as $index => $image ) {
-            $image_url  = \Elementor\Group_Control_Image_Size::get_attachment_image_src( $image['id'], 'thumbnail', $settings ) ?: $image['url'];
-            $full_image = wp_get_attachment_image_url( $image['id'], 'full' );
-            $caption    = '';
-
-            if ( isset($settings['show_caption']) && $settings['show_caption'] === 'yes' ) {
-                if ( $settings['caption_source'] === 'media' ) {
-                    $caption = wp_get_attachment_caption( $image['id'] );
-                } elseif ( $settings['caption_source'] === 'title' ) {
-                    $caption = get_the_title( $image['id'] );
-                }
-            }
-
-            $img_categories = !empty($image['categories']) ? implode(' ', array_map('sanitize_title', array_map('trim', explode(',', $image['categories'])))) : '';
-            echo '<div class="eel-gallery-item" data-category="' . esc_attr($img_categories) . '">';
-
-            if ( $popup_enabled ) {
-                echo '<a href="' . esc_url( $full_image ) . '" class="eel-popup-link" data-index="' . esc_attr( $index ) . '" data-elementor-open-lightbox="no">';
-            } else {
-                echo '<a href="' . esc_url( $image['url'] ) . '" target="_blank" rel="noopener" data-elementor-open-lightbox="no">';
-            }
-
-            // === Image ===
-            echo '<div class="eel-gallery-image-wrap">';
-            echo '<img src="' . esc_url( $image_url ) . '" alt="' . esc_attr( get_post_meta( $image['id'], '_wp_attachment_image_alt', true ) ) . '" data-elementor-open-lightbox="no">';
-
-            // === Hover Content ===
-            if ( $settings['hover_style'] === 'text' && ! empty( $settings['hover_text'] ) ) {
-                echo '<div class="eel-hover-content eel-hover-text">';
-                echo '<span>' . esc_html( $settings['hover_text'] ) . '</span>';
-                echo '</div>';
-            } elseif ( $settings['hover_style'] === 'icon' && ! empty( $settings['hover_icon']['value'] ) ) {
-                echo '<div class="eel-hover-content eel-hover-icon">';
-                \Elementor\Icons_Manager::render_icon( $settings['hover_icon'], [ 'aria-hidden' => 'true' ] );
-                echo '</div>';
-            }
-
-            echo '</div>'; // .eel-gallery-image-wrap
-            echo '</a>';
-
-            // === Caption ===
-            if ( ! empty( $caption ) ) {
-                echo '<div class="eel-gallery-caption">' . esc_html( $caption ) . '</div>';
-            }
-
-            echo '</div>'; // .eel-gallery-item
+        // === Caption ===
+        if ( ! empty( $caption ) ) {
+            echo '<div class="eel-gallery-caption">' . esc_html( $caption ) . '</div>';
         }
 
-        echo '</div>'; // .eel-gallery-filter
-
-        // === Lightbox ===
-        if ( $popup_enabled ) :
-            ?>
-            <div class="eel-lightbox">
-                <span class="eel-close"><?php echo $settings['lightbox_close_text']; ?></span>
-                <img class="eel-lightbox-image" src="" alt="">
-                <button class="eel-prev"><?php echo $settings['lightbox_prev_text']; ?></button>
-                <button class="eel-next"><?php echo $settings['lightbox_next_text']; ?></button>
-            </div>
-            <?php
-        endif;
+        echo '</div>'; // .eel-gallery-item
     }
+    echo '</div>'; // .eel-gallery-filter
+
+    // === Lightbox ===
+    if ( $popup_enabled ) :
+        ?>
+        <div class="eel-lightbox">
+            <span class="eel-close"><?php echo $settings['lightbox_close_text']; ?></span>
+            <img class="eel-lightbox-image" src="" alt="">
+            <button class="eel-prev"><?php echo $settings['lightbox_prev_text']; ?></button>
+            <button class="eel-next"><?php echo $settings['lightbox_next_text']; ?></button>
+        </div>
+        <?php
+    endif;
+}
+
 
 
 } ?>

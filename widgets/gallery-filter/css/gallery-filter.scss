@@ -52,14 +52,12 @@
 
 .eel-gallery-filters .eel-filter:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(53, 123, 252, 0.25);
 }
 
+.eel-gallery-filters .eel-filter:hover,
 .eel-gallery-filters .eel-filter.active {
     background: #357bfc;
-    border-color: #357bfc;
     color: #fff;
-    box-shadow: 0 6px 14px rgba(53, 123, 252, 0.25);
 }
 
 /* Minimal icon alignment if icons are used inside filters */

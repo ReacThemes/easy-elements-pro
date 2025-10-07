@@ -1,7 +1,7 @@
 (function ($) {
     "use strict";
 
-    // Initialize filterable gallery + popup
+    // Initialize filterable gallery + popup + search
     const initEelFilterableGallery = function ($scope) {
         const $gallery = $scope.find('.eel-gallery-filter');
         if (!$gallery.length) return;
@@ -148,6 +148,22 @@
                 $gridLoader.removeClass('is-active');
                 $gallery.removeClass('eel-grid-suspended');
             }, filterDelayMs);
+        });
+
+        // Search input filter
+        $scope.find('.eel-gallery-search').on('keyup', function () {
+            var val = $(this).val().toLowerCase();
+            $gallery.find('.eel-gallery-item').each(function () {
+                var $item = $(this);
+                var title = ($item.data('title') || '').toLowerCase();
+                var match = title.indexOf(val) > -1;
+
+                // Show/hide item
+                if (match) $item.show().removeClass('eel-is-hidden');
+                else $item.hide().addClass('eel-is-hidden');
+            });
+            // Refresh isotope layout if using Isotope
+            if (usingIsotope && isoInstance) isoInstance.arrange();
         });
 
         // Popup / lightbox functionality
