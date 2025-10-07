@@ -639,7 +639,7 @@ class Easyel_custom_class {
         $element->start_controls_section(
             'rt_jarallax_section',
             [
-                'label' => esc_html__( 'Enable Jarallax', 'easy-elements-pro' ),
+                'label' => esc_html__( 'Enable Parallax', 'easy-elements-pro' ),
                 'tab' => \Elementor\Controls_Manager::TAB_ADVANCED,
             ]
         );
@@ -647,7 +647,7 @@ class Easyel_custom_class {
         $element->add_control(
             'enable_jarallax',
             [
-                'label' => esc_html__( 'Enable Jarallax', 'easy-elements-pro' ),
+                'label' => esc_html__( 'Enable Parallax', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::SWITCHER,
                 'label_on' => esc_html__( 'Yes', 'easy-elements-pro' ),
                 'label_off' => esc_html__( 'No', 'easy-elements-pro' ),

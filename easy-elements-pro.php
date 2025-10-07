@@ -138,13 +138,21 @@ function easy_elements_pro_plugin_init() {
             'image_gallery_filter'         => [ 'class' => '\Easyel__Gallery_Pro_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/gallery-filter/gallery-filter.php','tab' => 'widget' ],
         ];
 
+        $extensions_settings = get_option( 'easy_element_extensions', [] );
+
         foreach ( $pro_widgets as $key => $widget ) {
 
-            $option_name = 'easy_element_' . $widget['tab'] . '_' . $key;
-            $enabled = get_option( $option_name, '1' );
+            $is_enabled = false;
 
-            if ( $enabled !== '1' ) {
-                continue; // Skip disabled widgets
+            if ( $widget['tab'] === 'extensions' ) {
+                $is_enabled = isset( $extensions_settings[$key] ) && $extensions_settings[$key] == 1;
+            } else {
+                $option_name = 'easy_element_' . $widget['tab'] . '_' . $key;
+                $is_enabled = get_option( $option_name, '1' ) == '1';
+            }
+
+            if ( ! $is_enabled ) {
+                continue;
             }
 
             if ( file_exists( $widget['file'] ) ) {
