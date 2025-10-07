@@ -12,7 +12,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'filterable Gallery', 'easy-elements' );
+        return esc_html__( 'filterable Gallery', 'easy-elements-pro' );
     }
 
     public function get_icon() {
@@ -95,23 +95,8 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_gallery',
             [
-                'label' => esc_html__( 'Gallery Images', 'easy-elements' ),
+                'label' => esc_html__( 'Gallery Images', 'easy-elements-pro' ),
                 'tab' => Controls_Manager::TAB_CONTENT,
-            ]
-        );
-
-        $this->add_control(
-            'gallery_categories',
-            [
-                'label' => esc_html__('Assign Categories', 'easy-elements'),
-                'type' => Controls_Manager::TEXT,
-                'description' => esc_html__('Separate multiple categories with commas, e.g., Nature,People', 'easy-elements'),
-                'default' => '',
-                // Show when there are gallery items
-                'condition' => [
-                    'gallery_items!' => [],
-                ],
-                'separator' => 'before',
             ]
         );
 
@@ -120,7 +105,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $repeater->add_control(
             'gallery_images',
             [
-                'label' => esc_html__( 'Add Images', 'easy-elements' ),
+                'label' => esc_html__( 'Add Images', 'easy-elements-pro' ),
                 'type' => Controls_Manager::GALLERY,
                 'default' => [],
             ]
@@ -129,17 +114,17 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $repeater->add_control(
             'categories',
             [
-                'label' => esc_html__('Categories', 'easy-elements'),
+                'label' => esc_html__('Categories', 'easy-elements-pro'),
                 'type' => Controls_Manager::TEXT,
                 'default' => '',
-                'description' => esc_html__('Separate categories with commas', 'easy-elements'),
+                'description' => esc_html__('Separate categories with commas', 'easy-elements-pro'),
             ]
         );
 
         $this->add_control(
             'gallery_items',
             [
-                'label' => esc_html__('Gallery Items', 'easy-elements'),
+                'label' => esc_html__('Gallery Items', 'easy-elements-pro'),
                 'type' => Controls_Manager::REPEATER,
                 'fields' => $repeater->get_controls(),
                 'default' => [],
@@ -152,15 +137,15 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'columns',
             [
-                'label' => esc_html__( 'Columns', 'easy-elements' ),
+                'label' => esc_html__( 'Columns', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => '4',
                 'options' => [
-                    '1' => esc_html__( '1 Column', 'easy-elements' ),
-                    '2' => esc_html__( '2 Columns', 'easy-elements' ),
-                    '3' => esc_html__( '3 Columns', 'easy-elements' ),
-                    '4' => esc_html__( '4 Columns', 'easy-elements' ),
-                    '5' => esc_html__( '5 Columns', 'easy-elements' ),
+                    '1' => esc_html__( '1 Column', 'easy-elements-pro' ),
+                    '2' => esc_html__( '2 Columns', 'easy-elements-pro' ),
+                    '3' => esc_html__( '3 Columns', 'easy-elements-pro' ),
+                    '4' => esc_html__( '4 Columns', 'easy-elements-pro' ),
+                    '5' => esc_html__( '5 Columns', 'easy-elements-pro' ),
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .eel-gallery-filter' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
@@ -180,10 +165,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'show_caption',
             [
-                'label' => esc_html__( 'Show Caption', 'easy-elements' ),
+                'label' => esc_html__( 'Show Caption', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => esc_html__( 'Show', 'easy-elements' ),
-                'label_off' => esc_html__( 'Hide', 'easy-elements' ),
+                'label_on' => esc_html__( 'Show', 'easy-elements-pro' ),
+                'label_off' => esc_html__( 'Hide', 'easy-elements-pro' ),
                 'default' => 'yes',
             ]
         );
@@ -191,13 +176,13 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'caption_source',
             [
-                'label' => esc_html__( 'Caption Source', 'easy-elements' ),
+                'label' => esc_html__( 'Caption Source', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'media',
                 'options' => [
-                    'media' => esc_html__( 'Media Library Caption', 'easy-elements' ),
-                    'title' => esc_html__( 'Image Title', 'easy-elements' ),
-                    'none' => esc_html__( 'None', 'easy-elements' ),
+                    'media' => esc_html__( 'Media Library Caption', 'easy-elements-pro' ),
+                    'title' => esc_html__( 'Image Title', 'easy-elements-pro' ),
+                    'none' => esc_html__( 'None', 'easy-elements-pro' ),
                 ],
                 'condition' => [
                     'show_caption' => 'yes',
@@ -208,10 +193,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'enable_popup',
             [
-                'label' => esc_html__( 'Enable Lightbox', 'easy-elements' ),
+                'label' => esc_html__( 'Enable Lightbox', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SWITCHER,
-                'label_on' => esc_html__( 'Yes', 'easy-elements' ),
-                'label_off' => esc_html__( 'No', 'easy-elements' ),
+                'label_on' => esc_html__( 'Yes', 'easy-elements-pro' ),
+                'label_off' => esc_html__( 'No', 'easy-elements-pro' ),
                 'default' => 'yes',
             ]
         );
@@ -219,15 +204,15 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'order_by',
             [
-                'label' => esc_html__( 'Order By', 'easy-elements' ),
+                'label' => esc_html__( 'Order By', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'menu_order',
                 'options' => [
-                    'menu_order' => esc_html__( 'Default', 'easy-elements' ),
-                    'title'      => esc_html__( 'Title', 'easy-elements' ),
-                    'id'         => esc_html__( 'ID', 'easy-elements' ),
-                    'date'       => esc_html__( 'Date', 'easy-elements' ),
-                    'rand'       => esc_html__( 'Random', 'easy-elements' ),
+                    'menu_order' => esc_html__( 'Default', 'easy-elements-pro' ),
+                    'title'      => esc_html__( 'Title', 'easy-elements-pro' ),
+                    'id'         => esc_html__( 'ID', 'easy-elements-pro' ),
+                    'date'       => esc_html__( 'Date', 'easy-elements-pro' ),
+                    'rand'       => esc_html__( 'Random', 'easy-elements-pro' ),
                 ],
             ]
         );
@@ -235,13 +220,13 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'hover_style',
             [
-                'label' => esc_html__( 'On Hover', 'easy-elements' ),
+                'label' => esc_html__( 'On Hover', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SELECT,
                 'default' => 'default',
                 'options' => [
-                    'default' => esc_html__( 'Default', 'easy-elements' ),
-                    'icon'      => esc_html__( 'Icon', 'easy-elements' ),
-                    'text'         => esc_html__( 'Text', 'easy-elements' ),
+                    'default' => esc_html__( 'Default', 'easy-elements-pro' ),
+                    'icon'      => esc_html__( 'Icon', 'easy-elements-pro' ),
+                    'text'         => esc_html__( 'Text', 'easy-elements-pro' ),
                 ],
             ]
         );
@@ -249,10 +234,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'hover_text',
             [
-                'label' => esc_html__( 'Hover Text', 'easy-elements' ),
+                'label' => esc_html__( 'Hover Text', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::TEXT,
-                'default' => esc_html__( 'View', 'easy-elements' ),
-                'placeholder' => esc_html__( 'Enter hover text', 'easy-elements' ),
+                'default' => esc_html__( 'View', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter hover text', 'easy-elements-pro' ),
                 'condition' => [
                     'hover_style' => 'text',
                 ],
@@ -262,7 +247,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'hover_icon',
             [
-                'label' => esc_html__( 'Hover Icon', 'easy-elements' ),
+                'label' => esc_html__( 'Hover Icon', 'easy-elements-pro' ),
                 'type'  => \Elementor\Controls_Manager::ICONS,
                 'default' => [
                     'value' => 'fas fa-plus',
@@ -274,12 +259,72 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             ]
         );
 
+        $this->add_control(
+            'filter_all_text',
+            [
+                'label' => esc_html__( 'All Filter Text', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( 'All', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter text for All filter button', 'easy-elements-pro' ),
+                'separator' => 'before',
+            ]
+        );
+
+        $this->add_control(
+            'no_images_text',
+            [
+                'label' => esc_html__( 'No Images Message', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( 'Please select images to display the gallery.', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter message when no images are selected', 'easy-elements-pro' ),
+            ]
+        );
+
+        $this->add_control(
+            'lightbox_prev_text',
+            [
+                'label' => esc_html__( 'Previous Button Text', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( '&#10094;', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter previous button text', 'easy-elements-pro' ),
+                'condition' => [
+                    'enable_popup' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lightbox_next_text',
+            [
+                'label' => esc_html__( 'Next Button Text', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( '&#10095;', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter next button text', 'easy-elements-pro' ),
+                'condition' => [
+                    'enable_popup' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'lightbox_close_text',
+            [
+                'label' => esc_html__( 'Close Button Text', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::TEXT,
+                'default' => esc_html__( '&times;', 'easy-elements-pro' ),
+                'placeholder' => esc_html__( 'Enter close button text', 'easy-elements-pro' ),
+                'condition' => [
+                    'enable_popup' => 'yes',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
 			'section_image_style',
 			[
-				'label' => esc_html__('Images', 'easy-elements'),
+				'label' => esc_html__('Images', 'easy-elements-pro'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -287,7 +332,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'image_gap',
             [
-                'label' => esc_html__( 'Gap', 'easy-elements' ),
+                'label' => esc_html__( 'Gap', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
@@ -303,7 +348,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'image_height',
             [
-                'label' => esc_html__( 'Height', 'easy-elements' ),
+                'label' => esc_html__( 'Height', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
@@ -321,7 +366,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Border::get_type(),
             [
                 'name' => 'image_border',
-                'label' => esc_html__( 'Border', 'easy-elements' ),
+                'label' => esc_html__( 'Border', 'easy-elements-pro' ),
                 'selector' => '{{WRAPPER}} .eel-gallery-item img',
             ]
         );
@@ -329,7 +374,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'image_border_radius',
             [
-                'label' => esc_html__( 'Border Radius', 'easy-elements' ),
+                'label' => esc_html__( 'Border Radius', 'easy-elements-pro' ),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
@@ -341,7 +386,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'image_border_padding',
             [
-                'label' => esc_html__( 'Padding', 'easy-elements' ),
+                'label' => esc_html__( 'Padding', 'easy-elements-pro' ),
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
@@ -355,7 +400,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_caption_style',
             [
-                'label' => esc_html__('Caption', 'easy-elements'),
+                'label' => esc_html__('Caption', 'easy-elements-pro'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'show_caption' => 'yes',
@@ -367,7 +412,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'caption_color',
             [
-                'label' => esc_html__('Color', 'easy-elements'),
+                'label' => esc_html__('Color', 'easy-elements-pro'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .eel-gallery-caption' => 'color: {{VALUE}};',
@@ -379,7 +424,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'caption_bg_color',
             [
-                'label' => esc_html__('Background Color', 'easy-elements'),
+                'label' => esc_html__('Background Color', 'easy-elements-pro'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .eel-gallery-caption' => 'background-color: {{VALUE}};',
@@ -392,7 +437,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'caption_typography',
-                'label' => esc_html__('Typography', 'easy-elements'),
+                'label' => esc_html__('Typography', 'easy-elements-pro'),
                 'selector' => '{{WRAPPER}} .eel-gallery-caption',
             ]
         );
@@ -403,7 +448,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_hover_overlay_style',
             [
-                'label' => esc_html__('Hover Overlay', 'easy-elements'),
+                'label' => esc_html__('Hover Overlay', 'easy-elements-pro'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'hover_style!' => 'default',
@@ -413,7 +458,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'hover_overlay_color',
             [
-                'label' => esc_html__( 'Hover Overlay Color', 'easy-elements' ),
+                'label' => esc_html__( 'Hover Overlay Color', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => 'rgba(0,0,0,0.6)',
                 'selectors' => [
@@ -426,17 +471,17 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_hover_icon_style',
             [
-                'label' => esc_html__('Hover Icon', 'easy-elements'),
+                'label' => esc_html__('Hover Icon', 'easy-elements-pro'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'hover_style' => 'icon',
                 ],
             ]
         );
-        $this->add_control(
+        $this->add_responsive_control(
             'hover_icon_size',
             [
-                'label' => esc_html__( 'Icon Size', 'easy-elements' ),
+                'label' => esc_html__( 'Icon Size', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px' ],
                 'range' => [
@@ -450,10 +495,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
             'hover_icon_color',
             [
-                'label' => esc_html__( 'Icon Color', 'easy-elements' ),
+                'label' => esc_html__( 'Icon Color', 'easy-elements-pro' ),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'default' => '#ffffff',
                 'selectors' => [
@@ -466,7 +511,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_hover_text_style',
             [
-                'label' => esc_html__('Hover Text', 'easy-elements'),
+                'label' => esc_html__('Hover Text', 'easy-elements-pro'),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
                 'condition' => [
                     'hover_style' => 'text',
@@ -478,7 +523,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_control(
             'hover_text_color',
             [
-                'label' => esc_html__('Color', 'easy-elements'),
+                'label' => esc_html__('Color', 'easy-elements-pro'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
                     '{{WRAPPER}} .eel-hover-text span' => 'color: {{VALUE}};',
@@ -491,12 +536,203 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             \Elementor\Group_Control_Typography::get_type(),
             [
                 'name' => 'hover_text_color_typography',
-                'label' => esc_html__('Typography', 'easy-elements'),
+                'label' => esc_html__('Typography', 'easy-elements-pro'),
                 'selector' => '{{WRAPPER}} .eel-hover-text span',
             ]
         );
 
         $this->end_controls_section();
+
+        $this->start_controls_section(
+            'section_category_style',
+            [
+                'label' => esc_html__('Category', 'easy-elements-pro'),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+        // Start tabs for Normal / Active
+        $this->start_controls_tabs('tabs_category_style');
+
+        // ------------------ Normal Tab ------------------
+        $this->start_controls_tab(
+            'tab_category_normal',
+            [
+                'label' => esc_html__('Normal', 'easy-elements-pro'),
+            ]
+        );
+
+        $this->add_control(
+            'cate_text_color',
+            [
+                'label'     => esc_html__('Text Color', 'easy-elements-pro'),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-filters .eel-filter' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'cate_bg',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name'     => 'cate_typography',
+                'label'    => esc_html__('Typography', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'cate_button',
+            [
+                'label'      => esc_html__('Padding', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-gallery-filters .eel-filter' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'cate_item_spacing',
+            [
+                'label'      => esc_html__('Spacing Between', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', '%' ],
+                'range'      => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-gallery-filters' => 'gap: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'cate_bottom_spacing',
+            [
+                'label'      => esc_html__('Spacing Bottom', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', '%' ],
+                'range'      => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-gallery-filters' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );   
+        
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'cate_border',
+                'label' => esc_html__('Border', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name'     => 'cate_box_shadow',
+                'label'    => esc_html__('Box Shadow', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'cate_alignment',
+            [
+                'label' => esc_html__('Alignment', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'flex-start' => [
+                        'title' => esc_html__('Left', 'easy-elements-pro'),
+                        'icon' => 'eicon-h-align-left',
+                    ],
+                    'center' => [
+                        'title' => esc_html__('Center', 'easy-elements-pro'),
+                        'icon' => 'eicon-h-align-center',
+                    ],
+                    'flex-end' => [
+                        'title' => esc_html__('Right', 'easy-elements-pro'),
+                        'icon' => 'eicon-h-align-right',
+                    ],
+                    'space-between' => [
+                        'title' => esc_html__('Space Between', 'easy-elements-pro'),
+                        'icon' => 'eicon-h-align-stretch',
+                    ],
+                    'space-around' => [
+                        'title' => esc_html__('Space Around', 'easy-elements-pro'),
+                        'icon' => 'eicon-h-align-stretch',
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-filters' => 'justify-content: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_tab(); // End Normal Tab
+
+        // ------------------ Active Tab ------------------
+        $this->start_controls_tab(
+            'tab_category_active',
+            [
+                'label' => esc_html__('Active', 'easy-elements-pro'),
+            ]
+        );
+
+        $this->add_control(
+            'cate_text_color_active',
+            [
+                'label'     => esc_html__('Text Color', 'easy-elements-pro'),
+                'type'      => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-filters .eel-filter.active, {{WRAPPER}} .eel-gallery-filters .eel-filter:hover' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'cate_bg_active',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter.active, {{WRAPPER}} .eel-gallery-filters .eel-filter:hover',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'cate_border_active',
+                'label' => esc_html__('Border', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-filters .eel-filter.active, {{WRAPPER}} .eel-gallery-filters .eel-filter:hover',
+            ]
+        );
+
+        $this->end_controls_tab();
+        $this->end_controls_tabs(); 
+        $this->end_controls_section();
+
     }
 
     protected function render() {
@@ -504,7 +740,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $gallery_items = $settings['gallery_items'];
         
         if ( empty( $gallery_items ) ) {
-            echo '<p>' . esc_html__( 'Please select images to display the gallery.', 'easy-elements' ) . '</p>';
+            echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
             return;
         }
 
@@ -520,7 +756,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         }
         
         if ( empty( $images ) ) {
-            echo '<p>' . esc_html__( 'Please select images to display the gallery.', 'easy-elements' ) . '</p>';
+            echo '<p>' . esc_html( $settings['no_images_text'] ) . '</p>';
             return;
         }
 
@@ -552,7 +788,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
 
             if ( ! empty($all_categories) ) {
             echo '<div class="eel-gallery-filters">';
-            echo '<button class="eel-filter active" data-filter="*">' . esc_html__('All', 'easy-elements') . '</button>';
+            echo '<button class="eel-filter active" data-filter="*">' . esc_html( $settings['filter_all_text'] ) . '</button>';
             foreach ($all_categories as $cat) {
                 $sanitized_cat = sanitize_title( $cat );
                 echo '<button class="eel-filter" data-filter="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</button>';
@@ -617,10 +853,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         if ( $popup_enabled ) :
             ?>
             <div class="eel-lightbox">
-                <span class="eel-close">&times;</span>
+                <span class="eel-close"><?php echo $settings['lightbox_close_text']; ?></span>
                 <img class="eel-lightbox-image" src="" alt="">
-                <button class="eel-prev">&#10094;</button>
-                <button class="eel-next">&#10095;</button>
+                <button class="eel-prev"><?php echo $settings['lightbox_prev_text']; ?></button>
+                <button class="eel-next"><?php echo $settings['lightbox_next_text']; ?></button>
             </div>
             <?php
         endif;

@@ -11,10 +11,6 @@
   display: grid;
 }
 
-.eel-gallery-filter.eel-uses-isotope.isotope-initialized {
-  display: block; /* Isotope will take over positioning */
-}
-
 .eel-gallery-filter.eel-uses-isotope .eel-gallery-item {
   position: relative; /* before initialized */
 }
@@ -25,22 +21,26 @@
   pointer-events: none;
 }
 
+.eel-gallery-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
 .eel-gallery-filters .eel-filter {
-  display: inline-flex;
+  display: inline-block;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 999px;
+  padding: 14px 36px;
+  border-radius: 30px;
   background: #f2f3f5;
-  color: #333;
-  border: 1px solid #e6e8eb;
+  color: #121212;
   cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-          user-select: none;
-  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, transform 0.12s ease;
+  transition: all 0.3s ease;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 100%;
+  border: none;
+  box-shadow: none;
 }
 
 .eel-gallery-filters .eel-filter:hover {
