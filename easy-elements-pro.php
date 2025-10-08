@@ -33,6 +33,7 @@ $files_to_include = [
     'inc/hook.php',
     'inc/easy-elements-cursor.php',
     'inc/theme-builder/builder-functions.php',
+    'inc/extensions/visibility-control/class-easy-visibility-module.php',
 ];
 
 foreach ( $files_to_include as $file ) {
