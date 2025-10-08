@@ -52,6 +52,7 @@
     display: inline-block;
     position: relative;
     overflow: hidden;
+    width: 100%;
 }
 
 .ee--logo-img-normal,
@@ -68,6 +69,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    right: 0;
     transform: translateY(100%);
 }
 

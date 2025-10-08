@@ -812,20 +812,33 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
     }
     $all_categories = array_unique($all_categories);
 
-    // === Search Input ===
-    echo '<div class="eel-gallery-search-wrapper" style="margin-bottom: 15px;">';
-    echo '<input type="text" class="eel-gallery-search" placeholder="' . esc_attr__('Search Images...', 'easy-elements-pro') . '">';
-    echo '</div>';
+    $filter_type = $settings['category_filter_type'];
+    if ( $filter_type === 'with_search' ) {
+        // === Search Input ===
+        echo '<div class="eel-gallery-search-wrapper">';
+        echo '<select class="eel-gallery-filters-dropdown">';
+        echo '<option value="*">' . esc_html( $settings['filter_all_text'] ) . '</option>';
+        foreach ($all_categories as $cat) {
+            $sanitized_cat = sanitize_title( $cat );
+            echo '<option value="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</option>';
+        }
+        echo '</select>';
+        echo '<input type="text" class="eel-gallery-search" placeholder="' . esc_attr__('Search Here...', 'easy-elements-pro') . '">';
+        echo '</div>';
+        
+    }
 
     // === Category Filters ===
     if ( ! empty($all_categories) ) {
-        echo '<div class="eel-gallery-filters">';
-        echo '<button class="eel-filter active" data-filter="*">' . esc_html( $settings['filter_all_text'] ) . '</button>';
-        foreach ($all_categories as $cat) {
-            $sanitized_cat = sanitize_title( $cat );
-            echo '<button class="eel-filter" data-filter="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</button>';
+        if ( $filter_type === 'default' ) {
+            echo '<div class="eel-gallery-filters">';
+            echo '<button class="eel-filter active" data-filter="*">' . esc_html( $settings['filter_all_text'] ) . '</button>';
+            foreach ($all_categories as $cat) {
+                $sanitized_cat = sanitize_title( $cat );
+                echo '<button class="eel-filter" data-filter="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</button>';
+            }
+            echo '</div>';
         }
-        echo '</div>';
     }
 
     // === Gallery Items ===
