@@ -100,6 +100,46 @@
             }
         }
 
+        // === Dropdown filter / Select2
+        const $dropdown = $scope.find('.eel-gallery-filters-dropdown');
+
+        if ($dropdown.length) {
+            // Initialize Select2 if available
+            if ($.fn.select2) {
+                $dropdown.select2({
+                    placeholder: "Select Category",
+                    allowClear: true
+                });
+            }
+
+            // Change handler
+            $dropdown.on('change', function () {
+                const filterValue = $(this).val();
+                if (usingIsotope && isoInstance) {
+                    if (!filterValue || filterValue === '*') {
+                        isoInstance.arrange({ filter: '*' });
+                    } else {
+                        isoInstance.arrange({
+                            filter: function () {
+                                const cats = this.getAttribute('data-category') || '';
+                                return String(cats).split(' ').indexOf(filterValue) !== -1;
+                            }
+                        });
+                    }
+                } else {
+                    // CSS fallback
+                    $gallery.find('.eel-gallery-item').each(function () {
+                        const $item = $(this);
+                        const cats = $item.data('category') || '';
+                        const match = !filterValue || filterValue === '*' || String(cats).split(' ').indexOf(filterValue) !== -1;
+                        if (match) $item.show().removeClass('eel-is-hidden');
+                        else $item.hide().addClass('eel-is-hidden');
+                    });
+                }
+            });
+        }
+
+
         // Filter click handler
         var filterDelayMs = 250;
         var filterTimerId = null;
@@ -107,7 +147,7 @@
             var $this = $(this), filter = $this.data('filter');
             $scope.find('.eel-gallery-filters .eel-filter').removeClass('active');
             $this.addClass('active');
-
+            
             if (usingIsotope && isoInstance) {
                 if (filterTimerId) { clearTimeout(filterTimerId); filterTimerId = null; }
                 $gridLoader.addClass('is-active');
