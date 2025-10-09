@@ -55,54 +55,6 @@ foreach ( $files_to_include as $file ) {
 }
 
 
- 
-
-// PHP: enqueue scripts for both frontend and editor
-
-function enqueue_easyel_gsap_scripts() {
-
-    if ( ! did_action( 'elementor/loaded' ) ) return;
-
-    //$checked = get_option('easyel_enable_js_animation', 0);
-    //if ( $checked != 1 ) return;
-
-    $suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
-
-    $scripts = [
-        'gsap' => "assets/js/gsap{$suffix}.js",
-        'scrolltrigger' => "assets/js/ScrollTrigger{$suffix}.js",
-        'splittext' => "assets/js/SplitText{$suffix}.js",
-        'eel-easyel-animation' => "assets/js/easyel-animation.js",
-    ];
-
-    foreach($scripts as $handle => $path){
-        $deps = [];
-        if($handle === 'scrolltrigger' || $handle === 'splittext') $deps = ['gsap'];
-        if($handle === 'eel-easyel-animation') $deps = ['gsap','scrolltrigger','splittext'];
-
-        wp_enqueue_script(
-            $handle,
-            plugins_url($path, __FILE__),
-            $deps,
-            '1.0.0',
-            true
-        );
-    }
-
-    // Fixed defer
-    add_filter('script_loader_tag', function($tag, $handle){
-        $defer_scripts = ['gsap','scrolltrigger','splittext','eel-easyel-animation'];
-        if(in_array($handle, $defer_scripts)){
-            return str_replace(' src', ' defer src', $tag);
-        }
-        return $tag;
-    }, 10, 2);
-}
-
-add_action( 'wp_enqueue_scripts', 'enqueue_easyel_gsap_scripts', 99 );
-add_action( 'elementor/editor/after_enqueue_scripts', 'enqueue_easyel_gsap_scripts', 99 );
-
-
 // Hook only after main EasyElements plugin is loaded
 add_action( 'plugins_loaded', 'easy_elements_pro_plugin_init', 20 );
 

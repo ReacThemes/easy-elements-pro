@@ -120,9 +120,7 @@ class Easy_Dynamic_Tags {
                         if ( class_exists( $class_name ) ) {
                             $dynamic_tags_manager->register_tag( $class_name );
                         }
-                    } else {
-                        error_log( "Missing Dynamic Tag File: {$file_path}" );
-                    }
+                    } 
                 }
             }
         }

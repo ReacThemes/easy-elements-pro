@@ -12,7 +12,7 @@ class Easy_Dynamic_Post_ID extends Tag {
     }
 
     public function get_title() {
-        return __( 'Post ID fd', 'easy-dynamic-tags' );
+        return __( 'Post ID ', 'easy-dynamic-tags' );
     }
 
     public function get_group() {
@@ -22,6 +22,7 @@ class Easy_Dynamic_Post_ID extends Tag {
     public function get_categories() {
         return [
             \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY,
+            \Elementor\Modules\DynamicTags\Module::NUMBER_CATEGORY,
         ];
     }
 

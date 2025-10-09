@@ -1,86 +1,22 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit; 
 
-add_action( 'elementor/element/eel-heading/content_section/before_section_end', function( $element, $args ) {
+add_filter("easyel_animation_option", "easyel_animation_extends" );
 
-    if ( ! class_exists( 'Easy_Elements_Pro' ) ) {
-        return;
-    }
+function easyel_animation_extends( $animations ) {
 
-    $element->add_control(
-        'animation_type',
-        [
-            'label'   => esc_html__( 'Animation Type', 'easy-elements-pro' ),
-            'type'    => \Elementor\Controls_Manager::SELECT,
-            'default' => 'default',
-            'options' => [
-                'default'     => 'Default',
-                'split-text'     => 'Split Text (Letter)',
-                'split-words'    => 'Split Words',
-                'split-lines'    => 'Split Line Bottom',
-                'split-lines-left'  => 'Split Line Left',
-                'split-lines-up'  => 'Split Line Up',
-                'typewriter'     => 'Typewriter',
-                'text-bounce'    => 'Text Bounce',                
-            ],
-        ]
-    );
+    $animations_extends = [
+        'split-lines'       => 'Split Line Bottom',
+        'split-lines-left'  => 'Split Line Left',
+        'split-lines-up'    => 'Split Line Up',
+        'typewriter'        => 'Typewriter',
+        'text-bounce'       => 'Text Bounce',
+    ];
 
-    $element->add_control(
-        'eel_parallax_title',
-        [
-            'label'        => __('Enable Parallax', 'easy-elements-pro'),
-            'type'         => \Elementor\Controls_Manager::SWITCHER,
-            'label_on'     => __('Yes', 'easy-elements-pro'),
-            'label_off'    => __('No'),
-            'return_value' => 'yes',
-            'default'      => '',
-        ]
-    );
+    $all_animations = array_merge(  $animations, $animations_extends );
 
-    // Direction: Left → Right / Right → Left
-    $element->add_control(
-        'eel_parallax_direction',
-        [
-            'label'     => __('Direction', 'easy-elements-pro'),
-            'type'      => \Elementor\Controls_Manager::SELECT,
-            'options'   => [
-                'left'  => __('Right to Left', 'easy-elements-pro'),
-                'right' => __('Left to Right', 'easy-elements-pro'),
-            ],
-            'default'   => 'left',
-            'condition' => [
-                'eel_parallax_title' => 'yes',
-            ],
-        ]
-    );
-
-    // Movement percent
-    $element->add_control(
-        'eel_parallax_percent',
-        [
-            'label'     => __('Movement Percent', 'easy-elements-pro'),
-            'type'      => \Elementor\Controls_Manager::SLIDER,
-            'size_units' => ['%'],
-            'range'     => [
-                '%' => [
-                    'min' => 0,
-                    'max' => 200,
-                    'step'=> 1,
-                ],
-            ],
-            'default' => [
-                'unit' => '%',
-                'size' => 36,
-            ],
-            'condition' => [
-                'eel_parallax_title' => 'yes',
-            ],
-        ]
-    );
-    
-
-}, 10, 2 );
+    return $all_animations;
+}
 
 // Section Sticky Option
 add_action('elementor/element/container/section_layout/after_section_end', function($element, $args) {
