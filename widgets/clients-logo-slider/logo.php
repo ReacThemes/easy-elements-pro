@@ -106,7 +106,7 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
             ]
         );
 
-        $this->add_control(
+        $this->add_responsive_control(
 			'logo_width',
 			[
 				'label' => esc_html__( 'Logo Width', 'easy-elements' ),
@@ -128,7 +128,7 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
 				],
 			]
 		);
-        $this->add_control(
+        $this->add_responsive_control(
 			'logo_height',
 			[
 				'label' => esc_html__( 'Logo Height', 'easy-elements' ),
@@ -150,7 +150,17 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
 				],
 			]
 		);
-
+        $this->add_control(
+            'image_hover_swap_effect',
+            [
+                'label' => esc_html__( 'Image Hover Swap Effect', 'easy-elements' ),
+                'type' => Controls_Manager::SWITCHER,
+                'label_on' => esc_html__( 'Yes', 'easy-elements' ),
+                'label_off' => esc_html__( 'No', 'easy-elements' ),
+                'return_value' => 'yes',
+                'default' => 'yes',
+            ]
+        );
         $this->add_control(
             'logo_alignment',
             [
@@ -177,7 +187,6 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
-
 
         $this->end_controls_section();
 
@@ -314,13 +323,13 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                     'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
                     'range' => [
                         'px' => [
-                            'min' => 0,
+                            'min' => -500,
                             'max' => 1000,
                             'step' => 1,
                         ],
                         '%' => [
-                            'min' => 0,
-                            'max' => 100,
+                            'min' => -150,
+                            'max' => 150,
                         ],
                     ],
                     'condition' => [
@@ -364,6 +373,62 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                     ],
                 ]
             ); 
+            $this->add_responsive_control(
+                'pagination_size',
+                [
+                    'label' => esc_html__( 'Pagination Size', 'easy-elements' ),
+                    'type' => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                    'condition' => [
+                        'pagination' => ['bullets']
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .swiper-pagination .swiper-pagination-bullet' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            ); 
+            $this->add_responsive_control(
+                'pagination_active_width',
+                [
+                    'label' => esc_html__( 'Pagination ACtive Dot Width', 'easy-elements' ),
+                    'type' => \Elementor\Controls_Manager::SLIDER,
+                    'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                    'condition' => [
+                        'pagination' => ['bullets']
+                    ],
+                    'selectors' => [
+                        '{{WRAPPER}} .swiper-pagination .swiper-pagination-bullet-active' => 'width: {{SIZE}}{{UNIT}};',
+                    ],
+                ]
+            ); 
+            $this->add_responsive_control(
+                'pagination_border_radius',
+                [
+                    'label' => esc_html__( 'Border Radius', 'easy-elements' ),
+                    'type' => Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors' => [
+                        '{{WRAPPER}} .swiper-pagination .swiper-pagination-bullet' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                    'condition' => [
+                        'pagination' => ['bullets']
+                    ],
+                ]
+            );
+            $this->add_responsive_control(
+                'pagination_gap',
+                [
+                    'label' => esc_html__( 'Gap', 'easy-elements' ),
+                    'type' => Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors' => [
+                        '{{WRAPPER}} .swiper-pagination .swiper-pagination-bullet' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                    'condition' => [
+                        'pagination' => ['bullets']
+                    ],
+                ]
+            );
 
             $this->add_control(
                 'navigation',
@@ -415,6 +480,87 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                             'condition' => [ 'navigation' => 'yes' ],
                         ]
                     );
+                    $this->add_responsive_control(
+                        'navi_border_radius',
+                        [
+                            'label' => esc_html__( 'Border Radius', 'easy-elements' ),
+                            'type' => Controls_Manager::DIMENSIONS,
+                            'size_units' => [ 'px', 'em', '%' ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-nav-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            ],
+                            'condition' => ['navigation' => 'yes'],
+                        ]
+                    );
+                    $this->add_responsive_control(
+                        'navi_top_spacing',
+                        [
+                            'label' => esc_html__( 'Top Spacing', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::SLIDER,
+                            'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                            'range' => [
+                                'px' => [
+                                    'min' => -500,
+                                    'max' => 1000,
+                                    'step' => 1,
+                                ],
+                                '%' => [
+                                    'min' => -100,
+                                    'max' => 150,
+                                ],
+                            ],
+                            'condition' => [ 'navigation' => 'yes' ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-nav-item' => 'top: {{SIZE}}{{UNIT}};',
+                            ],
+                        ]
+                    ); 
+                    $this->add_responsive_control(
+                        'navi_left_spacing',
+                        [
+                            'label' => esc_html__( 'Left Spacing', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::SLIDER,
+                            'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                            'range' => [
+                                'px' => [
+                                    'min' => -500,
+                                    'max' => 1000,
+                                    'step' => 1,
+                                ],
+                                '%' => [
+                                    'min' => -100,
+                                    'max' => 100,
+                                ],
+                            ],
+                            'condition' => [ 'navigation' => 'yes' ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-nav-item.swiper-prev' => 'left: {{SIZE}}{{UNIT}};',
+                            ],
+                        ]
+                    ); 
+                    $this->add_responsive_control(
+                        'navi_right_spacing',
+                        [
+                            'label' => esc_html__( 'Right Spacing', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::SLIDER,
+                            'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                            'range' => [
+                                'px' => [
+                                    'min' => -500,
+                                    'max' => 1000,
+                                    'step' => 1,
+                                ],
+                                '%' => [
+                                    'min' => -100,
+                                    'max' => 100,
+                                ],
+                            ],
+                            'condition' => [ 'navigation' => 'yes' ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-nav-item.swiper-next' => 'right: {{SIZE}}{{UNIT}};',
+                            ],
+                        ]
+                    ); 
 
                 $this->end_controls_tab();
 
@@ -460,15 +606,15 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
 
 
             $this->add_control(
-            'ee_customicon_',
-            [
-                'label' => esc_html__('Need Custom Icon?', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::SWITCHER,
-                'label_on' => esc_html__('Show', 'easy-elements'),
-                'label_off' => esc_html__('Hide', 'easy-elements'),
-                'return_value' => 'yes',
-                'default' => 'no',
-            ]
+                'ee_customicon_',
+                [
+                    'label' => esc_html__('Need Custom Icon?', 'easy-elements'),
+                    'type' => \Elementor\Controls_Manager::SWITCHER,
+                    'label_on' => esc_html__('Show', 'easy-elements'),
+                    'label_off' => esc_html__('Hide', 'easy-elements'),
+                    'return_value' => 'yes',
+                    'default' => 'no',
+                ]
             );
 
             $this->add_control(
@@ -510,24 +656,7 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => __( 'Style', 'easy-elements' ),
                 'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
             ]
-         );
-            $this->add_responsive_control(
-                'item_width',
-                [
-                    'label' => esc_html__( 'Item Width', 'easy-elements' ),
-                    'type' => \Elementor\Controls_Manager::SLIDER,
-                    'size_units' => [ 'px', 'em', '%' ],
-                    'range' => [
-                        'px' => [
-                            'min' => 0,
-                            'max' => 1000,
-                        ],
-                    ],
-                    'selectors' => [
-                        '{{WRAPPER}} .e-e-clients-logo .ee--logo-img' => 'max-width: {{SIZE}}{{UNIT}};',
-                    ],
-                ]
-            );            
+         );           
             $this->add_responsive_control(
                 'item_height',
                 [
@@ -546,6 +675,17 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                 ]
             ); 
 
+            $this->add_responsive_control(
+                'item_margin_inner',
+                [
+                    'label' => esc_html__( 'Margin', 'easy-elements' ),
+                    'type' => Controls_Manager::DIMENSIONS,
+                    'size_units' => [ 'px', 'em', '%' ],
+                    'selectors' => [
+                        '{{WRAPPER}} .e-e-clients-logo .ee--logo-img' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    ],
+                ]
+            );
             $this->add_responsive_control(
                 'item_padding_inner',
                 [
@@ -617,6 +757,26 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .e-e-clients-logo .ee--logo-img img' => 'opacity: {{SIZE}};',
+                            ],
+                        ]
+                    );
+                    $this->add_control(
+                        'item_transform_scale',
+                        [
+                            'label' => esc_html__( 'Transform Scale', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::SLIDER,
+                            'range' => [
+                                'px' => [
+                                    'min' => 0.1,
+                                    'max' => 2,
+                                    'step' => .1,
+                                ],
+                            ],
+                            'condition' => [
+                                'image_hover_swap_effect!' => 'yes',
+                            ],
+                            'selectors' => [
+                                '{{WRAPPER}} .e-e-clients-logo .ee--logo-img img' => 'transform: scale({{SIZE}});',
                             ],
                         ]
                     );
@@ -708,6 +868,26 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
                             ],
                         ]
                     );
+                    $this->add_control(
+                        'item_hover_transform_scale',
+                        [
+                            'label' => esc_html__( 'Transform Scale', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::SLIDER,
+                            'range' => [
+                                'px' => [
+                                    'min' => 0.1,
+                                    'max' => 2,
+                                    'step' => .1,
+                                ],
+                            ],
+                            'condition' => [
+                                'image_hover_swap_effect!' => 'yes',
+                            ],
+                            'selectors' => [
+                                '{{WRAPPER}} .e-e-clients-logo .ee--logo-img:hover img' => 'transform: scale({{SIZE}});',
+                            ],
+                        ]
+                    );
                     $this->add_group_control(
                         \Elementor\Group_Control_Css_Filter::get_type(),
                         [
@@ -745,81 +925,92 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
 
     protected function render() {
         $settings = $this->get_settings_for_display();
+        $image_grayscale = !empty( $settings['image_grayscale_option'] ) ? $settings['image_grayscale_option'] : '';
         if ( empty( $settings['easy_logo_list'] ) ) {
             return;
         }       
         include plugin_dir_path( __FILE__ ) . 'slider.php';
         ?>
-        
-        <div id="<?php echo esc_attr($unique_id); ?>" class="e-e-clients-logo swiper eel-all-slider" <?php echo $slider_data_attributes; ?>>
-            <div class="swiper-wrapper">
-                <?php foreach ( $settings['easy_logo_list'] as $item ) :
-                    $image_id = $item['image']['id'] ?? '';
-                    $image_size = isset( $settings['image_size'] ) ? $settings['image_size'] : 'full';
-                    $image_data = $image_id ? wp_get_attachment_image_src( $image_id, $image_size ) : '';
-                    $alt = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : '';
-                    $title = $image_id ? get_the_title( $image_id ) : '';
+        <div class="eel-logo-slider-area">
+            <div id="<?php echo esc_attr($unique_id); ?>" class="e-e-clients-logo swiper eel-all-slider" <?php echo $slider_data_attributes; ?>>
+                <div class="swiper-wrapper">
+                    <?php foreach ( $settings['easy_logo_list'] as $item ) :
+                        $image_id = $item['image']['id'] ?? '';
+                        $image_size = isset( $settings['image_size'] ) ? $settings['image_size'] : 'full';
+                        $image_data = $image_id ? wp_get_attachment_image_src( $image_id, $image_size ) : '';
+                        $alt = $image_id ? get_post_meta( $image_id, '_wp_attachment_image_alt', true ) : '';
+                        $title = $image_id ? get_the_title( $image_id ) : '';
 
-                    $link     = $item['link']['url'] ?? '';
-                    $target   = ! empty( $item['link']['is_external'] ) ? ' target="_blank"' : '';
-                    $nofollow = ! empty( $item['link']['nofollow'] ) ? ' rel="nofollow"' : '';
-                    $fetchpriority = $settings['fetchpriority'] ?? '';
-                    ?>
-                    <div class="swiper-slide ee--logo-slider-item">
-                        <div class="ee--logo-img">
-                            <?php if ( $link ) : ?>
-                                <a href="<?php echo esc_url( $link ); ?>"<?php echo $target . $nofollow; ?>>
-                            <?php endif; ?>
-                            <?php if ( $image_data ) : ?>
-                                <img class="e-e-grid-img ee--logo-img-hover"
-                                src="<?php echo esc_url( $image_data[0] ); ?>"
-                                width="<?php echo esc_attr( $image_data[1] ); ?>"
-                                height="<?php echo esc_attr( $image_data[2] ); ?>"
-                                alt="<?php echo esc_attr( $alt ); ?>"
-                                title="<?php echo esc_attr( $title ); ?>"
-                                loading="lazy"
-                                decoding="async" fetchpriority="<?php echo esc_attr( $fetchpriority ); ?>">
-                                <img class="e-e-grid-img ee--logo-img-normal"
-                                src="<?php echo esc_url( $image_data[0] ); ?>"
-                                width="<?php echo esc_attr( $image_data[1] ); ?>"
-                                height="<?php echo esc_attr( $image_data[2] ); ?>"
-                                alt="<?php echo esc_attr( $alt ); ?>"
-                                title="<?php echo esc_attr( $title ); ?>"
-                                loading="lazy"
-                                decoding="async" fetchpriority="<?php echo esc_attr( $fetchpriority ); ?>">
-                            <?php endif; ?>  
+                        $link     = $item['link']['url'] ?? '';
+                        $target   = ! empty( $item['link']['is_external'] ) ? ' target="_blank"' : '';
+                        $nofollow = ! empty( $item['link']['nofollow'] ) ? ' rel="nofollow"' : '';
+                        $fetchpriority = $settings['fetchpriority'] ?? '';
+                        ?>
+                        <div class="swiper-slide">
+                            <div class="ee--logo-img <?php echo esc_attr($image_grayscale)?>">
+                                <?php if ( $link ) : ?>
+                                    <a href="<?php echo esc_url( $link ); ?>"<?php echo $target . $nofollow; ?>>
+                                <?php endif; ?>
+                                <?php if ( $image_data ) : ?>
+                                    <?php if ( $settings['image_hover_swap_effect'] == 'yes' ){ ?>
+                                        <img class="e-e-grid-img ee--logo-img-hover"
+                                        src="<?php echo esc_url( $image_data[0] ); ?>"
+                                        width="<?php echo esc_attr( $image_data[1] ); ?>"
+                                        height="<?php echo esc_attr( $image_data[2] ); ?>"
+                                        alt="<?php echo esc_attr( $alt ); ?>"
+                                        title="<?php echo esc_attr( $title ); ?>"
+                                        loading="lazy"
+                                        decoding="async" fetchpriority="<?php echo esc_attr( $fetchpriority ); ?>">
+                                        <img class="e-e-grid-img ee--logo-img-normal"
+                                        src="<?php echo esc_url( $image_data[0] ); ?>"
+                                        width="<?php echo esc_attr( $image_data[1] ); ?>"
+                                        height="<?php echo esc_attr( $image_data[2] ); ?>"
+                                        alt="<?php echo esc_attr( $alt ); ?>"
+                                        title="<?php echo esc_attr( $title ); ?>"
+                                        loading="lazy"
+                                        decoding="async" fetchpriority="<?php echo esc_attr( $fetchpriority ); ?>">
+                                    <?php } else{ ?>  
+                                        <img class="e-e-grid-img"
+                                        src="<?php echo esc_url( $image_data[0] ); ?>"
+                                        width="<?php echo esc_attr( $image_data[1] ); ?>"
+                                        height="<?php echo esc_attr( $image_data[2] ); ?>"
+                                        alt="<?php echo esc_attr( $alt ); ?>"
+                                        title="<?php echo esc_attr( $title ); ?>"
+                                        loading="lazy"
+                                        decoding="async" fetchpriority="<?php echo esc_attr( $fetchpriority ); ?>">
+                                    <?php } endif; ?>   
 
-                            <?php if ( $link ) : ?>
-                                </a>
-                            <?php endif; ?>
+                                <?php if ( $link ) : ?>
+                                    </a>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                </div>
             </div>
             <?php if ( $settings['pagination'] !== 'none' ) : ?>
                 <div class="swiper-pagination"></div>
             <?php endif; ?>
-
             <?php
                 $settings = $this->get_settings_for_display();
                 if ( 'yes' === $settings['ee_customicon_'] ) {
                     echo '<div class="swiper-navigation">';
                     if ( ! empty( $settings['arrow_prev_icon']['value'] ) ) {
-                        echo '<div class="swiper-prev">';
+                        echo '<div class="swiper-prev eel-nav-item">';
                         \Elementor\Icons_Manager::render_icon( $settings['arrow_prev_icon'], [ 'aria-hidden' => 'true' ] );
                         echo '</div>';
                     }
 
                     if ( ! empty( $settings['arrow_next_icon']['value'] ) ) {
-                        echo '<div class="swiper-next">';
+                        echo '<div class="swiper-next eel-nav-item">';
                         \Elementor\Icons_Manager::render_icon( $settings['arrow_next_icon'], [ 'aria-hidden' => 'true' ] );
                         echo '</div>';
                     }
                     echo '</div>';
                 } else {
                     if ( $data_navigation === 'true' ) :
-                        echo '<div class="swiper-button-prev swiper-prev"></div>';
-                        echo '<div class="swiper-button-next swiper-next"></div>';
+                        echo '<div class="swiper-button-prev swiper-prev eel-nav-item"></div>';
+                        echo '<div class="swiper-button-next swiper-next eel-nav-item"></div>';
                     endif;
                 }
             ?>
