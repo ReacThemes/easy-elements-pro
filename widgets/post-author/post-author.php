@@ -12,11 +12,6 @@ class Easyel_Post_Author_Info_Widget extends Widget_Base {
 	    $handle = 'eel-post-author-info';
 	    $css_path = plugin_dir_path( __FILE__ ) . 'css/post-author.css';
 	    
-	    if ( get_option( 'easyel_elements_minify_css', '0' ) === '1' && class_exists( 'Easyel_Elements_CSS_Loader_Helper' ) ) {
-	        Easyel_Elements_CSS_Loader_Helper::easyel_elements_load_minified_inline_css( $handle, $css_path );
-	        return [ $handle ];
-	    }
-	    
 	    if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
 	        wp_register_style( 
 				$handle, 

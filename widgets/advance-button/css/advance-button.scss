@@ -9,6 +9,7 @@
     overflow: hidden;
     cursor: pointer;
     border-radius: 8px;
+    text-align: center;
     svg,
     svg path,
     i{
@@ -31,6 +32,7 @@
         span{
             position: relative;
             z-index: 1;
+            align-items: center;
         }
         &:hover{
             background: transparent;
@@ -52,16 +54,8 @@
     }
 }
 
-.eel-advance-button-text {
-    pointer-events: none;
-    position: relative;
-    z-index: 1;
-    transition: transform 0.2s ease-out;
-    gap: 10px;
-}
 
 // Skin 2
-
 /* ---- Button Effect 2 - Switch Text (Smooth) ---- */
 @for $i from 1 through 50 {
     .eel-btn--effect-tw span:nth-child(#{$i}) { 
@@ -75,7 +69,8 @@
 .eel-btn--effect-tw {
     position: relative;
     overflow: hidden;
-    display: inline-block;
+    display: inline-flex !important;
+    align-items: center;
     transition: all 0.5s;
     &:before,
     span {
@@ -88,11 +83,13 @@
         top: 0;
         left: 0;
         width: 100%;
+        height: 100%;
         content: attr(data-text);
-        transform: translate3d(0, 10px, 0);
+        // transform: translate3d(0, 10px, 0);
         opacity: 1;
         display: flex;
         justify-content: center;
+        align-items: center;
         padding: 4px;
     }
     span {
@@ -111,7 +108,7 @@
         }
     }
 }
-
+// Skin 3 
 .eel-advance-button-defualt3{
     height: 60px;
     width: 200px;
@@ -128,10 +125,10 @@
     .eel-btn-main div {
         height: 60px;
         width: 200px;
-        text-align: center;
         line-height: 60px;
         display: inline-flex;
-        place-content: center;
+        align-items: center;
+        justify-content: center;
     }
     &:hover{
         border: var(--e-global-color-primary);
@@ -147,6 +144,7 @@
         background-color: green; 
     }
 }
+// Skin 4 
 .eel-btn-letter-effect-tw{
     background: var(--e-global-color-primary);
     color: var(--e-global-color-accent);
@@ -154,9 +152,9 @@
     font-weight: 600;
     padding: 13px 20px;
     border-radius: 30px;
-    text-align: center;
     border: none;
     line-height: normal;
+    transition: all .3s ease;
     span{
         display: block;
         position: relative;
@@ -167,9 +165,13 @@
         position: absolute;
         left: 0;
         width: 100%;
+        height: 100%;
         opacity: 0;
         transform: translate(0, -100%);
         transition: all 0.3s ease-in-out;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
     }
     &:hover{
         color: var(--e-global-color-accent);
@@ -182,5 +184,39 @@
             opacity: 1;
             transform: translate(0, 0);
         }
+    }
+}
+// sticky btn style
+.eel-advance-button-text {
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease-out;
+    gap: 10px;
+    align-items: center;
+}
+// Badge Button Style 
+.eel-advance-button-badge{
+     transition: all .3s ease;
+    .eel-badge{
+        display: inline;
+        font-size: 10px;
+        color: #fff;
+        background: var(--e-global-color-primary);
+        padding: 3px 7px;
+        border-radius: 2px;
+        margin: 8px;
+        transition: all 0.3s ease; 
+    }
+}
+// Icon 
+.eel-button-icon-before-advance,
+.eel-button-icon-after-advance{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease; 
+    i, svg{
+        transition: all 0.3s ease; 
     }
 }
