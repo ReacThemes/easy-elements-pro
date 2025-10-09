@@ -84,7 +84,7 @@ class Easy_Dynamic_Select_Ajax {
     /*------------------------------------
      * Helper: posts with Select2 format
      *------------------------------------*/
-    private function getPosts($post_type = 'post') {
+    private function getPosts( $post_type = 'post') {
         $search = $this->getSearchQuery();
         $args = [
             'post_type' => $post_type,

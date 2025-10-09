@@ -25,23 +25,41 @@ class Easy_Visibility_Module {
             return;
         }
 
-		add_action( 'elementor/element/after_section_end', [ $this, 'easy_register_visibility_controls' ], 10, 3 );
-
 		add_filter( 'elementor/frontend/widget/should_render', [ $this, 'easy_check_visibility' ], 10, 2 );
 		add_filter( 'elementor/frontend/section/should_render', [ $this, 'easy_check_visibility' ], 10, 2 );
 		add_filter( 'elementor/frontend/column/should_render', [ $this, 'easy_check_visibility' ], 10, 2 );
 		add_filter( 'elementor/frontend/container/should_render', [ $this, 'easy_check_visibility' ], 10, 2 );
+
+		add_action('elementor/element/common/_section_style/after_section_end', [ $this, 'easy_register_section'] );
+		add_action('elementor/element/section/section_advanced/after_section_end', [ $this, 'easy_register_section'] );
+		add_action('elementor/element/common/easy_visibility_section/before_section_end', [ $this, 'easy_register_controls'], 10, 2 );
+ 		add_action('elementor/element/section/easy_visibility_section/before_section_end', [ $this, 'easy_register_controls'], 10, 2 );
+
+		add_action('elementor/element/container/section_layout/after_section_end', [ $this, 'easy_register_section'] );
+
+		add_action('elementor/element/container/easy_visibility_section/before_section_end', [ $this, 'easy_register_controls'], 10, 2 );
 	
+	}
+
+	public function easy_register_section( $element ) {
+		$element->start_controls_section(
+			'easy_visibility_section',
+			[
+				'label' => __( 'Easy Visibility Control', 'easy-elements-pro' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_ADVANCED,
+			]
+		);
+
+		$element->end_controls_section();
 	}
 
 	/**
 	 * Register visibility controls in Elementor panel
 	 */
-	public function easy_register_visibility_controls( $element, $section_id, $args ) {
-		if ( 'section_custom_css' === $section_id || 'section_effects' === $section_id ) {
-			require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/visibility-control/controls/class-visibility-section.php';
-			Easy_Visibility_Section::register_controls( $element );
-		}
+	public function easy_register_controls( $element, $args ) {
+
+		require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/visibility-control/controls/class-visibility-section.php';
+		Easy_Visibility_Section::register_controls( $element );
 	}
 
 	/**
@@ -214,7 +232,6 @@ class Easy_Visibility_Module {
 
 		return $os;
 	}
-
 
 	/**
 	 * Helper: detect user Browser

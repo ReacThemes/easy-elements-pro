@@ -24,7 +24,21 @@ class Easy_Dynamic_Tags {
         $dynamic_tags_manager->register_group(
             'easy-post-tags',
             [
-                'title' => esc_html__('Easy - Post', 'easy-elements-pro')
+                'title' => esc_html__('Easy EA - Post', 'easy-elements-pro')
+            ]
+           
+        );
+        $dynamic_tags_manager->register_group(
+            'easy-author-infotag',
+            [
+                'title' => esc_html__('Easy EA - User', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-media-tag',
+            [
+                'title' => esc_html__('Easy EA - Media', 'easy-elements-pro')
             ]
         );
     }
@@ -62,20 +76,18 @@ class Easy_Dynamic_Tags {
 
         // Media Related Tags
         $media_group = [
-            'easy-featured-image-data' => 'Easy_Dynamic_Featured_Image_Data',
+            'easy-media-featureimg' => 'Easy_Dynamic_Featured_Image_Data',
         ];
 
         //  Author Related Tags
         $author_group = [
             'easy-author-info' => 'Easy_Dynamic_Author_Info',
             'easy-author-meta' => 'Easy_Dynamic_Author_Meta',
-            'easy-author-name' => 'Easy_Dynamic_Author_Name',
         ];
 
         // Comment Related Tags
         $comment_group = [
             'easy-comments'        => 'Easy_Dynamic_Comments',
-            'easy-comments-number' => 'Easy_Dynamic_Comments_Number',
         ];
 
         // WooCommerce Related Tags
@@ -104,6 +116,7 @@ class Easy_Dynamic_Tags {
 
     public function easy_dynamic_tag_register( Manager $dynamic_tags_manager ) {
 
+        require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/dynamic-tag-helper.php';
         require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/tag-common-function.php';
         if ( class_exists( '\Elementor\Core\DynamicTags\Tag' ) ) {
 
