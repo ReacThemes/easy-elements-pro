@@ -4,15 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class Easy_Visibility_Section {
 
 	public static function register_controls( $element ) {
-
-		$element->start_controls_section(
-			'easy_visibility_section',
-			[
-				'label' => __( 'Easy Visibility Control', 'easy-elements-pro' ),
-				'tab'   => \Elementor\Controls_Manager::TAB_ADVANCED,
-			]
-		);
-
+		
 		$element->add_control(
 			'easy_enable_visibility',
 			[
@@ -206,6 +198,5 @@ class Easy_Visibility_Section {
 			]
 		);
 
-		$element->end_controls_section();
 	}
 }
