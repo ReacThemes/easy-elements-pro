@@ -22,9 +22,18 @@ if ( ! defined( 'EASYELEMENTS_PRO_PATH' ) ) {
     define( 'EASYELEMENTS_PRO_PATH', plugin_dir_path( __FILE__ ) );
 }
 
+if ( ! defined( 'EASYELEMENTS_PRO_URL' ) ) {
+    define( 'EASYELEMENTS_PRO_URL', plugin_dir_url( __FILE__ ) );
+}
+
 if ( ! defined( 'EASY_ELEMENTS_PRO_ACTIVE' ) ) {
     define( 'EASY_ELEMENTS_PRO_ACTIVE', true );
 }
+
+
+add_action('elementor/init', function() {
+    require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/easy-dynamic-select.php';
+});
 
 
 // Include Custom Fonts functionality if available
@@ -34,6 +43,8 @@ $files_to_include = [
     'inc/easy-elements-cursor.php',
     'inc/theme-builder/builder-functions.php',
     'inc/extensions/visibility-control/class-easy-visibility-module.php',
+    'inc/extensions/dynamic-content/easy-dynamic-tags.php',
+    'inc/extensions/dynamic-content/easy-dynamic-search-ajax.php',
 ];
 
 foreach ( $files_to_include as $file ) {
@@ -43,6 +54,8 @@ foreach ( $files_to_include as $file ) {
     }
 }
 
+
+ 
 
 // PHP: enqueue scripts for both frontend and editor
 
@@ -169,7 +182,15 @@ function easy_elements_pro_plugin_init() {
 class Easy_Elements_Pro {
     public function __construct() {
         // Add pro-specific hooks or filters here if needed
+        
     }
 }
 // Instantiate it globally if needed
 new Easy_Elements_Pro();
+
+
+add_action('elementor/editor/after_enqueue_scripts', function() {
+    wp_enqueue_script('isotope-pkgd');
+    wp_enqueue_script('imagesloaded');
+    wp_enqueue_script('eel-simple-gallery-filter-script');
+});
