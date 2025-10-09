@@ -188,6 +188,18 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_control(
+            'show_media_description',
+            [
+                'label' => esc_html__( 'Show Media Description', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::SWITCHER,
+                'label_on' => esc_html__( 'Show', 'easy-elements-pro' ),
+                'label_off' => esc_html__( 'Hide', 'easy-elements-pro' ),
+                'default' => 'no',
+            ]
+        );
+
+
+        $this->add_control(
             'caption_source',
             [
                 'label' => esc_html__( 'Caption Source', 'easy-elements-pro' ),
@@ -336,6 +348,29 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->end_controls_section();
 
         $this->start_controls_section(
+			'section_caption_position',
+			[
+				'label' => esc_html__('Content Position', 'easy-elements-pro'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+        $this->add_control(
+            'content_position',
+            [
+                'label' => esc_html__( 'Content Position', 'easy-elements-pro' ),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'top',
+                'options' => [
+                    'top' => esc_html__( 'Top', 'easy-elements-pro' ),
+                    'bottom'      => esc_html__( 'Bottom', 'easy-elements-pro' ),
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
+        $this->start_controls_section(
 			'section_image_style',
 			[
 				'label' => esc_html__('Images', 'easy-elements-pro'),
@@ -346,7 +381,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'image_gap',
             [
-                'label' => esc_html__( 'Gap', 'easy-elements-pro' ),
+                'label' => esc_html__( 'Spacing Between Images', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
@@ -354,7 +389,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                 ],
                 'default' => [ 'size' => 10 ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-filter' => 'gap: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-gallery-filter.eel-uses-isotope .eel-gallery-filter-item a' => 'margin: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );
@@ -370,7 +405,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                     '%'  => [ 'min' => 10, 'max' => 100, 'step' => 1 ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-item img' => 'height: {{SIZE}}{{UNIT}}; object-fit: cover; width: 100%;',
+                    '{{WRAPPER}} .eel-gallery-filter-item img' => 'height: {{SIZE}}{{UNIT}}; object-fit: cover; width: 100%;',
                 ],
             ]
         );
@@ -381,7 +416,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             [
                 'name' => 'image_border',
                 'label' => esc_html__( 'Border', 'easy-elements-pro' ),
-                'selector' => '{{WRAPPER}} .eel-gallery-item img',
+                'selector' => '{{WRAPPER}} .eel-gallery-filter-item img',
             ]
         );
 
@@ -392,7 +427,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-item img, {{WRAPPER}} .eel-gallery-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-gallery-filter-item img, {{WRAPPER}} .eel-gallery-filter-item' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -404,7 +439,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                 'type' => Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', '%' ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-item img' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-gallery-filter-item img' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
@@ -414,13 +449,45 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->start_controls_section(
             'section_caption_style',
             [
-                'label' => esc_html__('Caption', 'easy-elements-pro'),
-                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+                'label' => esc_html__('Content Part', 'easy-elements-pro'),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,                
+            ]
+        );
+
+        $this->add_responsive_control(
+            'content_padding',
+            [
+                'label'      => esc_html__('Padding', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-gallery-caption-filter.bottom, {{WRAPPER}} .eel-gallery-caption-filter' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'caption_bg_color',
+            [
+                'label' => esc_html__('Background Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-caption-filter' => 'background-color: {{VALUE}};',
+                ],
                 'condition' => [
                     'show_caption' => 'yes',
                 ],
             ]
         );
+
+        $this->add_control(
+			'caption_heading',
+			[
+				'label' => esc_html__( 'Caption Part', 'easy-elements-pro' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
 
         // Caption Color
         $this->add_control(
@@ -429,19 +496,10 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__('Color', 'easy-elements-pro'),
                 'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-caption' => 'color: {{VALUE}};',
+                    '{{WRAPPER}} .eel-gallery-caption-filter' => 'color: {{VALUE}};',
                 ],
-            ]
-        );
-
-        // Caption Background Color
-        $this->add_control(
-            'caption_bg_color',
-            [
-                'label' => esc_html__('Background Color', 'easy-elements-pro'),
-                'type' => \Elementor\Controls_Manager::COLOR,
-                'selectors' => [
-                    '{{WRAPPER}} .eel-gallery-caption' => 'background-color: {{VALUE}};',
+                'condition' => [
+                    'show_caption' => 'yes',
                 ],
             ]
         );
@@ -452,7 +510,78 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             [
                 'name' => 'caption_typography',
                 'label' => esc_html__('Typography', 'easy-elements-pro'),
-                'selector' => '{{WRAPPER}} .eel-gallery-caption',
+                'selector' => '{{WRAPPER}} .eel-gallery-caption-filter',
+                'condition' => [
+                    'show_caption' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'caption_margin',
+            [
+                'label' => esc_html__( 'Margin', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-caption-filter' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_caption' => 'yes',
+                ],
+            ]
+        );
+
+
+        $this->add_control(
+			'description_heading',
+			[
+				'label' => esc_html__( 'Description Part', 'easy-elements-pro' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+        // Caption Color
+        $this->add_control(
+            'description_color',
+            [
+                'label' => esc_html__('Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-caption-filter.bottom .eel-gallery-description' => 'color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'show_media_description' => 'yes',
+                ],
+            ]
+        );
+
+        // Caption Typography
+        $this->add_group_control(
+            \Elementor\Group_Control_Typography::get_type(),
+            [
+                'name' => 'description_typography',
+                'label' => esc_html__('Typography', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-caption-filter.bottom .eel-gallery-description',
+                'condition' => [
+                    'show_media_description' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'description_margin',
+            [
+                'label' => esc_html__( 'Margin', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-caption-filter.bottom .eel-gallery-description' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'show_media_description' => 'yes',
+                ],
             ]
         );
 
@@ -759,6 +888,227 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->end_controls_tabs(); 
         $this->end_controls_section();
 
+
+        $this->start_controls_section(
+            'section_search_bar_style',
+            [
+                'label' => esc_html__('Dropdown with Search', 'easy-elements-pro'),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+                'condition' => [
+                    'category_filter_type' => 'with_search',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'search_bar_bg',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'search_bar_border',
+                'label' => esc_html__( 'Border', 'easy-elements-pro' ),
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'search_bar_border_radius',
+            [
+                'label' => esc_html__( 'Border Radius', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'search_bar_padding',
+            [
+                'label' => esc_html__( 'Padding', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'search_bar_spacing',
+            [
+                'label' => esc_html__( 'Spacing Bottom', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 2000,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper' => 'margin-bottom: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'search_bar_max_width',
+            [
+                'label' => esc_html__( 'Max Width', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 2000,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper' => 'max-width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+			'input_style',
+			[
+				'label' => esc_html__( 'Input Style', 'easy-elements-pro' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+        $this->add_control(
+            'input_color',
+            [
+                'label' => esc_html__('Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'input_placeholder_color',
+            [
+                'label' => esc_html__('Placeholder Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search::placeholder, {{WRAPPER}} .eel-gallery-search-wrapper .unicon-search' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'input_bg',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'input_border',
+                'label' => esc_html__( 'Border', 'easy-elements-pro' ),
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'input_box_shadow',
+                'label' => esc_html__('Box Shadow', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search',
+            ]
+        );
+
+        $this->add_responsive_control(
+            'input_border_radius',
+            [
+                'label' => esc_html__( 'Border Radius', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'input_padding',
+            [
+                'label' => esc_html__( 'Padding', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-search' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+			'select_style',
+			[
+				'label' => esc_html__( 'Select Style', 'easy-elements-pro' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+        $this->add_control(
+            'select_color',
+            [
+                'label' => esc_html__('Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-filters-dropdown' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'select_bg',
+            [
+                'label' => esc_html__('Background Color', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-filters-dropdown' => 'background-color: {{VALUE}}; border-right-color: {{VALUE}};',
+                ],
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'select_box_shadow',
+                'label' => esc_html__('Box Shadow', 'easy-elements-pro'),
+                'selector' => '{{WRAPPER}} .eel-gallery-search-wrapper .eel-gallery-filters-dropdown',
+            ]
+        );
+        $this->end_controls_section();
     }
 
     protected function render() {
@@ -823,7 +1173,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             echo '<option value="' . esc_attr($sanitized_cat) . '">' . esc_html($cat) . '</option>';
         }
         echo '</select>';
-        echo '<input type="text" class="eel-gallery-search" placeholder="' . esc_attr__('Search Here...', 'easy-elements-pro') . '">';
+        echo '<div class="eel-gallery-search-input-wrapper"><input type="text" class="eel-gallery-search" placeholder="' . esc_attr__('Search Here...', 'easy-elements-pro') . '"> <i class="unicon-search"></i> </div>';
         echo '</div>';
         
     }
@@ -854,10 +1204,11 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
             } elseif ( $settings['caption_source'] === 'title' ) {
                 $caption = get_the_title( $image['id'] );
             }
-        }
+        }       
+
 
         $img_categories = !empty($image['categories']) ? implode(' ', array_map('sanitize_title', array_map('trim', explode(',', $image['categories'])))) : '';
-        echo '<div class="eel-gallery-item" data-category="' . esc_attr($img_categories) . '" data-title="' . esc_attr($caption) . '">';
+        echo '<div class="eel-gallery-filter-item" data-category="' . esc_attr($img_categories) . '" data-title="' . esc_attr($caption) . '">';
 
         if ( $popup_enabled ) {
             echo '<a href="' . esc_url( $full_image ) . '" class="eel-popup-link" data-index="' . esc_attr( $index ) . '" data-elementor-open-lightbox="no">';
@@ -881,14 +1232,34 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         }
 
         echo '</div>'; // .eel-gallery-image-wrap
-        echo '</a>';
 
-        // === Caption ===
-        if ( ! empty( $caption ) ) {
-            echo '<div class="eel-gallery-caption">' . esc_html( $caption ) . '</div>';
+        // === Caption + Description ===
+        if ( ! empty( $caption ) || ( 'yes' === $settings['show_media_description'] && ! empty( get_post_field( 'post_content', $image['id'] ) ) ) ) {
+            $content_position = $settings['content_position'] ?? '';
+            echo '<div class="eel-gallery-caption-filter ' . esc_attr( $content_position ) . '">';
+
+            // Caption
+            if ( ! empty( $caption ) ) {
+                echo '<div class="eel-gallery-caption-filter-text">' . esc_html( $caption ) . '</div>';
+            }
+
+            // Media Description
+            if ( 'yes' === $settings['show_media_description'] ) {
+                $image_description = get_post_field( 'post_content', $image['id'] );
+                if ( ! empty( $image_description ) ) {
+                    echo '<div class="eel-gallery-description">' . esc_html( $image_description ) . '</div>';
+                }
+            }
+
+            echo '</div>'; // .eel-gallery-caption-filter
         }
 
-        echo '</div>'; // .eel-gallery-item
+
+        echo '</a>';
+
+        
+
+        echo '</div>'; // .eel-gallery-filter-item
     }
     echo '</div>'; // .eel-gallery-filter
 
@@ -904,7 +1275,5 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         <?php
     endif;
 }
-
-
 
 } ?>

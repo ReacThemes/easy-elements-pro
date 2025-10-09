@@ -1,8 +1,7 @@
 /* === Gallery Grid (base) === */
 .eel-gallery-filter {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
+  grid-template-columns: repeat(4, 1fr);
   position: relative; /* for grid loader positioning */
 }
 
@@ -11,14 +10,32 @@
   display: grid;
 }
 
-.eel-gallery-filter.eel-uses-isotope .eel-gallery-item {
+.eel-gallery-filter.eel-uses-isotope .eel-gallery-filter-item {
   position: relative; /* before initialized */
 }
 
 /* Suspended state for category filtering delay */
-.eel-gallery-filter.eel-grid-suspended .eel-gallery-item {
+.eel-gallery-filter.eel-grid-suspended .eel-gallery-filter-item {
   opacity: 0;
   pointer-events: none;
+}
+
+.eel-gallery-search-input-wrapper {
+  position: relative;
+  width: 50%;
+}
+.eel-gallery-search-input-wrapper i {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: currentColor;
+}
+
+.eel-gallery-filter-item a {
+  position: relative;
+  display: inline-block;
 }
 
 .eel-gallery-filters {
@@ -72,10 +89,51 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  gap: 50px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.eel-gallery-search-wrapper .eel-gallery-search {
+  border: 1px solid rgba(0, 0, 0, 0.1098039216);
+  padding: 14px 16px 14px 42px;
+  border-radius: 5px;
+  width: 100%;
+}
+.eel-gallery-search-wrapper .select2-container--default .select2-selection--single {
+  border: 1px solid rgba(0, 0, 0, 0.1098039216);
+  border-radius: 5px;
+}
+.eel-gallery-search-wrapper .select2-container .select2-selection--single {
+  height: auto;
+  margin: 0;
+  padding: 7px 7px;
+}
+.eel-gallery-search-wrapper .eel-gallery-filters-dropdown {
+  border: none;
+  padding: 13px 12px;
+  border-radius: 5px;
+  width: 50%;
+  border-right: 12px solid #fff;
+  box-shadow: 0 0 1px #121212;
+}
+.eel-gallery-search-wrapper .select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 42px;
+  right: 10px;
+}
+.eel-gallery-search-wrapper .select2-container--default .select2-selection--single .select2-selection__rendered {
+  color: #121212;
+}
+.eel-gallery-search-wrapper .select2-container--default .select2-selection--single .select2-selection__placeholder {
+  color: #121212;
+  font-size: 14px;
 }
 
 /* === Image === */
-.eel-gallery-item img {
+.eel-gallery-filter-item img {
   width: 100%;
   height: auto;
   display: block;
@@ -84,7 +142,7 @@
      object-fit: cover;
 }
 
-.eel-gallery-item:hover img {
+.eel-gallery-filter-item:hover img {
   transform: scale(1.05);
 }
 
@@ -100,7 +158,7 @@
   background: rgba(0, 0, 0, 0.55);
 }
 
-.eel-gallery-item:hover .eel-hover-content {
+.eel-gallery-filter-item:hover .eel-hover-content {
   opacity: 1;
 }
 
@@ -131,24 +189,58 @@
 }
 
 /* Smooth hide/show for filter */
-.eel-gallery-item.eel-is-hidden {
+.eel-gallery-filter-item.eel-is-hidden {
   opacity: 0;
   transform: scale(0.98);
   pointer-events: none;
 }
 
 /* === Caption === */
-.eel-gallery-caption {
+.eel-gallery-caption-filter {
   position: absolute;
   bottom: 0;
   width: 100%;
   background: rgba(0, 0, 0, 0.6);
   color: #fff;
   text-align: center;
-  padding: 8px;
-  font-size: 14px;
+  padding: 15px 24px;
+  font-size: 22px;
   opacity: 1;
   transition: opacity 0.3s ease;
+}
+.eel-gallery-caption-filter .eel-gallery-description {
+  color: rgba(255, 255, 255, 0.8431372549);
+  text-align: center;
+  font-size: 14px;
+  line-height: 130%;
+  margin-top: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.4s ease;
+  visibility: hidden;
+  max-height: 0;
+}
+.eel-gallery-caption-filter.bottom {
+  position: relative;
+  padding: 30px;
+}
+
+.eel-gallery-filter .eel-gallery-filter-item:hover .eel-gallery-caption-filter:not(.bottom) .eel-gallery-description {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  max-height: -moz-max-content;
+  max-height: max-content;
+  margin-top: 10px;
+}
+
+.eel-gallery-caption-filter.bottom .eel-gallery-description {
+  margin-top: 15px;
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  max-height: -moz-max-content;
+  max-height: max-content;
 }
 
 /* === Lightbox === */

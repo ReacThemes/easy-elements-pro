@@ -1,10 +1,3 @@
-.e-e-clients-logo .e-e-grid-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-}
-
 .eel-all-slider {
   opacity: 0;
   transition: opacity 0.8s ease;
@@ -59,15 +52,37 @@
   position: relative;
   overflow: hidden;
   width: 100%;
+  transition: all 0.5s ease;
 }
 
+.e-e-clients-logo .e-e-grid-img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  transition: all 0.5s ease;
+}
+
+.e-e-clients-logo .ee--logo-img.normal_grayscale {
+  filter: grayscale(1);
+}
+.e-e-clients-logo .ee--logo-img.hover_grayscale:hover img {
+  filter: grayscale(1);
+}
+.e-e-clients-logo .ee--logo-img.hover_to_default img {
+  filter: grayscale(100%);
+}
+.e-e-clients-logo .ee--logo-img.hover_to_default:hover img {
+  filter: grayscale(0%);
+}
+
+/* On hover swap effect*/
 .ee--logo-img-normal,
 .ee--logo-img-hover {
   display: block;
-  transition: transform 0.3s ease;
+  transition: transform 0.5s ease !important;
 }
 
-/* Default states */
 .ee--logo-img-normal {
   transform: translateY(0);
 }
@@ -80,7 +95,6 @@
   transform: translateY(100%);
 }
 
-/* On hover swap */
 .ee--logo-img:hover .ee--logo-img-normal {
   transform: translateY(-100%);
 }
