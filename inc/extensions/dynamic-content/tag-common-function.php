@@ -6,7 +6,7 @@ function easy_advanced_control( $element ) {
     $element->start_controls_section(
             'advanced_section',
             [
-                'label' => esc_html__('Advanced', 'easy-dynamic-tags'),
+                'label' => esc_html__('Advanced', 'easy-elements-pro'),
             ]
     );
     $element->add_control(
@@ -68,15 +68,13 @@ function easy_general_settings_post( $element ) {
              'multiple' => false,
             'label_block' => true,
             'query_args' => [
-                    'query' => 'posts',
-                    'post_type' => 'product',
-                ],
+                'query' => 'posts',
+            ],
             'condition' => ['easy_selected_post_type' => 'selected']
         ]
     );
 
 }
-
 
 function easy_apply_word_limit( $text, $settings, $key = 'easy_word_limit' ) {
     if ( ! empty( $settings[ $key ] ) && $settings[ $key ] > 0 ) {

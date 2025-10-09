@@ -12,7 +12,7 @@ class Easy_Post_Title_Tag extends Tag {
     }
 
     public function get_title() {
-        return __( 'Post Title', 'easy-dynamic-tags' );
+        return __( 'Post Title', 'easy-elements-pro' );
     }
 
     public function get_group() {

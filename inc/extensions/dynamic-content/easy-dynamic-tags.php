@@ -104,6 +104,7 @@ class Easy_Dynamic_Tags {
 
     public function easy_dynamic_tag_register( Manager $dynamic_tags_manager ) {
 
+        require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/dynamic-tag-helper.php';
         require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/tag-common-function.php';
         if ( class_exists( '\Elementor\Core\DynamicTags\Tag' ) ) {
 

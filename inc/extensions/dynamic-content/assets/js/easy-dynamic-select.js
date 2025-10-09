@@ -88,7 +88,7 @@
                             var params = {
                                 action     : dynamicPostSelect.action,
                                 security   : dynamicPostSelect.nonce,
-                                search_text: data.term
+                                search_text: data.term,
                             };
                             return $.extend({}, params, self.getQueryData());
                         },

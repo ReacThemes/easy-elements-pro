@@ -12,7 +12,7 @@ class Easy_Dynamic_Post_ID extends Tag {
     }
 
     public function get_title() {
-        return __( 'Post ID ', 'easy-dynamic-tags' );
+        return __( 'Post ID ', 'easy-elements-pro' );
     }
 
     public function get_group() {
@@ -48,17 +48,9 @@ class Easy_Dynamic_Post_ID extends Tag {
     public function render() {
         $settings = $this->get_settings_for_display();
 
-        // Determine the post ID
-        if ( isset($settings['easy_selected_post_type']) && $settings['easy_selected_post_type'] === 'selected' && !empty($settings['dynamic_post']) ) {
-            $post_id = is_array($settings['dynamic_post']) ? $settings['dynamic_post'][0] : $settings['dynamic_post'];
-        } else {
-            $post_id = get_the_ID();
-        }
+        $post_id = Easy_Dynamic_Tag_Helper::get_post_id( $settings );
 
-        // Show fallback if post ID is empty
-        if ( empty($post_id) && !empty($settings['easydc_fallback']) ) {
-            $post_id = $settings['easydc_fallback'];
-        }
+        if ( ! $post_id ) return;
 
         $before = !empty($settings['easydc_before']) ? $settings['easydc_before'] : '';
         $after  = !empty($settings['easydc_after']) ? $settings['easydc_after'] : '';
