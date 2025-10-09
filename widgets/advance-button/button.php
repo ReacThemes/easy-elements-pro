@@ -53,7 +53,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'Easy Advance Button', 'easy-elements-pro' );
+        return esc_html__( 'Advance Button', 'easy-elements-pro' );
     }
 
     public function get_icon() {
@@ -168,10 +168,56 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 					'library' => '',
 				],
                 'condition' => [
+					'button_style_default!' => ['skin2'],
+				],
+			]
+		);
+        $this->add_control(
+			'icon_position',
+			[
+				'label' => esc_html__('Icon Position', 'easy-elements-pro'),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'after',
+				'options' => [
+					'before' => esc_html__('Before Text', 'easy-elements-pro'),
+					'after' => esc_html__('After Text', 'easy-elements-pro'),
+				],
+				'condition' => [
+					'button_icon[value]!' => '',
+				],
+                'condition' => [
 					'button_style_default!' => ['skin2', 'skin4'],
 				],
 			]
 		);
+
+        $this->add_responsive_control(
+            'text_gap',
+            [
+                'label' => esc_html__('Letter Gap', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => ['px', '%', 'em'],
+                'range' => [
+                    'px' => [
+                        'min' => 0,
+                        'max' => 50,
+                    ],
+                ],
+                'default' => [
+                    'unit' => 'px',
+                    'size' => 10,
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-advance-button-text, {{WRAPPER}} .eel-advance-btn-wrap, {{WRAPPER}} .eel-btn-main div' => 'gap: {{SIZE}}{{UNIT}}; display: inline-flex;',
+                ],
+                'condition' => [
+					'button_icon[value]!' => '',
+				],
+                'condition' => [
+					'button_style_default!' => ['skin2', 'skin4'],
+				],
+            ]
+        );
 
         $this->add_responsive_control(
             'icon_position_top_btm',
@@ -226,7 +272,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     '{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'gap: {{SIZE}}{{UNIT}};',
                 ],
                 'condition' => [
-                    'button_style_default!' => ['skin2', 'skin4'],
+                    'button_style_default' => ['skin3',],
                 ],
             ]
         );
@@ -316,272 +362,237 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
             ]
         );
 
-		$this->add_control(
-			'icon_position',
+
+        
+        $this->end_controls_section();
+
+        // Style Tab - Button
+		$this->start_controls_section(
+			'button_style_section',
 			[
-				'label' => esc_html__('Icon Position', 'easy-elements-pro'),
-				'type' => Controls_Manager::SELECT,
-				'default' => 'after',
-				'options' => [
-					'before' => esc_html__('Before Text', 'easy-elements-pro'),
-					'after' => esc_html__('After Text', 'easy-elements-pro'),
-				],
-				'condition' => [
-					'button_icon[value]!' => '',
-				],
-                'condition' => [
-					'button_style_default!' => ['skin2', 'skin4'],
-				],
+				'label' => esc_html__('Button Style', 'easy-elements'),
+				'tab' => Controls_Manager::TAB_STYLE,
 			]
-		);
+		 );
+            $this->start_controls_tabs('button_styles');
 
-        $this->add_responsive_control(
-            'text_gap',
-            [
-                'label' => esc_html__('Letter Gap', 'easy-elements-pro'),
-                'type' => \Elementor\Controls_Manager::SLIDER,
-                'size_units' => ['px', '%', 'em'],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                    ],
-                ],
-                'default' => [
-                    'unit' => 'px',
-                    'size' => 10,
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-advance-button-text, {{WRAPPER}} .eel-advance-btn-wrap, {{WRAPPER}} .eel-btn-main div' => 'gap: {{SIZE}}{{UNIT}}; display: inline-flex;',
-                ],
-                'condition' => [
-					'button_icon[value]!' => '',
-				],
-                'condition' => [
-					'button_style_default!' => ['skin2', 'skin4'],
-				],
-            ]
-        );
+                $this->start_controls_tab(
+                    'button_normal',
+                    [
+                        'label' => esc_html__('Normal', 'easy-elements'),
+                    ]
+                 );
 
-        $this->start_controls_tabs('button_styles');
+                    $this->add_control(
+                        'btn_color',
+                        [
+                            'label' => esc_html__( 'Color', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::COLOR,
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button' => 'color: {{VALUE}}',
+                            ],
+                        ]
+                    );
 
-		$this->start_controls_tab(
-			'button_normal',
-			[
-				'label' => esc_html__('Normal', 'easy-elements'),
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Background::get_type(),
+                        [
+                            'name' => 'background_btn',
+                            'types' => [ 'classic', 'gradient' ],
+                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-one',
+                        ]
+                    );
 
-        $this->add_control(
-			'btn_color',
-			[
-				'label' => esc_html__( 'Color', 'easy-elements' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button' => 'color: {{VALUE}}',
-				],
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Typography::get_type(),
+                        [
+                            'name' => 'btn_typography',
+                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			[
-				'name' => 'background_btn',
-				'types' => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-one',
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Border::get_type(),
+                        [
+                            'name' => 'btn_border',
+                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'btn_typography',
-				'selector' => '{{WRAPPER}} .eel-advance-button',
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Box_Shadow::get_type(),
+                        [
+                            'name' => 'button_box_shadow',
+                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'btn_border',
-				'selector' => '{{WRAPPER}} .eel-advance-button',
-			]
-		);
+                    $this->add_responsive_control(
+                        'button__width',
+                        [
+                            'label' => esc_html__('Width', 'easy-elements'),
+                            'type' => Controls_Manager::SLIDER,
+                            'size_units' => ['px','%'],
+                            'range' => [
+                                'px' => [
+                                    'min' => 100,
+                                    'max' => 1000,
+                                ],
+                            ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button' => 'width: {{SIZE}}{{UNIT}};',
+                            ],
+                            'condition' => [
+                                'button_style_default' => ['skin1'],
+                            ],
+                            'condition' => [
+                                'button_style' => ['skin1'],
+                            ],                
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Box_Shadow::get_type(),
-			[
-				'name' => 'button_box_shadow',
-				'selector' => '{{WRAPPER}} .eel-advance-button',
-			]
-		);
-
-        $this->add_responsive_control(
-			'button__width',
-			[
-				'label' => esc_html__('Width', 'easy-elements'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px','%'],
-				'range' => [
-					'px' => [
-						'min' => 100,
-						'max' => 1000,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button' => 'width: {{SIZE}}{{UNIT}};',
-				],
-                'condition' => [
-                    'button_style_default' => ['skin1'],
-                ],
-                'condition' => [
-                    'button_style' => ['skin1'],
-                ],                
-			]
-		);
-
-        $this->add_responsive_control(
-			'button__height',
-			[
-				'label' => esc_html__('Height', 'easy-elements'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px','%'],
-				'range' => [
-					'px' => [
-						'min' => 50,
-						'max' => 500,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button' => 'height: {{SIZE}}{{UNIT}}; display:inline-grid; place-content: center;',
-                    '{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'height: {{SIZE}}{{UNIT}}; line-height: {{SIZE}}{{UNIT}};',
-				],
-                'condition' => [
-                    'button_style_default' => ['skin1'],
-                ],
-                'condition' => [
-                    'button_style' => ['skin1'],
-                ],
-			]
-		);
+                    $this->add_responsive_control(
+                        'button__height',
+                        [
+                            'label' => esc_html__('Height', 'easy-elements'),
+                            'type' => Controls_Manager::SLIDER,
+                            'size_units' => ['px','%'],
+                            'range' => [
+                                'px' => [
+                                    'min' => 50,
+                                    'max' => 500,
+                                ],
+                            ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button' => 'height: {{SIZE}}{{UNIT}}; display:inline-grid; place-content: center;',
+                                '{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'height: {{SIZE}}{{UNIT}}; line-height: {{SIZE}}{{UNIT}};',
+                            ],
+                            'condition' => [
+                                'button_style_default' => ['skin1'],
+                            ],
+                            'condition' => [
+                                'button_style' => ['skin1'],
+                            ],
+                        ]
+                    );
 
 
-        $this->add_responsive_control(
-			'button__width_two',
-			[
-				'label' => esc_html__('Width', 'easy-elements'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px','%'],
-				'range' => [
-					'px' => [
-						'min' => 100,
-						'max' => 1000,
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'width: {{SIZE}}{{UNIT}};',
-				],
-                'condition' => [
-                    'button_style_default' => ['skin3'],
-                ],
-			]
-		);
+                    $this->add_responsive_control(
+                        'button__width_two',
+                        [
+                            'label' => esc_html__('Width', 'easy-elements'),
+                            'type' => Controls_Manager::SLIDER,
+                            'size_units' => ['px','%'],
+                            'range' => [
+                                'px' => [
+                                    'min' => 100,
+                                    'max' => 1000,
+                                ],
+                            ],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'width: {{SIZE}}{{UNIT}};',
+                            ],
+                            'condition' => [
+                                'button_style_default' => ['skin3'],
+                            ],
+                        ]
+                    );
 
-        $this->add_responsive_control(
-			'button__height_two',
-			[
-				'label' => esc_html__('Height', 'easy-elements'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px','%'],
-				'range' => [
-					'px' => [
-						'min' => 50,
-						'max' => 500,
-					],
-				],
-				'selectors' => [                    
-                    '{{WRAPPER}} .eel-advance-button-defualt3:hover .eel-btn-main' => 'top: -{{SIZE}}{{UNIT}};',
-				],
-                'condition' => [
-                    'button_style_default' => ['skin3'],
-                ],
-			]
-		);
+                    $this->add_responsive_control(
+                        'button__height_two',
+                        [
+                            'label' => esc_html__('Height', 'easy-elements'),
+                            'type' => Controls_Manager::SLIDER,
+                            'size_units' => ['px','%'],
+                            'range' => [
+                                'px' => [
+                                    'min' => 50,
+                                    'max' => 500,
+                                ],
+                            ],
+                            'selectors' => [                    
+                                '{{WRAPPER}} .eel-advance-button-defualt3:hover .eel-btn-main' => 'top: -{{SIZE}}{{UNIT}};',
+                            ],
+                            'condition' => [
+                                'button_style_default' => ['skin3'],
+                            ],
+                        ]
+                    );
 
-        $this->add_responsive_control(
-            'button_padding',
-            [
-                'label' => esc_html__('Padding', 'easy-elements-pro'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', 'em', '%'],
-                'selectors' => [
-                    '{{WRAPPER}} .eel-advance-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-                ],
-                'condition' => [
-                    'button_style_default' => ['skin1', 'skin2', 'skin4'],
-                ],
-            ]
-        );
+                    $this->add_responsive_control(
+                        'button_padding',
+                        [
+                            'label' => esc_html__('Padding', 'easy-elements-pro'),
+                            'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                            'size_units' => ['px', 'em', '%'],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            ],
+                            'condition' => [
+                                'button_style_default' => ['skin1', 'skin2', 'skin4'],
+                            ],
+                        ]
+                    );
 
-        $this->add_control(
-			'button_border_radius',
-			[
-				'label' => esc_html__('Border Radius', 'easy-elements'),
-				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => ['px'],
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-				],
-			]
-		);
+                    $this->add_control(
+                        'button_border_radius',
+                        [
+                            'label' => esc_html__('Border Radius', 'easy-elements'),
+                            'type' => Controls_Manager::DIMENSIONS,
+                            'size_units' => ['px'],
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                            ],
+                        ]
+                    );
 
-        $this->end_controls_tab();
+                $this->end_controls_tab();
 
-		$this->start_controls_tab(
-			'button_hover',
-			[
-				'label' => esc_html__('Hover', 'easy-elements'),
-			]
-		);
+                $this->start_controls_tab(
+                    'button_hover',
+                    [
+                        'label' => esc_html__('Hover', 'easy-elements'),
+                    ]
+                 );
 
-        $this->add_control(
-			'btn_color_hover',
-			[
-				'label' => esc_html__( 'Color', 'easy-elements' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'selectors' => [
-					'{{WRAPPER}} .eel-advance-button:hover' => 'color: {{VALUE}}',
-				],
-			]
-		);
+                    $this->add_control(
+                        'btn_color_hover',
+                        [
+                            'label' => esc_html__( 'Color', 'easy-elements' ),
+                            'type' => \Elementor\Controls_Manager::COLOR,
+                            'selectors' => [
+                                '{{WRAPPER}} .eel-advance-button:hover' => 'color: {{VALUE}}',
+                            ],
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Background::get_type(),
-			[
-				'name' => 'background_btn_hover',
-				'types' => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .eel-advance-button:hover, {{WRAPPER}} .eel-advance-button.eel-default::after, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-two',
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Background::get_type(),
+                        [
+                            'name' => 'background_btn_hover',
+                            'types' => [ 'classic', 'gradient' ],
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover, {{WRAPPER}} .eel-advance-button.eel-default::after, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-two',
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Border::get_type(),
-			[
-				'name' => 'btn_border_hover',
-				'selector' => '{{WRAPPER}} .eel-advance-button:hover',
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Border::get_type(),
+                        [
+                            'name' => 'btn_border_hover',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover',
+                        ]
+                    );
 
-        $this->add_group_control(
-			\Elementor\Group_Control_Box_Shadow::get_type(),
-			[
-				'name' => 'button_box_shadow_hover',
-				'selector' => '{{WRAPPER}} .eel-advance-button:hover',
-			]
-		);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Box_Shadow::get_type(),
+                        [
+                            'name' => 'button_box_shadow_hover',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover',
+                        ]
+                    );
 
-        $this->end_controls_tab();
-		$this->end_controls_tabs();
+                $this->end_controls_tab();
+            $this->end_controls_tabs();
         $this->end_controls_section();
     }
 
