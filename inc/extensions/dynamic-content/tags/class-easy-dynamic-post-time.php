@@ -90,7 +90,7 @@ class Easy_Dynamic_Post_Time extends Tag {
 
        
         // Get post ID using common helper
-        $post_id = Easy_Dynamic_Helper::get_post_id( $settings );
+        $post_id = Easy_Dynamic_Tag_Helper::get_post_id( $settings );
 
         if ( ! $post_id ) return;
 
