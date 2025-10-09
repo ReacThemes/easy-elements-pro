@@ -83,3 +83,19 @@ function easy_apply_word_limit( $text, $settings, $key = 'easy_word_limit' ) {
     }
     return $text;
 }
+
+
+function get_easy_user_info( $element ) {
+    $element->add_control(
+        'easy_user_info',
+        [
+            'label' => esc_html__('Search & Select User', 'easy-elements-pro'),
+            'type' => 'easy-dynamic-select',
+            'multiple' => false,
+            'label_block' => true,
+            'query_args' => [
+                'query' => 'authors',
+            ],
+        ]
+    );
+}
