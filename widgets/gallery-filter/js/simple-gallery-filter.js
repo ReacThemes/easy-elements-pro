@@ -54,7 +54,7 @@
                 if (!cols || cols < 1) cols = 4;
                 var widthPercent = (100 / cols) + '%';
                 $gallery[0].style.setProperty('--eel-gap', gap);
-                $gallery.find('.eel-gallery-item').css('width', widthPercent);
+                $gallery.find('.eel-gallery-filter-item').css('width', widthPercent);
             } catch (e) {}
         }
 
@@ -74,10 +74,10 @@
 
             applyIsotopeItemWidths();
             isoInstance = new Isotope($gallery[0], {
-                itemSelector: '.eel-gallery-item',
+                itemSelector: '.eel-gallery-filter-item',
                 layoutMode: 'masonry',
                 percentPosition: true,
-                masonry: { columnWidth: '.eel-gallery-item' },
+                masonry: { columnWidth: '.eel-gallery-filter-item' },
                 transitionDuration: '0.35s',
                 hiddenStyle: { opacity: 0, transform: 'scale(0.98)' },
                 visibleStyle: { opacity: 1, transform: 'scale(1)' }
@@ -128,7 +128,7 @@
                     }
                 } else {
                     // CSS fallback
-                    $gallery.find('.eel-gallery-item').each(function () {
+                    $gallery.find('.eel-gallery-filter-item').each(function () {
                         const $item = $(this);
                         const cats = $item.data('category') || '';
                         const match = !filterValue || filterValue === '*' || String(cats).split(' ').indexOf(filterValue) !== -1;
@@ -168,7 +168,7 @@
             }
 
             // CSS fallback
-            var $items = $scope.find('.eel-gallery-item');
+            var $items = $scope.find('.eel-gallery-filter-item');
             var transitionMs = 250;
             $gallery.addClass('eel-grid-suspended');
             $gridLoader.addClass('is-active');
@@ -193,7 +193,7 @@
         // Search input filter
         $scope.find('.eel-gallery-search').on('keyup', function () {
             var val = $(this).val().toLowerCase();
-            $gallery.find('.eel-gallery-item').each(function () {
+            $gallery.find('.eel-gallery-filter-item').each(function () {
                 var $item = $(this);
                 var title = ($item.data('title') || '').toLowerCase();
                 var match = title.indexOf(val) > -1;

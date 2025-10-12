@@ -749,7 +749,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
         $this->add_responsive_control(
             'cate_border_radius',
             [
-                'label'      => esc_html__('Boper Radius', 'easy-elements-pro'),
+                'label'      => esc_html__('Border Radius', 'easy-elements-pro'),
                 'type'       => \Elementor\Controls_Manager::DIMENSIONS,
                 'size_units' => [ 'px', 'em', '%' ],
                 'selectors'  => [
