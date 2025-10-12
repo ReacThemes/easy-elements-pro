@@ -41,6 +41,27 @@ class Easy_Dynamic_Tags {
                 'title' => esc_html__('Easy EA - Media', 'easy-elements-pro')
             ]
         );
+
+        $dynamic_tags_manager->register_group(
+            'easy-comments-tag',
+            [
+                'title' => esc_html__('Easy EA - Comments', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-archive-tag',
+            [
+                'title' => esc_html__('Easy EA - Archive', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-sitetitle-tag',
+            [
+                'title' => esc_html__('Easy EA - Site', 'easy-elements-pro')
+            ]
+        );
     }
 
     function easy_dynamic_tag_groups() {
@@ -127,9 +148,7 @@ class Easy_Dynamic_Tags {
 
                     if ( file_exists( $file_path ) ) {
                          
-                         
                         require_once $file_path;
-
                         if ( class_exists( $class_name ) ) {
                             $dynamic_tags_manager->register_tag( $class_name );
                         }
