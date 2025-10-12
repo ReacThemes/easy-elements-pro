@@ -69,6 +69,13 @@ class Easy_Dynamic_Tags {
                 'title' => esc_html__('Easy EA - Search', 'easy-elements-pro')
             ]
         );
+
+        $dynamic_tags_manager->register_group(
+            'easy-terms-tag',
+            [
+                'title' => esc_html__('Easy EA - Terms', 'easy-elements-pro')
+            ]
+        );
     }
 
     function easy_dynamic_tag_groups() {
@@ -124,6 +131,15 @@ class Easy_Dynamic_Tags {
             'easy-search-result'        => 'Easy_Search_Results',
         ];
 
+        $terms_group = [
+            'easy-terms-title'              => 'Easy_Terms_Title',
+            'easy-terms-description'        => 'Easy_Terms_Description',
+            'easy-terms-slug'               => 'Easy_Terms_Slug',
+            'easy-terms-meta'               => 'Easy_Terms_Meta',
+            'easy-terms-description'        => 'Easy_Terms_Description',
+            'easy-terms-count'              => 'Easy_Terms_Count',
+        ];
+
         // WooCommerce Related Tags
         $woocommerce_group = [
             'easy-product-price'        => 'Easy_Dynamic_Product_Price',
@@ -145,6 +161,7 @@ class Easy_Dynamic_Tags {
             'author'       => $author_group,
             'comments'     => $comment_group,
             'search'       => $search_group,
+            'terms'        => $terms_group,
             'woocommerce'  => $woocommerce_group,
         ];
     }

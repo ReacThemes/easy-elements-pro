@@ -99,3 +99,19 @@ function get_easy_user_info( $element ) {
         ]
     );
 }
+
+function easy_get_terms_data_info( $element ) {
+    $element->add_control(
+        'easy_terms_data',
+        [
+            'label' => esc_html__('Search & Select Terms', 'easy-elements-pro'),
+            'type' => 'easy-dynamic-select',
+            'multiple' => false,
+            'label_block' => true,
+            'query_args' => [
+                'query' => 'terms',
+                'post_type' => '_related_post_type',
+            ],
+        ]
+    );
+}
