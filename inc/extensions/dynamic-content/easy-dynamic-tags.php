@@ -62,6 +62,13 @@ class Easy_Dynamic_Tags {
                 'title' => esc_html__('Easy EA - Site', 'easy-elements-pro')
             ]
         );
+
+        $dynamic_tags_manager->register_group(
+            'easy-search-tag',
+            [
+                'title' => esc_html__('Easy EA - Search', 'easy-elements-pro')
+            ]
+        );
     }
 
     function easy_dynamic_tag_groups() {
@@ -111,6 +118,12 @@ class Easy_Dynamic_Tags {
             'easy-comments'        => 'Easy_Dynamic_Comments',
         ];
 
+        // search tag
+        $search_group = [
+            'easy-search-query'        => 'Easy_Search_Query',
+            'easy-search-result'        => 'Easy_Search_Results',
+        ];
+
         // WooCommerce Related Tags
         $woocommerce_group = [
             'easy-product-price'        => 'Easy_Dynamic_Product_Price',
@@ -131,6 +144,7 @@ class Easy_Dynamic_Tags {
             'media'        => $media_group,
             'author'       => $author_group,
             'comments'     => $comment_group,
+            'search'       => $search_group,
             'woocommerce'  => $woocommerce_group,
         ];
     }
