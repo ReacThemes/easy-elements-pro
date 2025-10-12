@@ -110,7 +110,6 @@ function easy_get_terms_data_info( $element ) {
             'label_block' => true,
             'query_args' => [
                 'query' => 'terms',
-                'post_type' => '_related_post_type',
             ],
         ]
     );

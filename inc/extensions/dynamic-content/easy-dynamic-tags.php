@@ -136,7 +136,6 @@ class Easy_Dynamic_Tags {
             'easy-terms-description'        => 'Easy_Terms_Description',
             'easy-terms-slug'               => 'Easy_Terms_Slug',
             'easy-terms-meta'               => 'Easy_Terms_Meta',
-            'easy-terms-description'        => 'Easy_Terms_Description',
             'easy-terms-count'              => 'Easy_Terms_Count',
         ];
 
