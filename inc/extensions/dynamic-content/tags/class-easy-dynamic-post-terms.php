@@ -165,5 +165,4 @@ class Easy_Dynamic_Post_Terms extends Tag {
         echo wp_kses_post($before . implode($separator, $output) . $after);
     }
 
-
 }
