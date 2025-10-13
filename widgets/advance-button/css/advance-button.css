@@ -522,6 +522,84 @@
   transform: translate(0, 0);
 }
 
+.eel-advance-combine-icon-btn .eel-advance-combine-btn-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-text {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px 30px;
+  border-radius: 100px;
+  background: var(--e-global-color-primary);
+  color: #fff;
+  overflow: hidden;
+  transition: all 0.4s ease;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-text span {
+  display: block;
+  transition: all 0.4s ease;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-text .eel-combine-btn-normal-text {
+  transform: translateY(0);
+  opacity: 1;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-text .eel-combine-btn-hover-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(150%);
+  opacity: 0;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  color: #fff;
+  background: var(--e-global-color-primary);
+  border-radius: 50%;
+  overflow: hidden;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-icon svg,
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-icon i {
+  fill: currentColor;
+  color: currentColor;
+  height: 1em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transition: all 0.3s;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-icon .eel-combine-btn-normal-icon {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+.eel-advance-combine-icon-btn .eel-combine-icon-btn-icon .eel-combine-btn-hover-icon {
+  transform: translate(-150%, -50%);
+  opacity: 0;
+}
+.eel-advance-combine-icon-btn:hover .eel-combine-btn-normal-text {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+.eel-advance-combine-icon-btn:hover .eel-combine-btn-hover-text {
+  transform: translateY(-50%);
+  opacity: 1;
+}
+.eel-advance-combine-icon-btn:hover .eel-combine-btn-normal-icon {
+  transform: translate(150%, -50%);
+  opacity: 0;
+}
+.eel-advance-combine-icon-btn:hover .eel-combine-btn-hover-icon {
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
 .eel-advance-button-text {
   pointer-events: none;
   position: relative;
@@ -545,12 +623,51 @@
   transition: all 0.3s ease;
 }
 
+.eel-advance-button-magnetic {
+  position: relative;
+  border: 1px solid var(--e-global-color-primary);
+  text-align: center;
+}
+.eel-advance-button-magnetic .eel-advance-magnetic-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.eel-advance-button-magnetic .eel-advance-magnetic-btn .eel-magnetic-btn-text {
+  position: relative;
+}
+.eel-advance-button-magnetic .eel-magnetic-btn-overly {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  pointer-events: none;
+  transform: scale(0);
+  transform-origin: 0 0;
+  will-change: transform;
+}
+.eel-advance-button-magnetic .eel-magnetic-btn-overly::before {
+  aspect-ratio: 1/1;
+  background-color: var(--e-global-color-primary);
+  border-radius: 50%;
+  content: "";
+  display: block;
+  left: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  transform: translate(-50%, -50%);
+  width: 170%;
+}
+
 .eel-button-icon-before-advance,
 .eel-button-icon-after-advance {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  z-index: 1;
 }
 .eel-button-icon-before-advance i, .eel-button-icon-before-advance svg,
 .eel-button-icon-after-advance i,

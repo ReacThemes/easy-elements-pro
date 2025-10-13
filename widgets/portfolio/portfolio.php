@@ -88,16 +88,65 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 
 
 	/**
+	 * Get available taxonomies for a post type
+	 */
+	private function get_post_type_taxonomies( $post_type ) {
+		$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+		$options = [];
+
+		foreach ( $taxonomies as $taxonomy ) {
+			if ( $taxonomy->public && $taxonomy->show_ui ) {
+				$options[ $taxonomy->name ] = $taxonomy->label;
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get terms from a specific taxonomy for a post type
+	 */
+	private function get_taxonomy_terms( $post_type, $taxonomy ) {
+		$terms = get_terms( [
+			'taxonomy'   => $taxonomy,
+			'post_type'  => $post_type,
+			'hide_empty' => true,
+		] );
+
+		$options = [];
+		if ( ! is_wp_error( $terms ) ) {
+			foreach ( $terms as $term ) {
+				$options[ $term->term_id ] = $term->name;
+			}
+		}
+
+		return $options;
+	}
+
+	/**
 	 * Get dynamic posts based on settings
 	 */
 	private function get_dynamic_posts( $settings ) {
+		$post_type = $settings['dynamic_post_type'] ?? 'post';
 		$args = [
-			'post_type'      => $settings['dynamic_post_type'] ?? 'post',
+			'post_type'      => $post_type,
 			'posts_per_page' => $settings['posts_per_page'] ?? 6,
 			'post_status'    => 'publish',
 			'orderby'        => $settings['orderby'] ?? 'date',
 			'order'          => $settings['order'] ?? 'DESC',
 		];
+
+		// Add category filter if selected
+		if ( ! empty( $settings['dynamic_categories'] ) ) {
+			$taxonomy = $settings['dynamic_taxonomy'] ?? 'category';
+			$args['tax_query'] = [
+				[
+					'taxonomy' => $taxonomy,
+					'field'    => 'term_id',
+					'terms'    => $settings['dynamic_categories'],
+				],
+			];
+		}
 
 		$posts = get_posts( $args );
 		$portfolio_items = [];
@@ -115,9 +164,21 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 				$hover_image_url = $image_url;
 			}
 
+			// Get categories from post type taxonomy
+			$category_text = '';
+			if ( ! empty( $settings['dynamic_taxonomy'] ) ) {
+				$taxonomy = $settings['dynamic_taxonomy'];
+				$terms = get_the_terms( $post->ID, $taxonomy );
+				if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
+					$category_names = wp_list_pluck( $terms, 'name' );
+					$category_text = implode( ', ', $category_names );
+				}
+			}
+
 			$portfolio_items[] = [
 				'title'       => $post->post_title,
 				'description' => wp_trim_words( $post->post_content, 20, '...' ),
+				'category'    => $category_text,
 				'image'       => [
 					'id'  => $featured_image_id,
 					'url' => $image_url,
@@ -223,6 +284,34 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		// Taxonomy Selection for Categories
+		$this->add_control(
+			'dynamic_taxonomy',
+			[
+				'label'     => esc_html__('Category Taxonomy', 'easy-elements-pro'),
+				'type'      => Controls_Manager::SELECT,
+				'default'   => 'category',
+				'options'   => $this->get_post_type_taxonomies( 'post' ), // Default to post taxonomies
+				'condition' => [
+					'portfolio_source' => 'dynamic',
+				],
+			]
+		);
+
+		// Category Selection
+		$this->add_control(
+			'dynamic_categories',
+			[
+				'label'     => esc_html__('Select Categories', 'easy-elements-pro'),
+				'type'      => Controls_Manager::SELECT2,
+				'multiple'  => true,
+				'options'   => $this->get_taxonomy_terms( 'post', 'category' ), // Default to post categories
+				'condition' => [
+					'portfolio_source' => 'dynamic',
+				],
+			]
+		);
+
 
 		$this->add_control(
 			'portfolio_skins',
@@ -245,6 +334,7 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 				'label'   => esc_html__('Title', 'easy-elements-pro'),
 				'type'    => Controls_Manager::TEXT,
 				'default' => esc_html__('Any Content Title Here', 'easy-elements-pro'),
+				'placeholder' => esc_html__('Enter Title Here...', 'easy-elements-pro'),
 				'label_block' => true,
 				'dynamic'     => [
 					'active' => true,
@@ -266,7 +356,21 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 			[
 				'label' => esc_html__('Description', 'easy-elements-pro'),
 				'type'  => Controls_Manager::TEXTAREA,
-				'default' => esc_html__('This is a sample project/service/portfolio or any description.', 'easy-elements-pro'),
+				'default' => esc_html__('', 'easy-elements-pro'),
+				'placeholder' => esc_html__('This is a sample project/service/portfolio or any description.', 'easy-elements-pro'),
+				'dynamic'     => [
+					'active' => true,
+				],
+			]
+		);
+
+		$repeater->add_control(
+			'location',
+			[
+				'label' => esc_html__('Location', 'easy-elements-pro'),
+				'type'  => Controls_Manager::TEXTAREA,
+				'default' => esc_html__('', 'easy-elements-pro'),
+				'placeholder' => esc_html__('Enter Location Here...', 'easy-elements-pro'),
 				'dynamic'     => [
 					'active' => true,
 				],
@@ -285,6 +389,20 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 		);
 
 		$repeater->add_control(
+			'category',
+			[
+				'label'   => esc_html__('Category', 'easy-elements-pro'),
+				'type'    => Controls_Manager::TEXT,
+				'default' => esc_html__('', 'easy-elements-pro'),
+				'placeholder' => esc_html__('Enter Custom Category Here...', 'easy-elements-pro'),
+				'label_block' => true,
+				'dynamic'     => [
+					'active' => true,
+				],
+			]
+		);
+
+		$repeater->add_control(
 			'custom_link',
 			[
 				'label' => esc_html__('Link', 'easy-elements-pro'),
@@ -296,6 +414,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 				],
 				'label_block' => true,
 				'placeholder' => esc_html__('https://your-link.com', 'easy-elements-pro'),
+				'dynamic'     => [
+					'active' => true,
+				],
 			]
 		);
 
@@ -356,6 +477,30 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 				'selectors' => [
 					'{{WRAPPER}} .eel-portfolio-wrap-pro.pro-skin2' => 'grid-template-columns: repeat({{VALUE}}, 1fr);',
 				],
+				'condition' => [
+					'portfolio_skins' => 'skin2',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'item_spacing',
+			[
+				'label'      => esc_html__('Spacing Right Item', 'easy-elements-pro'),
+				'type'       => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px', 'em', '%' ],
+				'range'      => [
+					'px' => [
+						'min' => 0,
+						'max' => 150,
+					],
+				],
+				'selectors'  => [
+					'{{WRAPPER}} .eel-portfolio-item-pro:nth-child(even)' => 'top: {{SIZE}}{{UNIT}};',
+				],
+				'condition' => [
+					'columns' => ['1', '2'],
+				],
 			]
 		);
 
@@ -376,6 +521,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 'name'     => 'box_bg',
                 'types'    => [ 'classic', 'gradient', 'video' ],
                 'selector' => '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-content-pro',
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
             ]
         );
 
@@ -384,6 +532,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 			[
 				'name' => 'box_border',
 				'selector' => '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-content-pro',
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
 			]
 		);
 
@@ -396,6 +547,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 'selectors'  => [
                     '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-content-pro' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
             ]
         );
 
@@ -414,6 +568,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 'selectors'  => [
                     '{{WRAPPER}} .eel-portfolio-item-pro' => 'gap: {{SIZE}}{{UNIT}};',
                 ],
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
             ]
         );
 
@@ -426,6 +583,25 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-content-pro, {{WRAPPER}} .eel-portfolio-wrap-pro.pro-skin2 .eel-portfolio-item-pro .eel-portfolio-content-pro' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
+            ]
+        );
+
+		$this->add_responsive_control(
+            'content_box_width',
+            [
+                'label' => esc_html__( 'Width', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'range' => [
+                    'px' => [ 'min' => 300, 'max' => 1000, 'step' => 1 ],
+                    '%'  => [ 'min' => 30, 'max' => 100, 'step' => 1 ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-content-pro' => 'flex: {{SIZE}}{{UNIT}}; max-width: {{SIZE}}{{UNIT}};',
+                ],
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
             ]
         );
 
@@ -459,6 +635,9 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-image' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
             ]
         );
 
@@ -473,8 +652,51 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                     '%'  => [ 'min' => 10, 'max' => 100, 'step' => 1 ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-image' => 'height: {{SIZE}}{{UNIT}}; object-fit: cover; width: 100%;',
+                    '{{WRAPPER}} .eel-portfolio-item-pro .eel-portfolio-image, {{WRAPPER}} .eel-portfolio-wrap-pro.pro-skin2 img' => 'height: {{SIZE}}{{UNIT}}; object-fit: cover; width: 100%;',
                 ],
+            ]
+        );
+
+		$this->add_responsive_control(
+            'image_box_width',
+            [
+                'label' => esc_html__( 'Width', 'easy-elements-pro' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'range' => [
+                    'px' => [ 'min' => 300, 'max' => 1000, 'step' => 1 ],
+                    '%'  => [ 'min' => 30, 'max' => 100, 'step' => 1 ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-image' => 'flex: {{SIZE}}{{UNIT}}; max-width: {{SIZE}}{{UNIT}};',
+                ],
+				'condition' => [
+					'portfolio_skins' => 'skin1',
+				],
+            ]
+        );
+
+		$this->add_control(
+			'overlay_heading',
+			[
+				'label' => esc_html__( 'Image Overlay', 'easy-elements-pro' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'portfolio_skins' => 'skin2',
+				],
+			]
+		);
+
+		$this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'overlay_bg',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-portfolio-item-pro:before',
+				'condition' => [
+					'portfolio_skins' => 'skin2',
+				],
             ]
         );
 
@@ -600,6 +822,15 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 				'selector' => '{{WRAPPER}} .eel-portfolio-title-pro',
 			]
 		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'title_border',
+				'selector' => '{{WRAPPER}} .eel-portfolio-title-pro',
+			]
+		);
+
 		$this->add_responsive_control(
             'title_margin',
             [
@@ -611,6 +842,19 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
+
+		$this->add_responsive_control(
+            'title_padding',
+            [
+                'label' => esc_html__( 'Padding', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-title-pro' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -653,6 +897,133 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
+		$this->end_controls_section();
+
+
+		$this->start_controls_section(
+			'portfolio_category',
+			[
+				'label' => esc_html__('Category', 'easy-elements-pro'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		// Description Style
+		$this->add_control(
+			'category_color',
+			[
+				'label' => esc_html__('Color', 'easy-elements-pro'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .eel-portfolio-category-pro' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name'     => 'category_bg',
+                'types'    => [ 'classic', 'gradient', 'video' ],
+                'selector' => '{{WRAPPER}} .eel-portfolio-category-pro',
+            ]
+        );
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name'     => 'category_typography',
+				'label'    => esc_html__('Typography', 'easy-elements-pro'),
+				'selector' => '{{WRAPPER}} .eel-portfolio-category-pro',
+			]
+		);		
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'category_border',
+				'selector' => '{{WRAPPER}} .eel-portfolio-category-pro',
+			]
+		);
+
+		$this->add_responsive_control(
+            'category_radius',
+            [
+                'label'      => esc_html__('Border Radius', 'easy-elements-pro'),
+                'type'       => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors'  => [
+                    '{{WRAPPER}} .eel-portfolio-category-pro' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+		$this->add_responsive_control(
+            'category_margin',
+            [
+                'label' => esc_html__( 'Margin', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-category-pro' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );		
+
+		$this->add_responsive_control(
+            'category_padding',
+            [
+                'label' => esc_html__( 'Padding', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-category-pro' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'portfolio_location',
+			[
+				'label' => esc_html__('Location', 'easy-elements-pro'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		// Description Style
+		$this->add_control(
+			'location_color',
+			[
+				'label' => esc_html__('Color', 'easy-elements-pro'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .eel-portfolio-location-pro' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name'     => 'location_typography',
+				'label'    => esc_html__('Typography', 'easy-elements-pro'),
+				'selector' => '{{WRAPPER}} .eel-portfolio-location-pro',
+			]
+		);	
+		
+		$this->add_responsive_control(
+            'location_margin',
+            [
+                'label' => esc_html__( 'Margin', 'easy-elements-pro' ),
+                'type' => Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-portfolio-location-pro' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
 		$this->end_controls_section();
 
 		$this->start_controls_section(
@@ -727,6 +1098,92 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		// Add JavaScript to handle dynamic taxonomy and category loading
+		add_action( 'elementor/editor/before_enqueue_scripts', function() {
+			?>
+			<script>
+			elementor.hooks.addAction('panel/open_editor/widget/eel-portfolio-pro', function() {
+				setTimeout(function() {
+					// Function to update taxonomy options
+					function updateTaxonomyOptions(postType) {
+						if (!postType) return;
+						
+						// Get taxonomies for the selected post type via AJAX
+						jQuery.ajax({
+							url: '<?php echo admin_url('admin-ajax.php'); ?>',
+							type: 'POST',
+							data: {
+								action: 'eel_get_post_type_taxonomies',
+								post_type: postType,
+								nonce: '<?php echo wp_create_nonce('eel_taxonomy_nonce'); ?>'
+							},
+							success: function(response) {
+								if (response.success && response.data) {
+									var taxonomyControl = elementor.getControlView('dynamic_taxonomy');
+									if (taxonomyControl) {
+										taxonomyControl.model.set('options', response.data);
+										taxonomyControl.render();
+									}
+									
+									// Update category options for the first taxonomy
+									var firstTaxonomy = Object.keys(response.data)[0];
+									if (firstTaxonomy) {
+										updateCategoryOptions(postType, firstTaxonomy);
+									}
+								}
+							}
+						});
+					}
+					
+					// Function to update category options
+					function updateCategoryOptions(postType, taxonomy) {
+						if (!postType || !taxonomy) return;
+						
+						jQuery.ajax({
+							url: '<?php echo admin_url('admin-ajax.php'); ?>',
+							type: 'POST',
+							data: {
+								action: 'eel_get_taxonomy_terms',
+								post_type: postType,
+								taxonomy: taxonomy,
+								nonce: '<?php echo wp_create_nonce('eel_taxonomy_nonce'); ?>'
+							},
+							success: function(response) {
+								if (response.success && response.data) {
+									var categoryControl = elementor.getControlView('dynamic_categories');
+									if (categoryControl) {
+										categoryControl.model.set('options', response.data);
+										categoryControl.render();
+									}
+								}
+							}
+						});
+					}
+					
+					// Listen for post type control changes
+					var postTypeControl = elementor.getControlView('dynamic_post_type');
+					if (postTypeControl) {
+						postTypeControl.model.on('change:dynamic_post_type', function() {
+							var postType = this.get('dynamic_post_type');
+							updateTaxonomyOptions(postType);
+						});
+					}
+					
+					// Listen for taxonomy control changes
+					var taxonomyControl = elementor.getControlView('dynamic_taxonomy');
+					if (taxonomyControl) {
+						taxonomyControl.model.on('change:dynamic_taxonomy', function() {
+							var postType = elementor.getControlView('dynamic_post_type').model.get('dynamic_post_type');
+							var taxonomy = this.get('dynamic_taxonomy');
+							updateCategoryOptions(postType, taxonomy);
+						});
+					}
+				}, 100);
+			});
+			</script>
+			<?php
+		});
 	}
 
 	protected function render() {
@@ -776,4 +1233,54 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 			include $template_path;
 		}
 	}
-} ?>
+}
+
+// AJAX handlers for dynamic taxonomy and category loading
+add_action( 'wp_ajax_eel_get_post_type_taxonomies', 'eel_get_post_type_taxonomies_callback' );
+add_action( 'wp_ajax_eel_get_taxonomy_terms', 'eel_get_taxonomy_terms_callback' );
+
+function eel_get_post_type_taxonomies_callback() {
+	// Verify nonce
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'eel_taxonomy_nonce' ) ) {
+		wp_die( 'Security check failed' );
+	}
+
+	$post_type = sanitize_text_field( $_POST['post_type'] );
+	
+	$taxonomies = get_object_taxonomies( $post_type, 'objects' );
+	$options = [];
+
+	foreach ( $taxonomies as $taxonomy ) {
+		if ( $taxonomy->public && $taxonomy->show_ui ) {
+			$options[ $taxonomy->name ] = $taxonomy->label;
+		}
+	}
+
+	wp_send_json_success( $options );
+}
+
+function eel_get_taxonomy_terms_callback() {
+	// Verify nonce
+	if ( ! wp_verify_nonce( $_POST['nonce'], 'eel_taxonomy_nonce' ) ) {
+		wp_die( 'Security check failed' );
+	}
+
+	$post_type = sanitize_text_field( $_POST['post_type'] );
+	$taxonomy = sanitize_text_field( $_POST['taxonomy'] );
+
+	$terms = get_terms( [
+		'taxonomy'   => $taxonomy,
+		'post_type'  => $post_type,
+		'hide_empty' => true,
+	] );
+
+	$options = [];
+	if ( ! is_wp_error( $terms ) ) {
+		foreach ( $terms as $term ) {
+			$options[ $term->term_id ] = $term->name;
+		}
+	}
+
+	wp_send_json_success( $options );
+}
+?>

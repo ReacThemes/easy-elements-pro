@@ -31,6 +31,22 @@ if ( ! defined( 'EASY_ELEMENTS_PRO_ACTIVE' ) ) {
 }
 
 
+/**
+ * Enqueue Easy Elements Pro Scripts
+ */
+function easy_elements_pro_enqueue_scripts() {
+    wp_enqueue_script(
+        'easy-elements-pro-js',
+        EASYELEMENTS_PRO_URL . 'assets/js/eel-popup.js',
+        array('jquery', 'elementor-frontend'),
+        '1.0.0',
+        true
+    );
+}
+add_action('wp_enqueue_scripts', 'easy_elements_pro_enqueue_scripts');
+
+
+
 add_action('elementor/init', function() {
     require_once EASYELEMENTS_PRO_PATH . 'inc/extensions/dynamic-content/easy-dynamic-select.php';
 });
@@ -142,8 +158,15 @@ class Easy_Elements_Pro {
 new Easy_Elements_Pro();
 
 
-add_action('elementor/editor/after_enqueue_scripts', function() {
-    wp_enqueue_script('isotope-pkgd');
-    wp_enqueue_script('imagesloaded');
-    wp_enqueue_script('eel-simple-gallery-filter-script');
-});
+// Global Video Popup Markup in Footer
+function entro_global_video_popup_markup() {
+    ?>
+    <div class="entro-all-video-popup-wrap" id="global-video-popup">
+        <div class="entro-all-video-popup-inner">
+            <button class="entro-all-video-popup-close">&times;</button>
+            <div class="entro-all-video-popup-iframe-wrapper"></div>
+        </div>
+    </div>
+    <?php
+}
+add_action( 'wp_footer', 'entro_global_video_popup_markup' );

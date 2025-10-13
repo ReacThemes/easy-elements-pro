@@ -62,6 +62,12 @@
 			<?php if ( $has_link ) : ?>
 				<a href="<?php echo esc_url( $link_url ); ?>" class="eel-portfolio-title-link"<?php echo $link_is_external ? ' target="_blank"' : ''; ?><?php echo $link_nofollow ? ' rel="nofollow"' : ''; ?>>
 			<?php endif; ?>
+				
+				<?php if ( ! empty( $item['category'] ) ) : ?>
+					<span class="eel-portfolio-category-pro">
+						<?php echo wp_kses_post( $item['category'] ); ?>
+					</span>
+				<?php endif; ?>
 				<<?php echo esc_attr( $settings['title_tag'] ); ?> class="eel-portfolio-title-pro">
 					<?php 						
 						echo wp_kses_post( $item['title'] ); 
@@ -83,7 +89,14 @@
 			<?php if ( $has_link ) : ?>
 				</a>
 			<?php endif; ?>
-			<p class="eel-portfolio-desc"><?php echo wp_kses_post( $item['description'] ); ?></p>
+			<?php if ( ! empty( $item['description'] ) ) : ?>
+				<p class="eel-portfolio-desc"><?php echo wp_kses_post( $item['description'] ); ?></p>
+			<?php endif; ?>
+			<?php if ( ! empty( $item['location'] ) ) : ?>
+				<span class="eel-portfolio-location-pro">
+					<i class="unicon-location"></i> <?php echo wp_kses_post( $item['location'] ); ?>
+				</span>
+			<?php endif; ?>
 			</div>
 			<?php endforeach; ?>
 		</div>
