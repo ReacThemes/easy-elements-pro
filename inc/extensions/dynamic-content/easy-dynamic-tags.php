@@ -181,6 +181,9 @@ class Easy_Dynamic_Tags {
             'easy-product-shipping'     => 'Easy_Dynamic_Product_Shipping',
             'easy-product-type'         => 'Easy_Dynamic_Product_Type',
             'easy-add-to-cart'          => 'Easy_Dynamic_Product_Add_ToCart',
+            'easy-product-url'          => 'Easy_Dynamic_Product_Url',
+            'easy-product-shop-url'     => 'Easy_Dynamic_Product_Shop_Url',
+            'easy-product-checkout-url'     => 'Easy_Dynamic_Product_Checkout_Url',
         ];
 
         return [
