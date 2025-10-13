@@ -18,6 +18,20 @@ class Easy_Dynamic_Tags {
        
         add_action('elementor/dynamic_tags/register', [$this, 'easy_dynamic_tag_register_group'], 1);
         add_action('elementor/dynamic_tags/register', [$this, 'easy_dynamic_tag_register']);
+
+        add_action( 'wp_enqueue_scripts', [$this, 'easy_enqueue_product_price_css' ], );
+        add_action( 'elementor/editor/after_enqueue_styles', [$this, 'easy_enqueue_product_price_css' ], );
+    }
+
+    function easy_enqueue_product_price_css() {
+        $css_url = plugin_dir_url( __FILE__ ) . 'assets/css/easy-product-price.css';
+
+        wp_enqueue_style(
+            'easy-product-price-style',
+            EASYELEMENTS_PRO_URL . 'inc/extensions/dynamic-content/assets/css/easy-product-price.css',
+            array(),
+            time()
+        );
     }
 
     public function easy_dynamic_tag_register_group( Manager $dynamic_tags_manager ) {
@@ -76,6 +90,13 @@ class Easy_Dynamic_Tags {
                 'title' => esc_html__('Easy EA - Terms', 'easy-elements-pro')
             ]
         );
+
+        $dynamic_tags_manager->register_group(
+            'easy-wooproduct-tag',
+            [
+                'title' => esc_html__('Easy EA - WooCommerce', 'easy-elements-pro')
+            ]
+        );
     }
 
     function easy_dynamic_tag_groups() {
@@ -89,6 +110,8 @@ class Easy_Dynamic_Tags {
             'easy-custom-field'      => 'Easy_Dynamic_Post_CustomField',
             'easy-post-terms'        => 'Easy_Dynamic_Post_Terms',
             'easy-post-excerpt'      => 'Easy_Dynamic_Post_Excerpt',
+            'easy-post-url'          => 'Easy_Dynamic_Post_Url',
+            'easy-post-author-url'   => 'Easy_Dynamic_Post_Author_Url',
         ];
 
         //  Archive Related Tags
@@ -96,11 +119,13 @@ class Easy_Dynamic_Tags {
             'easy-archive-title'        => 'Easy_Dynamic_Archive_Title',
             'easy-archive-description'  => 'Easy_Dynamic_Archive_Description',
             'easy-archive-meta'         => 'Easy_Dynamic_Archive_Meta',
+            'easy-archive-url'          => 'Easy_Dynamic_Archive_Url',
         ];
 
         //  Site Related Tags
         $site_group = [
             'easy-page-title'        => 'Easy_Dynamic_Page_Title',
+            'easy-page-siteurl'      => 'Easy_Dynamic_Site_Url',
             'easy-site-tagline'      => 'Easy_Dynamic_Site_Tagline',
             'easy-site-title'        => 'Easy_Dynamic_Site_Title',
             'easy-current-datetime'  => 'Easy_Dynamic_Current_DateTime',
@@ -118,11 +143,14 @@ class Easy_Dynamic_Tags {
         $author_group = [
             'easy-author-info' => 'Easy_Dynamic_Author_Info',
             'easy-author-meta' => 'Easy_Dynamic_Author_Meta',
+            'easy-author-url' => 'Easy_Dynamic_Author_Url',
+            'easy-login-logout-url' => 'Easy_Dynamic_Login_Logout_Url',
         ];
 
         // Comment Related Tags
         $comment_group = [
             'easy-comments'        => 'Easy_Dynamic_Comments',
+            'easy-comments-url'    => 'Easy_Dynamic_Comments_Url',
         ];
 
         // search tag
@@ -150,6 +178,9 @@ class Easy_Dynamic_Tags {
             'easy-product-stock'        => 'Easy_Dynamic_Product_Stock',
             'easy-product-terms'        => 'Easy_Dynamic_Product_Terms',
             'easy-product-title'        => 'Easy_Dynamic_Product_Title',
+            'easy-product-shipping'     => 'Easy_Dynamic_Product_Shipping',
+            'easy-product-type'         => 'Easy_Dynamic_Product_Type',
+            'easy-add-to-cart'          => 'Easy_Dynamic_Product_Add_ToCart',
         ];
 
         return [

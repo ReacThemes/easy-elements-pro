@@ -88,6 +88,4 @@ class Easy_Terms_Count extends Tag {
 
         return isset( $term->count ) ? intval( $term->count ) : 0;
     }
-
-
 }

@@ -5,18 +5,18 @@ use Elementor\Core\DynamicTags\Tag;
 use Elementor\Core\DynamicTags\Module;
 use Elementor\Controls_Manager;
 
-class Easy_Dynamic_Post_Terms extends Tag {
+class Easy_Dynamic_Product_Terms extends Tag {
 
     public function get_name() {
-        return 'easy-post-terms-dynamic';
+        return 'easy-product-terms-dynamic';
     }
 
     public function get_title() {
-        return __( 'Post Terms ', 'easy-elements-pro' );
+        return __( 'Product Terms', 'easy-elements-pro' );
     }
 
     public function get_group() {
-        return 'easy-post-tags';
+        return 'easy-wooproduct-tag';
     }
 
     public function get_categories() {
@@ -29,15 +29,14 @@ class Easy_Dynamic_Post_Terms extends Tag {
 		return true;
 	}
 
-    /**
-     * Helper: Get taxonomies for dropdown
-     */
-    private function get_taxonomies_for_dropdown() {
+    private function get_taxonomies_product_dropdown() {
         $taxonomies = get_taxonomies( ['public' => true,  'show_ui'  => true ], 'objects' );
         $options = [];
 
         foreach ( $taxonomies as $taxonomy ) {
-            $options[ $taxonomy->name ] = $taxonomy->label;
+            if ( in_array( 'product', $taxonomy->object_type ) ) {
+                $options[ $taxonomy->name ] = $taxonomy->label;
+            }
         }
 
         return $options;
@@ -47,15 +46,15 @@ class Easy_Dynamic_Post_Terms extends Tag {
      * Register controls (popup settings)
      */
     protected function register_controls() {
-        easy_general_settings_post( $this );
+        easy_get_product_title_search( $this );
 
-        $this->add_control(
+         $this->add_control(
             'easy_taxonomy',
             [
                 'label' => __( 'Taxonomy', 'easy-elements-pro' ),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'category',
-                'options' => $this->get_taxonomies_for_dropdown(),
+                'default' => 'product_cat',
+                'options' => $this->get_taxonomies_product_dropdown(),
             ]
         );
 
@@ -107,6 +106,7 @@ class Easy_Dynamic_Post_Terms extends Tag {
                 'default' => 0,
             ]
         );
+       
     }
 
     protected function register_advanced_section() {
@@ -115,54 +115,43 @@ class Easy_Dynamic_Post_Terms extends Tag {
 
     public function render() {
         $settings = $this->get_settings_for_display();
+        $product_id = ! empty( $settings['easy_product_data'] ) ? intval( $settings['easy_product_data'] ) : get_the_ID();
 
-        $post_id = Easy_Dynamic_Tag_Helper::get_post_id($settings);
-        if (!$post_id) {
+        if ( ! $product_id || get_post_type( $product_id ) !== 'product' ) {
             return;
         }
 
-        $taxonomy = !empty($settings['easy_taxonomy']) ? $settings['easy_taxonomy'] : 'category';
+        $taxonomy = ! empty( $settings['easy_taxonomy'] ) ? $settings['easy_taxonomy'] : 'product_cat';
+        $terms = wp_get_post_terms( $product_id, $taxonomy );
 
-        // Get terms
-        $terms = get_the_terms( $post_id, $taxonomy );
-        if (empty( $terms ) || is_wp_error( $terms ) ) {
-            return;
-        }
-
-        $offset = !empty($settings['easy_terms_offset']) ? absint($settings['easy_terms_offset']) : 0;
-        $limit  = !empty($settings['easy_terms_limit']) ? absint($settings['easy_terms_limit']) : 0;
-
-        if ($offset > 0) {
-            $terms = array_slice($terms, $offset);
-        }
-
-        if ($limit > 0) {
-            $terms = array_slice($terms, 0, $limit);
-        }
-
-        // Separator
-        $separator = isset($settings['easy_separator']) ? $settings['easy_separator'] : ', ';
-
-        // Show as link?
-        $show_link = isset($settings['easy_show_link']) && $settings['easy_show_link'] === 'yes';
-
-        $output = [];
-
-        foreach ($terms as $term) {
-            $name = esc_html($term->name);
-            if ($show_link) {
-                $link = get_term_link($term);
-                if (!is_wp_error($link)) {
-                    $name = sprintf('<a href="%s">%s</a>', esc_url($link), $name);
-                }
+        if ( is_wp_error( $terms ) || empty( $terms ) ) {
+            if ( ! empty( $settings['easydc_fallback'] ) ) {
+                echo esc_html( $settings['easydc_fallback'] );
             }
-            $output[] = $name;
+            return;
         }
 
-        $before = !empty($settings['easydc_before']) ? $settings['easydc_before'] : '';
-        $after  = !empty($settings['easydc_after']) ? $settings['easydc_after'] : '';
+        // Apply offset and limit
+        $offset = ! empty( $settings['easy_terms_offset'] ) ? intval( $settings['easy_terms_offset'] ) : 0;
+        $limit  = ! empty( $settings['easy_terms_limit'] ) ? intval( $settings['easy_terms_limit'] ) : count( $terms );
+        $terms  = array_slice( $terms, $offset, $limit );
 
-        echo wp_kses_post( $before . implode($separator, $output) . $after );
+        $separator = isset( $settings['easy_separator'] ) ? $settings['easy_separator'] : ', ';
+        $show_link = ! empty( $settings['easy_show_link'] ) && $settings['easy_show_link'] === 'yes';
+
+        $term_list = [];
+        foreach ( $terms as $term ) {
+            if ( $show_link ) {
+                $term_list[] = '<a href="' . esc_url( get_term_link( $term ) ) . '">' . esc_html( $term->name ) . '</a>';
+            } else {
+                $term_list[] = esc_html( $term->name );
+            }
+        }
+
+        $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
+        $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
+
+        echo wp_kses_post( $before . implode( $separator, $term_list ) . $after );
     }
 
 }

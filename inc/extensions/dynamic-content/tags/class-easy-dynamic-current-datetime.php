@@ -127,7 +127,14 @@ class Easy_Dynamic_Current_DateTime extends Tag {
 
         $output = trim( $date . ' ' . $time );
 
-        echo wp_kses_post( $output );
+        if ( empty( $output ) && ! empty( $settings['easydc_fallback'] ) ) {
+            $output = $settings['easydc_fallback']; 
+        }
+
+        $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
+        $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
+
+        echo wp_kses_post(  $before . $output . $after );
     }
 
     public function get_value_for_editor() {

@@ -5,10 +5,10 @@ use Elementor\Plugin;
 if (!defined('ABSPATH')) exit; // Exit if accessed directly
 class Dynamic_Post_Select extends Base_Data_Control {
 
-    const TYPE = 'easy-dynamic-select';
+    const Easy_type = 'easy-dynamic-select';
 
     public function get_type() {
-        return self::TYPE;
+        return self::Easy_type;
     }
 
     protected function get_default_settings() {
@@ -71,10 +71,9 @@ class Dynamic_Post_Select extends Base_Data_Control {
     }
 }
 
-
 add_action('elementor/controls/register', function() {
     
-        $controls_manager = \Elementor\Plugin::$instance->controls_manager;
-        $controls_manager->register(new Dynamic_Post_Select());
+    $controls_manager = \Elementor\Plugin::$instance->controls_manager;
+    $controls_manager->register(new Dynamic_Post_Select());
    
 });

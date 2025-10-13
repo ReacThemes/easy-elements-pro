@@ -5,14 +5,14 @@ use Elementor\Core\DynamicTags\Tag;
 use Elementor\Core\DynamicTags\Module;
 use Elementor\Controls_Manager;
 
-class Easy_Dynamic_Author_Meta extends Tag {
+class Easy_Dynamic_Author_Url extends Tag {
 
     public function get_name() {
         return 'easy-post-authormeta-dynamic';
     }
 
     public function get_title() {
-        return __( 'Author Info ', 'easy-elements-pro' );
+        return __( 'Author Url ', 'easy-elements-pro' );
     }
 
     public function get_group() {
@@ -21,7 +21,7 @@ class Easy_Dynamic_Author_Meta extends Tag {
 
     public function get_categories() {
         return [
-            \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY,
+            \Elementor\Modules\DynamicTags\Module::URL_CATEGORY,
         ];
     }
 
@@ -35,17 +35,7 @@ class Easy_Dynamic_Author_Meta extends Tag {
     protected function register_controls() {
         get_easy_user_info( $this );
 
-       $this->add_control(
-            'author_meta_manual',
-            [
-                'label'       => __( 'Author Meta Key', 'easy-elements-pro' ),
-                'type'        => Controls_Manager::TEXT,
-                'placeholder' => __( 'e.g. twitter_handle', 'easy-elements-pro' ),
-                'ai'          => false,
-                'dynamic'     => [ 'active' => false ],
-                'label_block' => true,
-            ]
-        );
+       
     }
 
     protected function register_advanced_section() {

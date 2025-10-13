@@ -63,7 +63,6 @@ class Easy_Terms_Slug extends Tag {
 
         $terms_slug = ! empty( $term->slug ) ? $term->slug : '';
         
-        // before/after text
         $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
         $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
 
@@ -88,5 +87,4 @@ class Easy_Terms_Slug extends Tag {
 
         return $term->slug ?: '';
     }
-
 }

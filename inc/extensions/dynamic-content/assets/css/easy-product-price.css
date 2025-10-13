@@ -1,0 +1,18 @@
+.easy-product-price {
+    display: inline-block;
+}
+
+.easy-product-price.del {
+    margin-right: 5px;
+}
+
+.easy-product-price del {
+    opacity: 0.6;
+    margin-right: 5px;
+}
+
+.easy-product-price:not(.underline-enabled) ins {
+    text-decoration: none;
+}
+
+
