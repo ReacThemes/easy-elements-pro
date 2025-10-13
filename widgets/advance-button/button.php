@@ -81,6 +81,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     'default' => esc_html__('Default', 'easy-elements-pro'),
                     'sticky' => esc_html__('Sticky', 'easy-elements-pro'),
                     'badge' => esc_html__('Button with Badge', 'easy-elements-pro'),
+                    'magnetic' => esc_html__('Magnetic Button', 'easy-elements-pro'),
                 ],
                 'default' => 'default',
             ]
@@ -96,6 +97,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     'skin3' => esc_html__('Bottom Slide', 'easy-elements-pro'),
                     'skin2' => esc_html__('Letter Effect', 'easy-elements-pro'),
                     'skin4' => esc_html__('Letter Effect 2', 'easy-elements-pro'),
+                    'skin5' => esc_html__('Combine Icon', 'easy-elements-pro'),
                 ],
                 'default' => 'skin1',
                 'condition' => [
@@ -130,6 +132,20 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                 'step' => 0.1,
                 'condition' => [
                     'button_layout' => 'sticky',
+                ],
+            ]
+        );
+        $this->add_control(
+            'magnetic_btn_ani_duration',
+            [
+                'label' => esc_html__('Sticky Strength', 'easy-elements-pro'),
+                'type' => \Elementor\Controls_Manager::NUMBER,
+                'default' => .5,
+                'min' => 0.1,
+                'max' => 1,
+                'step' => 0.1,
+                'condition' => [
+                    'button_layout' => 'magnetic',
                 ],
             ]
         );
@@ -183,8 +199,8 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 					'library' => '',
 				],
                 'condition' => [
-					'button_style_default!' => ['skin2','skin4'],
                     'button_layout!' => 'badge',
+                    'button_style_default!' => ['skin2','skin4'],
 				],
 			]
 		);
@@ -199,9 +215,9 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 					'after' => esc_html__('After Text', 'easy-elements-pro'),
 				],
                 'condition' => [
+                    'button_layout!' => 'badge',
 					'button_style_default!' => ['skin2', 'skin4'],
                     'button_icon[value]!' => '',
-                    'button_layout!' => 'badge',
 				],
 			]
 		);
@@ -223,12 +239,12 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     'size' => 10,
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-advance-button-text, {{WRAPPER}} .eel-advance-btn-wrap, {{WRAPPER}} .eel-btn-main div' => 'gap: {{SIZE}}{{UNIT}}; display: inline-flex;',
+                    '{{WRAPPER}} .eel-advance-button-text, {{WRAPPER}} .eel-advance-btn-wrap, {{WRAPPER}} .eel-btn-main div, {{WRAPPER}} .eel-advance-magnetic-btn, {{WRAPPER}} .eel-advance-combine-btn-wrap' => 'gap: {{SIZE}}{{UNIT}}; display: inline-flex;',
                 ],
                'condition' => [
+                    'button_layout!' => 'badge',
 					'button_style_default!' => ['skin2', 'skin4'],
                     'button_icon[value]!' => '',
-                    'button_layout!' => 'badge',
 				],
             ]
         );
@@ -257,9 +273,9 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     '{{WRAPPER}} .eel-advance-button i, {{WRAPPER}} .eel-advance-button svg' => 'top: {{SIZE}}{{UNIT}}; position: relative;',
                 ],
                 'condition' => [
-					'button_style_default!' => ['skin2', 'skin4'],
-                    'button_icon[value]!' => '',
                     'button_layout!' => 'badge',
+					'button_style_default!' => ['skin2', 'skin4','skin5'],
+                    'button_icon[value]!' => '',
 				],
             ]
         );
@@ -290,7 +306,6 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                 'condition' => [
                     'button_style_default' => ['skin3',],
                     'button_icon[value]!' => '',
-                    'button_layout!' => 'badge',
                 ],
             ]
         );
@@ -321,6 +336,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'type' => \Elementor\Controls_Manager::COLOR,
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button' => 'color: {{VALUE}}',
+                                '{{WRAPPER}} .eel-combine-icon-btn-text' => 'color: {{VALUE}}',
                             ],
                         ]
                     );
@@ -330,7 +346,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         [
                             'name' => 'background_btn',
                             'types' => [ 'classic', 'gradient' ],
-                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-one',
+                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-one, {{WRAPPER}} .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -338,7 +354,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         \Elementor\Group_Control_Typography::get_type(),
                         [
                             'name' => 'btn_typography',
-                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -346,7 +362,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         \Elementor\Group_Control_Border::get_type(),
                         [
                             'name' => 'btn_border',
-                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -354,7 +370,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         \Elementor\Group_Control_Box_Shadow::get_type(),
                         [
                             'name' => 'button_box_shadow',
-                            'selector' => '{{WRAPPER}} .eel-advance-button',
+                            'selector' => '{{WRAPPER}} .eel-advance-button, {{WRAPPER}} .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -372,6 +388,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button' => 'width: {{SIZE}}{{UNIT}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-text' => 'width: {{SIZE}}{{UNIT}};',
                             ],
                             'condition' => [
                                 'button_style_default' => ['skin1'],
@@ -397,6 +414,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button' => 'height: {{SIZE}}{{UNIT}}; display:inline-grid; place-content: center;',
                                 '{{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-main div' => 'height: {{SIZE}}{{UNIT}}; line-height: {{SIZE}}{{UNIT}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-text' => 'height: {{SIZE}}{{UNIT}}; line-height: {{SIZE}}{{UNIT}};',
                             ],
                             'condition' => [
                                 'button_style_default' => ['skin1'],
@@ -458,9 +476,10 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'size_units' => ['px', 'em', '%'],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-text' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                             ],
                             'condition' => [
-                                'button_style_default' => ['skin1', 'skin2', 'skin4'],
+                                'button_style_default' => ['skin1', 'skin2', 'skin4', 'skin5'],
                             ],
                         ]
                     );
@@ -473,6 +492,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'size_units' => ['px'],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-text' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                             ],
                         ]
                     );
@@ -493,6 +513,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'type' => \Elementor\Controls_Manager::COLOR,
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button:hover' => 'color: {{VALUE}}',
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-text' => 'color: {{VALUE}}',
                             ],
                         ]
                     );
@@ -502,7 +523,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         [
                             'name' => 'background_btn_hover',
                             'types' => [ 'classic', 'gradient' ],
-                            'selector' => '{{WRAPPER}} .eel-advance-button:hover, {{WRAPPER}} .eel-advance-button.eel-default::after, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-two',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover:not(.eel-advance-button-magnetic:hover), {{WRAPPER}} .eel-advance-button.eel-default::after, {{WRAPPER}} .eel-advance-button-defualt3 .eel-btn-two, {{WRAPPER}} .eel-advance-button-magnetic .eel-magnetic-btn-overly::before, {{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -510,7 +531,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         \Elementor\Group_Control_Border::get_type(),
                         [
                             'name' => 'btn_border_hover',
-                            'selector' => '{{WRAPPER}} .eel-advance-button:hover',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover, {{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -518,7 +539,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                         \Elementor\Group_Control_Box_Shadow::get_type(),
                         [
                             'name' => 'button_box_shadow_hover',
-                            'selector' => '{{WRAPPER}} .eel-advance-button:hover',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover, {{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-text',
                         ]
                     );
 
@@ -555,6 +576,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                                 '{{WRAPPER}} .eel-advance-button i' => 'color: {{VALUE}};',
                                 '{{WRAPPER}} .eel-advance-button svg' => 'fill: {{VALUE}};',
                                 '{{WRAPPER}} .eel-advance-button svg path' => 'fill: {{VALUE}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-icon' => 'color: {{VALUE}};',
                             ],
                         ]
                     );
@@ -565,7 +587,8 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'type' => \Elementor\Controls_Manager::COLOR,
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance,
-                                {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance ' => 'background-color: {{VALUE}};',
+                                {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance,
+                                {{WRAPPER}} .eel-combine-icon-btn-icon' => 'background-color: {{VALUE}};',
                             ],
                         ]
                     );
@@ -592,6 +615,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button i' => 'font-size: {{SIZE}}{{UNIT}};',
                                 '{{WRAPPER}} .eel-advance-button svg' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                                '{{WRAPPER}} .eel-combine-icon-btn-icon' => 'font-size: {{SIZE}}{{UNIT}};',
                             ],
                         ]
                     );
@@ -601,7 +625,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 							'label' => esc_html__('Width', 'easy-elements'),
 							'type' => Controls_Manager::SLIDER,
 							'selectors' => [
-								'{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance' => 'width: {{SIZE}}{{UNIT}};',
+								'{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance, {{WRAPPER}} .eel-combine-icon-btn-icon' => 'width: {{SIZE}}{{UNIT}};',
 							],
 						]
 					);
@@ -611,7 +635,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 							'label' => esc_html__('Height', 'easy-elements'),
 							'type' => Controls_Manager::SLIDER,
 							'selectors' => [
-								'{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance' => 'height: {{SIZE}}{{UNIT}};',
+								'{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance, {{WRAPPER}} .eel-combine-icon-btn-icon' => 'height: {{SIZE}}{{UNIT}};',
 							],
 						]
 					);
@@ -624,6 +648,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 							'selectors' => [
 								'{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, 
 								{{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+								'{{WRAPPER}} .eel-combine-icon-btn-icon' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 							],
 						]
 					);
@@ -640,6 +665,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button i, {{WRAPPER}} .eel-advance-button svg' => 'transform: rotate({{SIZE}}deg); display: inline-block;',
+                                '{{WRAPPER}} .eel-combine-icon-btn-icon *' => 'rotate: {{SIZE}}deg;',
                             ],
                         ]
                     );
@@ -662,6 +688,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                                 '{{WRAPPER}} .eel-advance-button:hover i' => 'color: {{VALUE}};',
                                 '{{WRAPPER}} .eel-advance-button:hover svg' => 'fill: {{VALUE}};',
                                 '{{WRAPPER}} .eel-advance-button:hover svg path' => 'fill: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon' => 'color: {{VALUE}};',
                             ],
                         ]
                     );
@@ -673,6 +700,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button:hover .eel-button-icon-before-advance,
                                 {{WRAPPER}} .eel-advance-button:hover .eel-button-icon-after-advance' => 'background-color: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon' => 'background-color: {{VALUE}};',
                             ],
                         ]
                     );
@@ -689,6 +717,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button:hover i, {{WRAPPER}} .eel-advance-button:hover svg' => 'transform: rotate({{SIZE}}deg); display: inline-block;',
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon' => ' rotate: {{SIZE}}deg;',
                             ],
                         ]
                     );
@@ -828,6 +857,8 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
             $template_path = plugin_dir_path(__FILE__) . 'skins/' . $skin . '.php';
         } elseif ($layout === 'badge') {
             $template_path = plugin_dir_path(__FILE__) . 'badge/skin1.php';
+        } elseif ($layout === 'magnetic') {
+            $template_path = plugin_dir_path(__FILE__) . 'magnetic/skin1.php';
         } else {
             $skin = $settings['button_style'] ?? 'skin1';
             $template_path = plugin_dir_path(__FILE__) . 'sticky/' . $skin . '.php';

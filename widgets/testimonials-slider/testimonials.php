@@ -60,6 +60,7 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                     'skin4' => esc_html__('Skin 04', 'easy-elements'),
                     'skin5' => esc_html__('Skin 05', 'easy-elements'),
                     'skin6' => esc_html__('Skin 06', 'easy-elements'),
+                    'skin7' => esc_html__('Skin 07', 'easy-elements')
                 ],
             ]
         );
