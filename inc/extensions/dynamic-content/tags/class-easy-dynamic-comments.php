@@ -16,13 +16,12 @@ class Easy_Dynamic_Comments extends Tag {
     }
 
     public function get_group() {
-        return 'easy-comments';
+        return 'easy-comments-tag';
     }
 
     public function get_categories() {
         return [
             \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY,
-            \Elementor\Modules\DynamicTags\Module::URL_CATEGORY,
         ];
     }
 
@@ -34,7 +33,56 @@ class Easy_Dynamic_Comments extends Tag {
      * Register controls (popup settings)
      */
     protected function register_controls() {
+       
         easy_general_settings_post( $this );
+
+        $this->add_control(
+            'easy_no_comments_text',
+            [
+                'label'       => __( 'No Comments Text', 'easy-elements-pro' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => __( 'No Comments', 'easy-elements-pro' ),
+                'placeholder' => __( 'Enter text for no comments', 'easy-elements-pro' ),
+                'label_block' => true,
+                'ai'    => false,
+            ]
+        );
+
+        $this->add_control(
+            'easy_single_comment_text',
+            [
+                'label'       => __( 'Single Comment Text', 'easy-elements-pro' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => __( '1 Comment', 'easy-elements-pro' ),
+                'placeholder' => __( 'Enter text for single comment', 'easy-elements-pro' ),
+                'label_block' => true,
+                'ai'    => false,
+            ]
+        );
+
+        $this->add_control(
+            'easy_multiple_comments_text',
+            [
+                'label'       => __( 'Multiple Comments Text', 'easy-elements-pro' ),
+                'type'        => \Elementor\Controls_Manager::TEXT,
+                'default'     => __( '{number} Comments', 'easy-elements-pro' ),
+                'placeholder' => __( 'Use {number} placeholder  for multiple comments text', 'easy-elements-pro' ),
+                'label_block' => true,
+                'ai'    => false,
+            ]
+        );
+
+        $this->add_control(
+            'easy_comments_link_enable',
+            [
+                'label'        => __( 'Enable Comments Link', 'easy-elements-pro' ),
+                'type'         => \Elementor\Controls_Manager::SWITCHER,
+                'label_on'     => __( 'Yes', 'easy-elements-pro' ),
+                'label_off'    => __( 'No', 'easy-elements-pro' ),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+            ]
+        );
     }
 
     protected function register_advanced_section() {
@@ -53,30 +101,30 @@ class Easy_Dynamic_Comments extends Tag {
             return;
         }
 
-        $author_id = get_post_field( 'post_author', $post_id );
+        $comments_count = get_comments_number( $post_id );
 
-        if ( ! $author_id ) {
-            return;
+        $no_comments_text      = ! empty( $settings['easy_no_comments_text'] ) ? $settings['easy_no_comments_text'] : __( 'No Comments', 'easy-elements-pro' );
+        $single_comment_text   = ! empty( $settings['easy_single_comment_text'] ) ? $settings['easy_single_comment_text'] : __( '1 Comment', 'easy-elements-pro' );
+        $multiple_comments_text = ! empty( $settings['easy_multiple_comments_text'] ) ? $settings['easy_multiple_comments_text'] : __( '{number} Comments', 'easy-elements-pro' );
+
+        if ( $comments_count == 0 ) {
+            $text = $no_comments_text;
+        } elseif ( $comments_count == 1 ) {
+            $text = $single_comment_text;
+        } else {
+            $text = str_replace( '{number}', $comments_count, $multiple_comments_text );
         }
 
-        $field = $settings['author_info_field'];
-        $custom_meta_key = $settings['author_custom_field'] ?? '';
+        $enable_link = isset( $settings['easy_comments_link_enable'] ) && $settings['easy_comments_link_enable'] === 'yes';
 
-        // Priority: predefined field → user meta
-        $value = '';
+        if ( $enable_link ) {
+            $link = get_comments_link( $post_id );
+            $output = '<a href="' . esc_url( $link ) . '" class="easy-comments-link">' . esc_html( $text ) . '</a>';
+        } else {
+            $output = '<span class="easy-comments-text">' . esc_html( $text ) . '</span>';
+        }
 
-        if ( ! empty( $field ) && $field !== 'display_role' ) {
-            $user = get_userdata( $author_id );
-            if ( $user && isset( $user->$field ) ) {
-                $value = $user->$field;
-            }
-        } elseif ( $field === 'display_role' ) {
-            $user = get_userdata( $author_id );
-            $roles = $user ? implode( ', ', $user->roles ) : '';
-            $value = ucfirst( $roles );
-        } 
-
-        echo wp_kses_post( $value );
+        echo wp_kses_post( $output );
     }
 
 }

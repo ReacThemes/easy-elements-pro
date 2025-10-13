@@ -41,6 +41,41 @@ class Easy_Dynamic_Tags {
                 'title' => esc_html__('Easy EA - Media', 'easy-elements-pro')
             ]
         );
+
+        $dynamic_tags_manager->register_group(
+            'easy-comments-tag',
+            [
+                'title' => esc_html__('Easy EA - Comments', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-archive-tag',
+            [
+                'title' => esc_html__('Easy EA - Archive', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-sitetitle-tag',
+            [
+                'title' => esc_html__('Easy EA - Site', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-search-tag',
+            [
+                'title' => esc_html__('Easy EA - Search', 'easy-elements-pro')
+            ]
+        );
+
+        $dynamic_tags_manager->register_group(
+            'easy-terms-tag',
+            [
+                'title' => esc_html__('Easy EA - Terms', 'easy-elements-pro')
+            ]
+        );
     }
 
     function easy_dynamic_tag_groups() {
@@ -90,6 +125,20 @@ class Easy_Dynamic_Tags {
             'easy-comments'        => 'Easy_Dynamic_Comments',
         ];
 
+        // search tag
+        $search_group = [
+            'easy-search-query'        => 'Easy_Search_Query',
+            'easy-search-result'        => 'Easy_Search_Results',
+        ];
+
+        $terms_group = [
+            'easy-terms-title'              => 'Easy_Terms_Title',
+            'easy-terms-description'        => 'Easy_Terms_Description',
+            'easy-terms-slug'               => 'Easy_Terms_Slug',
+            'easy-terms-meta'               => 'Easy_Terms_Meta',
+            'easy-terms-count'              => 'Easy_Terms_Count',
+        ];
+
         // WooCommerce Related Tags
         $woocommerce_group = [
             'easy-product-price'        => 'Easy_Dynamic_Product_Price',
@@ -110,6 +159,8 @@ class Easy_Dynamic_Tags {
             'media'        => $media_group,
             'author'       => $author_group,
             'comments'     => $comment_group,
+            'search'       => $search_group,
+            'terms'        => $terms_group,
             'woocommerce'  => $woocommerce_group,
         ];
     }
@@ -127,9 +178,7 @@ class Easy_Dynamic_Tags {
 
                     if ( file_exists( $file_path ) ) {
                          
-                         
                         require_once $file_path;
-
                         if ( class_exists( $class_name ) ) {
                             $dynamic_tags_manager->register_tag( $class_name );
                         }
