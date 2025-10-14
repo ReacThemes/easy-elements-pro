@@ -15,6 +15,15 @@ class Easy_Dynamic_Tags {
     }
 
     private function __construct() {
+
+        $tab_slug = 'extensions';
+        $extensions_settings = get_option('easy_element_' . $tab_slug, [] );
+
+        $enable_dynamic_content = isset( $extensions_settings['enable_dynamic_content'] ) ? $extensions_settings['enable_dynamic_content'] : 0;
+
+        if(  (int) $enable_dynamic_content !== 1 ) {
+            return;
+        }
        
         add_action('elementor/dynamic_tags/register', [$this, 'easy_dynamic_tag_register_group'], 1);
         add_action('elementor/dynamic_tags/register', [$this, 'easy_dynamic_tag_register']);

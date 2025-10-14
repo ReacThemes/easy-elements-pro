@@ -35,7 +35,19 @@ class Easy_Dynamic_Author_Url extends Tag {
     protected function register_controls() {
         get_easy_user_info( $this );
 
-       
+        $this->add_control(
+            'author_url_type',
+            [
+                'label' => esc_html__('Url Select Type', 'easy-elements-pro'),
+                'type' => Controls_Manager::SELECT,
+                'default' => 'author-archive',
+                'options' => [
+                    'author-archive' => esc_html__('Author Archive', 'easy-elements-pro'),
+                    'website' => esc_html__('Website', 'easy-elements-pro'),
+                    'email' => esc_html__('E-Mail', 'easy-elements-pro'),
+                ],
+            ]
+        );
     }
 
     protected function register_advanced_section() {
@@ -45,7 +57,7 @@ class Easy_Dynamic_Author_Url extends Tag {
     /**
      * Render output
      */
-   public function render() {
+    public function render() {
         $settings = $this->get_settings_for_display();
         $post_id  = Easy_Dynamic_Tag_Helper::get_post_id( $settings );
         if ( ! $post_id ) return;
@@ -53,16 +65,28 @@ class Easy_Dynamic_Author_Url extends Tag {
         $author_id = get_post_field( 'post_author', $post_id );
         if ( ! $author_id ) return;
 
-        $meta_key = ! empty( $settings['author_meta_manual'] )
-            ? $settings['author_meta_manual']
-            : '';
+        $url_type = ! empty( $settings['author_url_type'] ) ? $settings['author_url_type'] : 'author-archive';
+        $value    = '';
 
-        if ( empty( $meta_key ) ) return;
+        switch ( $url_type ) {
+            case 'author-archive':
+                $value = get_author_posts_url( $author_id );
+                break;
 
-        $value = get_user_meta( $author_id, $meta_key, true );
+            case 'website':
+                $value = get_the_author_meta( 'user_url', $author_id );
+              
+                if ( empty( $value ) ) {
+                    $value = home_url();
+                }
+                break;
 
-        if ( is_array( $value ) ) {
-            $value = implode( ', ', $value );
+            case 'email':
+                $email = get_the_author_meta( 'user_email', $author_id );
+                if ( $email ) {
+                    $value = 'mailto:' . sanitize_email( $email );
+                }
+                break;
         }
 
         if ( empty( $value ) && ! empty( $settings['easydc_fallback'] ) ) {
