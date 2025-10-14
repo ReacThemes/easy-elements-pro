@@ -61,6 +61,7 @@ $files_to_include = [
     'inc/extensions/visibility-control/class-easy-visibility-module.php',
     'inc/extensions/dynamic-content/easy-dynamic-tags.php',
     'inc/extensions/dynamic-content/easy-dynamic-search-ajax.php',
+    'inc/extensions/live-copy-paste/live-copy-paste.php',
 ];
 
 foreach ( $files_to_include as $file ) {
