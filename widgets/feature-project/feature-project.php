@@ -456,4 +456,3 @@ class Easyel_Featured_Project_Widget extends Widget_Base {
     }
 
 }
-?>

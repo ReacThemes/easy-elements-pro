@@ -1629,4 +1629,4 @@ class Easyel_Archive_Post__Widget extends \Elementor\Widget_Base {
             <?php
         endif;
     }
-}?>
+}

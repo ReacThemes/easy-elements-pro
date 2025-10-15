@@ -479,4 +479,4 @@ class Easyel_Process_list_Widget extends \Elementor\Widget_Base {
         </div>
     <?php
     }
-} ?>
+} 

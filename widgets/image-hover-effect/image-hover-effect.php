@@ -423,4 +423,4 @@ class Easyel_image_hover_effect__Widget extends \Elementor\Widget_Base {
         <?php
     }
 
-} ?>
+} 

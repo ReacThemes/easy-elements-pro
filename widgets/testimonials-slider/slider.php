@@ -33,4 +33,3 @@ $slider_data_attributes = sprintf(
     esc_attr($settings['pagination']),
     esc_attr($data_navigation)
 );
-?>

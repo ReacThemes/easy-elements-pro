@@ -2,7 +2,7 @@
 .easy-live-elements-wrapper {
   position: absolute;
   top: 50%;
-  right: 0;
+  right: 0px;
   transform: translate(-50%, -50%) rotate(90deg);
   display: flex;
   align-items: center;
@@ -18,16 +18,17 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* Section hover → show */
+
 [data-element_type="container"]:hover > .easy-live-elements-wrapper,
 [data-element_type="section"]:hover > .easy-live-elements-wrapper,
 .elementor-section.elementor-top-section:hover > .easy-live-elements-wrapper {
   opacity: 1;
   visibility: visible;
-  right: 10px;
+  right: -4px;
+  transform: rotate(90deg) translateY(0px);
 }
 
-/* Icon buttons */
+
 .easy-live-copy-button,
 .easy-elements-json-download {
   background: none;
@@ -44,9 +45,36 @@
   transform: scale(1.15);
 }
 
-/* Vertical separator */
 .easy-live-separator {
   width: 1px;
   height: 18px;
   background: #ccc;
+}
+
+
+.easy-live-copy-button {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.easy-live-copy-button.is-copying svg.spin {
+    animation: spin 1s linear infinite;
+}
+
+.easy-live-elements-wrapper button:hover {
+  background: transparent!important;
+}
+
+.easy-live-copy-button.copy-success svg {
+  transform: rotate(270deg);
+}
+
+.easy-elements-json-download svg { 
+  transform: rotate(-90deg);
+}
+
+@keyframes spin {
+    100% {
+        transform: rotate(360deg);
+    }
 }

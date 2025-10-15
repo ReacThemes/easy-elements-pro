@@ -1020,4 +1020,4 @@ class Easyel_Clients_Logo_Slider__Widget extends \Elementor\Widget_Base {
         </div>
         <?php
     }
-} ?>
+} 

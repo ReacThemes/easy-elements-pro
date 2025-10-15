@@ -1276,4 +1276,4 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
     endif;
 }
 
-} ?>
+} 

@@ -541,7 +541,6 @@ function display_elementor_template($item_output, $item, $depth, $args) {
     if (! \Elementor\Plugin::$instance->preview->is_preview_mode() ) {
         if (!empty($elementor_template_id) && class_exists('Elementor\Plugin')) {
             // Debugging: Output Elementor template ID for each menu item
-            error_log('Elementor Template ID for Menu Item ' . $item->ID . ': ' . $elementor_template_id);
 
             // Output the Elementor template content based on the menu item's template ID
             $template_content = Elementor\Plugin::instance()->frontend->get_builder_content($elementor_template_id);

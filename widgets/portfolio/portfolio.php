@@ -1283,4 +1283,3 @@ function eel_get_taxonomy_terms_callback() {
 
 	wp_send_json_success( $options );
 }
-?>

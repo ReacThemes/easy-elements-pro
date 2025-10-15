@@ -617,4 +617,4 @@ class Easyel_Process_Widget extends \Elementor\Widget_Base {
         </div>
         <?php
     }
-} ?>
+} 

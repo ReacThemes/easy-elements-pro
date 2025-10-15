@@ -269,4 +269,3 @@ class Easyel_Post_Author_Info_Widget extends Widget_Base {
 		echo '</div>';
 	}
 }
-?>

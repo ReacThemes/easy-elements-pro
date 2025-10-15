@@ -2102,4 +2102,4 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
         <?php endif; ?>
     <?php
     }
-} ?>
+} 

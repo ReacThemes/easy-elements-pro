@@ -132,8 +132,6 @@ class Easy_Visibility_Module {
 			if ( $type === 'browser' ) {
 				$user_browser = $this->get_user_browser();
 
-				error_log( print_r( $user_browser, true ) );
-
 				if ( $compare === 'is' && ! in_array( $user_browser, (array) $value, true ) ) {
 					$visible = false;
 				}

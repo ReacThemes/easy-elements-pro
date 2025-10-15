@@ -263,4 +263,3 @@ class Easyel_Post_Tags_Widget extends \Elementor\Widget_Base {
 		echo '</div>';
 	}
 }
-?>

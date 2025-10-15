@@ -33,26 +33,28 @@ class Easy_Settings_Live_Copy extends Tab_Base {
 		);
 
 		$this->add_control(
-			'enable_editor_copy_paste',
+			'easy_enable_live_copy',
 			[
-				'label'        => __( 'Enable Editor Copy Paste', 'easy-elements-pro' ),
+				'label'        => __( 'Enable Live Copy', 'easy-elements-pro' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
 				'label_on'     => __( 'Yes', 'easy-elements-pro' ),
 				'label_off'    => __( 'No', 'easy-elements-pro' ),
 				'return_value' => 'yes',
 				'default'      => 'yes',
+				
 			]
 		);
 
 		$this->add_control(
-			'enable_frontend_copy',
+			'enable_copy_logged_in_user',
 			[
-				'label'        => __( 'Enable Frontend Copy', 'easy-elements-pro' ),
+				'label'        => __( 'Enable Copy Logged In User', 'easy-elements-pro' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
 				'label_on'     => __( 'Yes', 'easy-elements-pro' ),
 				'label_off'    => __( 'No', 'easy-elements-pro' ),
 				'return_value' => 'yes',
 				'default'      => 'no',
+				'condition'    => ['easy_enable_live_copy' => 'yes']
 			]
 		);
 

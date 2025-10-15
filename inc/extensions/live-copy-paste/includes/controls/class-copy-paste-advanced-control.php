@@ -13,7 +13,9 @@ class Easy_Live_Copy_Paste_Section {
 				'label_on'     => __( 'On', 'easy-elements-pro' ),
 				'label_off'    => __( 'Off', 'easy-elements-pro' ),
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'no',
+				'prefix_class'  => 'easy-live-copy-enabled-',
+                'render_type'   => 'template'
 			]
 		);
 
