@@ -37,7 +37,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 
         // Normal script loading
         if ( ! wp_script_is( $handle, 'registered' ) && file_exists( $js_path ) ) {
-            wp_register_script( $handle, plugins_url( 'js/advance-button.js', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $js_path ) : '1.0.0' );
+            wp_register_script( $handle, plugins_url( 'js/advance-button.js', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $js_path ) : time() );
         }
 
         return [ $handle ];
@@ -583,12 +583,25 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     $this->add_control(
                         'button_bg_color',
                         [
-                            'label' => esc_html__('Background Color', 'easy-elements-pro'),
+                            'label' => esc_html__('Background', 'easy-elements-pro'),
                             'type' => \Elementor\Controls_Manager::COLOR,
                             'selectors' => [
-                                '{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance,
-                                {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance,
-                                {{WRAPPER}} .eel-combine-icon-btn-icon' => 'background-color: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance' => 'background: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance' => 'background: {{VALUE}};',
+                            ],
+                            'condition' => [
+                                'button_style_default!' => ['skin5'],
+                            ],
+                        ]
+                    );
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Background::get_type(),
+                        [
+                            'name' => 'button_bg_color_2',
+                            'types' => [ 'classic', 'gradient' ],
+                            'selector' => '{{WRAPPER}} .eel-combine-icon-btn-icon',
+                            'condition' => [
+                                'button_style_default' => ['skin5'],
                             ],
                         ]
                     );
@@ -640,6 +653,20 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 						]
 					);
                     $this->add_responsive_control(
+						'icon_margin_skin5',
+						[
+							'label' => esc_html__('Margin', 'easy-elements'),
+							'type' => Controls_Manager::DIMENSIONS,
+							'size_units' => ['px','%'],
+							'selectors' => [
+                                '{{WRAPPER}} .eel-combine-icon-btn-icon > *' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+							],
+                            'condition' => [
+                                'button_style_default' => ['skin5'],
+                            ],
+						]
+					);
+                    $this->add_responsive_control(
 						'icon_border_radius',
 						[
 							'label' => esc_html__('Border Radius', 'easy-elements'),
@@ -652,6 +679,13 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
 							],
 						]
 					);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Border::get_type(),
+                        [
+                            'name' => 'icon_border',
+                            'selector' => '{{WRAPPER}} .eel-advance-button .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button .eel-button-icon-after-advance, {{WRAPPER}} .eel-combine-icon-btn-icon',
+                        ]
+                    );
                     $this->add_responsive_control(
                         'icon_rotate',
                         [
@@ -665,7 +699,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button i, {{WRAPPER}} .eel-advance-button svg' => 'transform: rotate({{SIZE}}deg); display: inline-block;',
-                                '{{WRAPPER}} .eel-combine-icon-btn-icon *' => 'rotate: {{SIZE}}deg;',
+                                '{{WRAPPER}} .eel-combine-icon-btn-icon > *' => 'rotate: {{SIZE}}deg;',
                             ],
                         ]
                     );
@@ -695,13 +729,47 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                     $this->add_control(
                         'button_bg_color_hover',
                         [
-                            'label' => esc_html__('Background Color', 'easy-elements-pro'),
+                            'label' => esc_html__('Background', 'easy-elements-pro'),
                             'type' => \Elementor\Controls_Manager::COLOR,
                             'selectors' => [
-                                '{{WRAPPER}} .eel-advance-button:hover .eel-button-icon-before-advance,
-                                {{WRAPPER}} .eel-advance-button:hover .eel-button-icon-after-advance' => 'background-color: {{VALUE}};',
-                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon' => 'background-color: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-button:hover .eel-button-icon-before-advance' => 'background: {{VALUE}};',
+                                '{{WRAPPER}} .eel-advance-button:hover .eel-button-icon-after-advance' => 'background: {{VALUE}};',
                             ],
+                            'condition' => [
+                                'button_style_default!' => ['skin5'],
+                            ],
+                        ]
+                    );
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Background::get_type(),
+                        [
+                            'name' => 'button_bg_color_2_hover',
+                            'types' => [ 'classic', 'gradient' ],
+                            'selector' => '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon',
+                            'condition' => [
+                                'button_style_default' => ['skin5'],
+                            ],
+                        ]
+                    );
+                    $this->add_responsive_control(
+						'icon_margin_hover_skin5',
+						[
+							'label' => esc_html__('Margin', 'easy-elements'),
+							'type' => Controls_Manager::DIMENSIONS,
+							'size_units' => ['px','%'],
+							'selectors' => [
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon > *' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+							],
+                            'condition' => [
+                                'button_style_default' => ['skin5'],
+                            ],
+						]
+					);
+                    $this->add_group_control(
+                        \Elementor\Group_Control_Border::get_type(),
+                        [
+                            'name' => 'icon_hover_border',
+                            'selector' => '{{WRAPPER}} .eel-advance-button:hover .eel-button-icon-before-advance, {{WRAPPER}} .eel-advance-button:hover .eel-button-icon-after-advance, {{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon',
                         ]
                     );
                     $this->add_responsive_control(
@@ -717,7 +785,7 @@ class Easyel_Advance_Button_Widget extends \Elementor\Widget_Base {
                             ],
                             'selectors' => [
                                 '{{WRAPPER}} .eel-advance-button:hover i, {{WRAPPER}} .eel-advance-button:hover svg' => 'transform: rotate({{SIZE}}deg); display: inline-block;',
-                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon' => ' rotate: {{SIZE}}deg;',
+                                '{{WRAPPER}} .eel-advance-combine-icon-btn:hover .eel-combine-icon-btn-icon > *' => ' rotate: {{SIZE}}deg;',
                             ],
                         ]
                     );

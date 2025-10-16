@@ -74,6 +74,7 @@
 
 .eel-portfolio-title-pro {
   position: relative;
+  transition: all 0.5s ease;
 }
 .eel-portfolio-title-pro i,
 .eel-portfolio-title-pro svg {
@@ -81,6 +82,11 @@
   right: 0;
   height: 18px;
   width: 18px;
+  transition: all 0.3s ease;
+}
+.eel-portfolio-title-pro:hover i,
+.eel-portfolio-title-pro:hover svg {
+  transform: rotate(45deg);
 }
 
 .pro-skin2 .eel-portfolio-location-pro {
@@ -91,6 +97,7 @@
 .pro-skin2 .eel-portfolio-location-pro i {
   color: currentColor;
   margin-right: 5px;
+  font-size: 22px;
 }
 
 .pro-skin2 .eel-portfolio-item-pro {
@@ -146,6 +153,12 @@
   -o-object-fit: cover;
      object-fit: cover;
   height: 100%;
+  transform: scale(1.2);
+  transition: transform 0.5s ease;
+}
+
+.eel-portfolio-wrap-pro.pro-skin2 .eel-portfolio-item-pro:hover img {
+  transform: scale(1.2) translateX(10px);
 }
 
 @media (max-width: 768px) {

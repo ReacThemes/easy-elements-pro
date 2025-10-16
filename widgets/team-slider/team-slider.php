@@ -930,6 +930,26 @@ class Easyel_Team_Slider__Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
+        $this->add_control(
+            'social_share_hover_color',
+            [
+                'label' => esc_html__( 'Hover Color', 'easy-elements' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-team-social-link' => 'color: {{VALUE}};',
+                ],
+            ]
+        );
+        $this->add_control(
+            'social_share_hover_bg',
+            [
+                'label' => esc_html__( 'Hover Background', 'easy-elements' ),
+                'type' => Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-team-social-link:hover' => 'background: {{VALUE}};',
+                ],
+            ]
+        );
 
         $this->add_control(
             'social_share_border_radius',

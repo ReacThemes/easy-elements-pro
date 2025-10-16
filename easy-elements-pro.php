@@ -119,6 +119,7 @@ function easy_elements_pro_plugin_init() {
             'enable_image_hover_effect'         => [ 'class' => '\Easyel_image_hover_effect__Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/image-hover-effect/image-hover-effect.php','tab' => 'widget' ],
             'image_gallery_filter'         => [ 'class' => '\Easyel__Gallery_Pro_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/gallery-filter/gallery-filter.php','tab' => 'widget' ],
             'portfolio_pro'         => [ 'class' => '\Easyel_Portfolio_Pro_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/portfolio/portfolio.php','tab' => 'widget' ],
+            'animated_title'         => [ 'class' => '\Easyel_Animated_Title_Widget',        'file' => EASYELEMENTS_PRO_PATH . '/widgets/animated-title/animated-title.php','tab' => 'widget' ],
         ];
 
         $extensions_settings = get_option( 'easy_element_extensions', [] );

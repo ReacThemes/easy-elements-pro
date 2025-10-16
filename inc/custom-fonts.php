@@ -129,17 +129,28 @@ if ( defined( 'EASY_ELEMENTS_PRO_ACTIVE' ) && EASY_ELEMENTS_PRO_ACTIVE ) {
     add_action( 'wp_head', function() {
         $fonts = get_option( 'easyel_uploaded_fonts', [] );
         if ( ! $fonts ) return;
-
         $css = '';
         foreach ( $fonts as $name => $data ) {
-            $format = match( $data['ext'] ) {
-                'woff2' => 'woff2',
-                'woff'  => 'woff',
-                'ttf'   => 'truetype',
-                default => 'opentype'
-            };
-            $css .= "@font-face{font-family:'{$name}';src:url('{$data['url']}') format('{$format}');font-weight:normal;font-style:normal;font-display:swap;}\n";
+            switch ( $data['ext'] ) {
+                case 'woff2':
+                    $format = 'woff2';
+                    break;
+                case 'woff':
+                    $format = 'woff';
+                    break;
+                case 'ttf':
+                    $format = 'truetype';
+                    break;
+                default:
+                    $format = 'opentype';
+                    break;
+            }
+            $css .= "@font-face{font-family:'" . esc_attr($name) . 
+                    "';src:url('" . esc_url($data['url']) . 
+                    "') format('" . esc_attr($format) . 
+                    "');font-weight:normal;font-style:normal;font-display:swap;}\n";
         }
         echo "<style id='easyel-uploaded-fonts'>{$css}</style>";
     }, 99);
 }
+?>

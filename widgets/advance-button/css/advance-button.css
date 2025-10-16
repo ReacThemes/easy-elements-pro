@@ -558,8 +558,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 54px;
-  height: 54px;
+  width: 55px;
+  height: 55px;
   color: #fff;
   background: var(--e-global-color-primary);
   border-radius: 50%;
@@ -612,6 +612,11 @@
 .eel-advance-button-badge {
   transition: all 0.3s ease;
 }
+.eel-advance-button-badge > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .eel-advance-button-badge .eel-badge {
   display: inline;
   font-size: 10px;
@@ -621,6 +626,7 @@
   border-radius: 2px;
   margin: 8px;
   transition: all 0.3s ease;
+  line-height: normal;
 }
 
 .eel-advance-button-magnetic {
@@ -659,6 +665,9 @@
   top: 0;
   transform: translate(-50%, -50%);
   width: 170%;
+}
+.eel-advance-button-magnetic:hover {
+  background: inherit;
 }
 
 .eel-button-icon-before-advance,

@@ -802,6 +802,17 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->start_controls_tabs('tabs_title_style');
+
+        // ------------------ Normal Tab ------------------
+        $this->start_controls_tab(
+            'tab_title_normal',
+            [
+                'label' => esc_html__('Normal', 'easy-elements-pro'),
+            ]
+        );
+
+
 		// Title Style
 		$this->add_control(
 			'title_color',
@@ -855,6 +866,37 @@ class Easyel_Portfolio_Pro_Widget extends \Elementor\Widget_Base {
             ]
         );
 
+		$this->end_controls_tab();
+        $this->start_controls_tab(
+            'tab_title_hover',
+            [
+                'label' => esc_html__('Hover', 'easy-elements-pro'),
+            ]
+        );
+
+		$this->add_control(
+			'title_color_hover',
+			[
+				'label' => esc_html__('Color', 'easy-elements-pro'),
+				'type' => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .eel-portfolio-title-pro:hover, .eel-portfolio-item-pro.pro-skin1 .eel-portfolio-info-pro .eel-portfolio-title-pro:hover' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .eel-portfolio-title-pro:hover i' => 'color: {{VALUE}};',
+					'{{WRAPPER}} .eel-portfolio-title-pro:hover svg, {{WRAPPER}} .eel-portfolio-title-pro:hover svg path' => 'fill: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'title_border_hover',
+				'selector' => '{{WRAPPER}} .eel-portfolio-title-pro:hover, {{WRAPPER}} .eel-portfolio-item-pro.pro-skin1 .eel-portfolio-info-pro:hover .eel-portfolio-title-pro, .eel-portfolio-item-pro.pro-skin2 .eel-portfolio-info-pro:hover .eel-portfolio-title-pro',
+			]
+		);
+
+		$this->end_controls_tab();
+        $this->end_controls_tabs();
 		$this->end_controls_section();
 
 		$this->start_controls_section(

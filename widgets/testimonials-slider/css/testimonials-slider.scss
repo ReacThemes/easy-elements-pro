@@ -182,12 +182,16 @@
             margin-bottom: 12px;
         }
         &.eel-avatar-image-top{
+            .eel-company-logo{
+                text-align: center;
+            }
             .eel-picture-des-wrap{
                 display: block;
             }
             .eel-picture{
+                margin: auto;
                 margin-bottom: 24px;
-                margin-right: 0;
+                text-align: center;
             }
             .eel-description{
                 text-align: center;
@@ -251,6 +255,7 @@
         .eel-picture-des-wrap{
             display: flex;
             justify-content: space-between;
+            gap: 20px;
         }
         .eel-picture img {
             width: 100%;
@@ -259,7 +264,7 @@
         }
         .eel-picture {
             min-width: 320px;
-            margin-right: 80px;
+            margin-right: 60px;
         }
         .eel-author-wrap {
             justify-content: flex-start;
@@ -354,7 +359,8 @@
             margin-bottom: 10px;
         }        
     }
-    &.skin7 {
+    &.skin7,
+    &.skin8 {
         display: block;
         .eel-picture-des-wrap{
             display: flex;
@@ -408,6 +414,37 @@
                 height: auto;
             } 
         } 
+    }
+    &.skin8 {
+        .eel-designation {
+            border: 1px solid #cdcdf6;
+            color: var(--e-global-color-primary);
+            font-size: 16px;
+            line-height: 1.4;
+            padding: 7px 15px;
+            margin-bottom: 30px;
+        }
+        .eel-quote {
+            margin: 0;
+            position: absolute;
+            right: 50px;
+            top: 40px;
+            svg {
+                width: 60px;
+            }
+        }
+        .eel-author-area {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 30px;
+            .eel-author-wrap {
+                margin: 0;
+            }
+        }
+        .eel-company-logo {
+            max-width: 130px;
+        }
     }
 }
 
@@ -501,6 +538,12 @@
         flex-direction: column;
         gap: 10px;
     }
+    .ee--tstml-inner-wrap.skin4 .eel-picture-des-wrap{
+        flex-direction: column;
+    }
+    .ee--tstml-inner-wrap.skin4 .eel-author-wrap{
+        align-items: center;
+    }
     .ee--tstml-wrap-skin-style-two .eel-content-wrap,
     .ee--tstml-wrap-skin-style-two .eel-picture {
         margin-right: 0;
@@ -531,14 +574,18 @@
     .e-e-testimonial .grid-wrap{
         display: block;
     }
-}
-
-@media (max-width: 767px) {
-    .ee--tstml-inner-wrap.skin5 .eel-picture {
-        margin: 0;
+    .ee--tstml-inner-wrap.skin2 .eel-picture-des-wrap{
+        flex-direction: column;
     }
-    .ee--tstml-inner-wrap.skin6 .eel-picture{
-        margin-left: auto;
+    .ee--tstml-inner-wrap .eel-author,
+    .ee--tstml-inner-wrap-default,
+    .ee--tstml-wrap-skin-style-two .eel-picture,
+    .ee--tstml-inner-wrap.skin2 .eel-company-logo,
+    .ee--tstml-inner-wrap.skin2 .eel-rating,
+    .ee--tstml-inner-wrap.skin2 .eel-author,
+    .ee--tstml-inner-wrap.skin3 .eel-company-logo,
+    .ee--tstml-inner-wrap.skin5 .eel-company-logo {
+        text-align: center;
     }
     .ee--tstml-inner-wrap.skin7 .eel-author-wrap {
         flex-direction: row;
@@ -547,6 +594,15 @@
     .ee--tstml-inner-wrap.skin7 .eel-picture {
         padding-top: 0;
         margin: 0;
+    }
+    .ee--tstml-inner-wrap.skin2 .eel-picture,
+    .ee--tstml-inner-wrap.skin4 .eel-picture,
+    .ee--tstml-inner-wrap.skin5 .eel-picture,
+    .ee--tstml-inner-wrap.skin6 .eel-picture,
+    .ee--tstml-inner-wrap.skin7 .eel-picture{
+        margin-right: auto !important;
+        margin-left: auto !important;
+        text-align: center;
     }
 }
 

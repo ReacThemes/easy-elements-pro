@@ -224,8 +224,8 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 54px;
-        height: 54px;
+        width: 55px;
+        height: 55px;
         color: #fff;
         background: var(--e-global-color-primary);
         border-radius: 50%;
@@ -281,6 +281,11 @@
 // Badge Button Style 
 .eel-advance-button-badge{
      transition: all .3s ease;
+     > span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+     }
     .eel-badge{
         display: inline;
         font-size: 10px;
@@ -290,6 +295,7 @@
         border-radius: 2px;
         margin: 8px;
         transition: all 0.3s ease; 
+        line-height: normal;
     }
 }
 // Magnetic Button Style 
@@ -328,6 +334,9 @@
             transform: translate(-50%, -50%);
             width: 170%;
         }
+    }
+    &:hover {
+        background: inherit;
     }
 }
 

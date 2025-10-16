@@ -1,0 +1,49 @@
+:root {
+    --e-global-color-primary: #FFD012;
+}
+
+.eel-animated-title {
+    color: var(--e-global-color-secondary);
+    margin-bottom: 16px;
+}
+
+.eel-animated-title a {
+    color: currentColor;
+}
+
+.eel-animated-title span {
+    color: var(--e-global-color-primary);
+}
+
+.e-e-title.eel-gradient-title div,
+.e-e-title.eel-gradient-title {
+    background: linear-gradient(68.75deg, #B0FF96 9.78%, #FFF1B5 92.67%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+    line-height: 1.1;
+}
+
+.e-e-title.eel-stroke-title{
+    color: transparent;
+    -webkit-text-stroke: 1px var(--e-global-color-secondary);
+    text-stroke: 1px var(--e-global-color-secondary);
+}
+
+
+.eel-words-rotate-in .word {
+  overflow: hidden;
+  transform-origin: bottom;
+}
+
+
+.mask {
+  width: 100%;
+  height: 115%;
+  position: absolute;
+  background: #161616;
+  left: 0;
+  top: 0;
+  opacity: 0.8;
+}

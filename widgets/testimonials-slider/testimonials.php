@@ -12,8 +12,11 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
         $css_path = plugin_dir_path( __FILE__ ) . 'css/testimonials-slider.css';
         
         if ( ! wp_style_is( $handle, 'registered' ) && file_exists( $css_path ) ) {
-            wp_register_style( $handle, plugins_url( 'css/testimonials-slider.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : '1.0.0' );
+            wp_register_style( $handle, plugins_url( 'css/testimonials-slider.css', __FILE__ ), [], defined( 'WP_DEBUG' ) && WP_DEBUG ? filemtime( $css_path ) : time() );
         }
+        if ( \Elementor\Plugin::$instance->editor->is_edit_mode() || ! is_admin() ) {
+			return [ $handle ];
+		}
         return [ $handle ];
     }
 
@@ -60,7 +63,8 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                     'skin4' => esc_html__('Skin 04', 'easy-elements'),
                     'skin5' => esc_html__('Skin 05', 'easy-elements'),
                     'skin6' => esc_html__('Skin 06', 'easy-elements'),
-                    'skin7' => esc_html__('Skin 07', 'easy-elements')
+                    'skin7' => esc_html__('Skin 07', 'easy-elements'),
+                    'skin8' => esc_html__('Skin 08', 'easy-elements')
                 ],
             ]
         );
@@ -86,6 +90,7 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Direction', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
+                    '' => esc_html__( 'Default', 'easy-elements' ),
                     'column' => esc_html__( 'Column', 'easy-elements' ),
                     'column-reverse' => esc_html__( 'Column Reverse', 'easy-elements' ),
                     'row' => esc_html__( 'Row', 'easy-elements' ),
@@ -160,6 +165,7 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                'label'       => esc_html__( 'Icon', 'easy-elements' ),
                'type'        => \Elementor\Controls_Manager::ICONS,
                'label_block' => true,
+               'description' => __('<strong> Only [default, skin1, skin7] skins supported </strong>', 'easy-elements'),
                'default'     => [
                    'value'   => 'fas fa-quote-right',
                    'library' => 'fa-solid',
@@ -180,6 +186,7 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                     '5' => '★★★★★',
                 ],
                 'default' => '5',
+                'description' => __('<strong> [skin2, skin4 ] skins type not supported  </strong>', 'easy-elements'),
             ]
         );
 
@@ -189,6 +196,7 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__('Company Logo', 'easy-elements'),
                 'type' => Controls_Manager::MEDIA,
                 'default' => [ '' ],
+                'description' => __('<strong> [default, skin1, skin7 ] skins type not supported  </strong>', 'easy-elements'),
             ]
         );
 
@@ -228,31 +236,54 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
         );
 
         $this->add_responsive_control(
-        'testimonials_alignment',
-        [
-            'label' => esc_html__( 'Icon Alignment', 'easy-elements' ),
-            'type' => \Elementor\Controls_Manager::CHOOSE,
-            'options' => [
-                'left' => [
-                    'title' => esc_html__( 'Left', 'easy-elements' ),
-                    'icon'  => 'eicon-text-align-left',
+            'testimonials_alignment',
+            [
+                'label' => esc_html__( 'Alignment', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'left' => [
+                        'title' => esc_html__( 'Left', 'easy-elements' ),
+                        'icon'  => 'eicon-text-align-left',
+                    ],
+                    'center' => [
+                        'title' => esc_html__( 'Center', 'easy-elements' ),
+                        'icon'  => 'eicon-text-align-center',
+                    ],
+                    'right' => [
+                        'title' => esc_html__( 'Right', 'easy-elements' ),
+                        'icon'  => 'eicon-text-align-right',
+                    ],
                 ],
-                'center' => [
-                    'title' => esc_html__( 'Center', 'easy-elements' ),
-                    'icon'  => 'eicon-text-align-center',
+                'default' => 'center',
+                'selectors' => [
+                    '{{WRAPPER}} .ee--tstml-inner-wrap, {{WRAPPER}} .ee--tstml-inner-wrap .eel-description' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin2 .eel-author-wrap' => 'justify-content: {{VALUE}}; text-align: {{VALUE}}',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin2 .eel-company-logo' => 'text-align: {{VALUE}}',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin6 .eel-author-wrap, {{WRAPPER}} .ee--tstml-inner-wrap.skin6 .eel-rating' => 'justify-content: {{VALUE}};',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin7 .eel-author-wrap' => 'justify-content: {{VALUE}};',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin7 .eel-quote' => 'text-align: {{VALUE}};',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin6 .eel-company-logo' => 'text-align: {{VALUE}};',
                 ],
-                'right' => [
-                    'title' => esc_html__( 'Right', 'easy-elements' ),
-                    'icon'  => 'eicon-text-align-right',
+            ]
+        );
+        $this->add_responsive_control(
+            'logo_height',
+            [
+                'label' => esc_html__( 'Logo Height', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', '%' ],
+                'range' => [
+                    'px' => [
+                        'min' => 20,
+                        'max' => 500,
+                    ],
                 ],
-            ],
-            'default' => 'center',
-            'selectors' => [
-                '{{WRAPPER}} .ee--tstml-inner-wrap, {{WRAPPER}} .ee--tstml-inner-wrap .eel-description' => 'text-align: {{VALUE}};',
-            ],
-        ]
-    );
-    $this->add_control(
+                'selectors' => [
+                    '{{WRAPPER}} .eel-company-logo img' => 'height: {{SIZE}}{{UNIT}}; width:auto;',
+                ],
+            ]
+        );
+        $this->add_control(
             'show_rating',
             [
                 'label' => esc_html__( 'Show Rating', 'easy-elements' ),
@@ -261,71 +292,36 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label_off' => esc_html__( 'Hide', 'easy-elements' ),
                 'return_value' => 'yes',
                 'default' => '',
+                'condition' => [ 
+                    'testimonials_skin!' => ['skin2','skin4'],
+                ],
             ]
         );
-
-        $this->end_controls_section();
-
-        $this->start_controls_section(
-            'section_style_item',
-            [
-                'label' => esc_html__( 'Item', 'easy-elements' ),
-                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Background::get_type(),
-            [
-                'name' => 'bg',
-                'label' => __('Background', 'easy-elements'),
-                'types' => ['classic', 'gradient'],
-                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap',
-            ]
-        );
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Border::get_type(),
-            [
-                'name' => 'border',
-                'label' => __('Border', 'easy-elements'),
-                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap',
-            ]
-        );
-
-
         $this->add_control(
-            'border_radius',
+            'rating_color',
             [
-                'label' => __('Border Radius', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', '%', 'em'],
+                'label' => esc_html__( 'Rating Color', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
                 'selectors' => [
-                    '{{WRAPPER}} .ee--tstml-inner-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-rating *' => 'color: {{VALUE}};',
+                ],
+                'condition' => [ 
+                    'testimonials_skin!' => ['skin2','skin4'],
+                    'show_rating' => 'yes',
                 ],
             ]
         );
-
-
-        $this->add_group_control(
-            \Elementor\Group_Control_Box_Shadow::get_type(),
-            [
-                'name' => 'box_shadow',
-                'label' => __('Box Shadow', 'easy-elements'),
-                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap',
-            ]
-        );
-
-
         $this->add_responsive_control(
-            'padding',
+            'rating_size',
             [
-                'label' => __('Padding', 'easy-elements'),
-                'type' => \Elementor\Controls_Manager::DIMENSIONS,
-                'size_units' => ['px', 'em', '%'],
+                'label' => esc_html__( 'Rating Size', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
                 'selectors' => [
-                    '{{WRAPPER}} .ee--tstml-inner-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .eel-rating' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [ 
+                    'testimonials_skin!' => ['skin2','skin4'],
+                    'show_rating' => 'yes',
                 ],
             ]
         );
@@ -333,10 +329,10 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
         $this->end_controls_section();
 
         $this->start_controls_section(
-           'slider__part_section',
+            'slider__part_section',
             [
-               'label' => esc_html__( 'Slider Settings', 'easy-elements' ),
-               'tab' => Controls_Manager::TAB_CONTENT,
+                'label' => esc_html__( 'Slider Settings', 'easy-elements' ),
+                'tab' => Controls_Manager::TAB_CONTENT,
             ]
         );
 
@@ -465,13 +461,13 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
                 'range' => [
                     'px' => [
-                        'min' => 0,
+                        'min' => -500,
                         'max' => 1000,
                         'step' => 1,
                     ],
                     '%' => [
-                        'min' => 0,
-                        'max' => 100,
+                        'min' => -200,
+                        'max' => 200,
                     ],
                 ],
                 'condition' => [
@@ -479,6 +475,32 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .swiper-pagination' => 'top: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );  
+
+        $this->add_responsive_control(
+            'pagination_left_spacing',
+            [
+                'label' => esc_html__( 'Left Spacing', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ '%', 'px', 'em', 'rem', 'custom' ],
+                'range' => [
+                    'px' => [
+                        'min' => -500,
+                        'max' => 1000,
+                        'step' => 1,
+                    ],
+                    '%' => [
+                        'min' => -200,
+                        'max' => 200,
+                    ],
+                ],
+                'condition' => [
+                    'pagination' => ['bullets', 'fraction']
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-pagination' => 'left: {{SIZE}}{{UNIT}};',
                 ],
             ]
         );  
@@ -522,28 +544,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Dot Width', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 8,
@@ -563,28 +563,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Dot Height', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 8,
@@ -604,28 +582,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Dot Border Radius', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 4,
@@ -646,28 +602,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Active Dot Width', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 8,
@@ -687,28 +621,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Active Dot Height', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 8,
@@ -728,28 +640,6 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'label' => esc_html__( 'Active Dot Border Radius', 'easy-elements' ),
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', 'em', 'rem', '%' ],
-                'range' => [
-                    'px' => [
-                        'min' => 0,
-                        'max' => 50,
-                        'step' => 1,
-                    ],
-                    'em' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    'rem' => [
-                        'min' => 0,
-                        'max' => 5,
-                        'step' => 0.1,
-                    ],
-                    '%' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'step' => 1,
-                    ],
-                ],
                 'default' => [
                     'unit' => 'px',
                     'size' => 4,
@@ -818,8 +708,21 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'condition' => [ 'navigation' => 'yes' ],
             ]
         );
-
-        $this->add_control(
+        $this->add_responsive_control(
+            'arrow_size',
+            [
+                'label' => esc_html__('Icon Size', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-button-prev, {{WRAPPER}} .swiper-button-next' => 'font-size: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [
+                    'navigation' => 'yes',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
             'arrow_border_radius',
             [
                 'label' => esc_html__('Border Radius', 'easy-elements'),
@@ -862,8 +765,8 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
-                    'px' => [ 'min' => -400, 'max' => 400, 'step' => 1 ],
-                    '%' => [ 'min' => -100, 'max' => 100 ],
+                    'px' => [ 'min' => -500, 'max' => 500, 'step' => 1 ],
+                    '%' => [ 'min' => -200, 'max' => 200 ],
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .swiper-button-prev' => 'left: {{SIZE}}{{UNIT}};',
@@ -881,8 +784,8 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
-                    'px' => [ 'min' => -400, 'max' => 400, 'step' => 1 ],
-                    '%' => [ 'min' => -100, 'max' => 100 ],
+                    'px' => [ 'min' => -500, 'max' => 500, 'step' => 1 ],
+                    '%' => [ 'min' => -200, 'max' => 200 ],
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .swiper-button-next' => 'right: {{SIZE}}{{UNIT}};',
@@ -900,8 +803,8 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'type' => \Elementor\Controls_Manager::SLIDER,
                 'size_units' => [ 'px', '%' ],
                 'range' => [
-                    'px' => [ 'min' => -400, 'max' => 400, 'step' => 1 ],
-                    '%' => [ 'min' => -100, 'max' => 100 ],
+                    'px' => [ 'min' => -500, 'max' => 500, 'step' => 1 ],
+                    '%' => [ 'min' => -200, 'max' => 200 ],
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .swiper-button-prev, {{WRAPPER}} .swiper-button-next' => 'top: {{SIZE}}{{UNIT}}; transform: translateY({{SIZE}}{{UNIT}});',
@@ -1034,6 +937,73 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
 
         $this->end_controls_section();
 
+        // STYLE 
+        $this->start_controls_section(
+            'section_style_item',
+            [
+                'label' => esc_html__( 'Item', 'easy-elements' ),
+                'tab' => \Elementor\Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Background::get_type(),
+            [
+                'name' => 'bg',
+                'label' => __('Background', 'easy-elements'),
+                'types' => ['classic', 'gradient'],
+                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap, {{WRAPPER}} .ee--tstml-wrap-skin-style-two .eel-content-wrap',
+            ]
+        );
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'border',
+                'label' => __('Border', 'easy-elements'),
+                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap',
+            ]
+        );
+
+
+        $this->add_control(
+            'border_radius',
+            [
+                'label' => __('Border Radius', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .ee--tstml-inner-wrap' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+
+        $this->add_group_control(
+            \Elementor\Group_Control_Box_Shadow::get_type(),
+            [
+                'name' => 'box_shadow',
+                'label' => __('Box Shadow', 'easy-elements'),
+                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap',
+            ]
+        );
+
+
+        $this->add_responsive_control(
+            'padding',
+            [
+                'label' => __('Padding', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', 'em', '%'],
+                'selectors' => [
+                    '{{WRAPPER}} .ee--tstml-inner-wrap' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
+
+        $this->end_controls_section();
+
         $this->start_controls_section(
             '_section_name',
             [
@@ -1069,10 +1039,20 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'size_units' => ['px', '%', 'em'],
                 'selectors' => [
                     '{{WRAPPER}} .ee--tstml-inner-wrap .eel-author-wrap' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .ee--tstml-wrap-skin-style-two .eel-name' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
             ]
         );
-
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'name_border',
+                'selector' => '{{WRAPPER}} .ee--tstml-wrap-skin-style-two .eel-content-wrap .author-wrap',
+                'condition' => [
+                    'testimonials_skin' => ['skin1'],
+                ],
+            ]
+        );
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -1091,6 +1071,20 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ee--tstml-inner-wrap .eel-designation, {{WRAPPER}} .ee--tstml-wrap-skin-style-two .eel-designation' => 'color: {{VALUE}};',
                 ],
+            ]
+        );
+
+        $this->add_control(
+            'designation_border_color',
+            [
+                'label' => esc_html__( 'Border Color', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .ee--tstml-inner-wrap .eel-designation, {{WRAPPER}} .ee--tstml-wrap-skin-style-two .eel-designation' => 'border-color: {{VALUE}};',
+                ],
+                'condition' => [
+                    'testimonials_skin' => 'skin8'
+                ]
             ]
         );
 
@@ -1179,7 +1173,51 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 ],
             ]
         );
+        $this->end_controls_section();
 
+        $this->start_controls_section(
+            'quote_icon_styles',
+            [
+                'label' => esc_html__( 'Quote Icon', 'easy-elements' ),
+                'tab'   => \Elementor\Controls_Manager::TAB_STYLE,
+                'condition' => [ 
+                    'testimonials_skin' => ['default', 'skin1', 'skin7'],
+                ],
+            ]
+        ); 
+        
+        $this->add_control(
+            'quote_icon_color',
+            [
+                'label' => esc_html__( 'Color', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::COLOR,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-quote svg' => 'fill: {{VALUE}};',
+                    '{{WRAPPER}} .eel-quote svg path' => 'fill: {{VALUE}};',
+                ],
+            ]
+        );
+         $this->add_responsive_control(
+            'quote_icon_size',
+            [
+                'label'      => esc_html__( 'Size', 'easy-elements' ),
+                'type'       => \Elementor\Controls_Manager::SLIDER,
+                'selectors' => [
+                    '{{WRAPPER}} .eel-quote svg' => 'width: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        $this->add_responsive_control(
+            'quote_icon_margin',
+            [
+                'label' => esc_html__( 'Margin', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => [ 'px', 'em', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .eel-quote' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+            ]
+        );
         $this->end_controls_section();
 
         $this->start_controls_section(
@@ -1203,12 +1241,14 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .eel-author-wrap .eel-picture img, {{WRAPPER}} .ee--tstml-inner-wrap .eel-picture' => 'width: {{SIZE}}{{UNIT}} !important; height: {{SIZE}}{{UNIT}} !important; min-width:{{SIZE}}{{UNIT}}; object-fit: cover;',
+                    '{{WRAPPER}} .eel-author-wrap .eel-picture img, {{WRAPPER}} .eel-picture-des-wrap .eel-picture img, {{WRAPPER}} .ee--tstml-inner-wrap.skin2 .eel-picture' => 'width: {{SIZE}}{{UNIT}} !important; height: {{SIZE}}{{UNIT}} !important; min-width:{{SIZE}}{{UNIT}}; object-fit: cover;',
+                    '{{WRAPPER}} .ee--tstml-inner-wrap.skin-style-two .eel-picture' => 'min-width: {{SIZE}}{{UNIT}} !important; max-height: min-width: {{SIZE}}{{UNIT}} !important;',
+                    
                 ],
             ]
         );
 
-         $this->add_responsive_control(
+        $this->add_responsive_control(
             'image_margin',
             [
                 'label' => esc_html__( 'Margin', 'easy-elements' ),
@@ -1217,6 +1257,13 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                 'selectors' => [
                     '{{WRAPPER}} .ee--tstml-inner-wrap .eel-picture' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
                 ],
+            ]
+        );
+        $this->add_group_control(
+            \Elementor\Group_Control_Border::get_type(),
+            [
+                'name' => 'author_image_border',
+                'selector' => '{{WRAPPER}} .ee--tstml-inner-wrap .eel-picture img, {{WRAPPER}} .eel-author-wrap .eel-picture img',
             ]
         );
 
@@ -1273,6 +1320,13 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                         $image_data = [ $fallback_url, 600, 400 ];
                         $alt = esc_attr__( 'Sample Image', 'easy-elements' );
                         $title = esc_attr__( 'Sample Image', 'easy-elements' );
+                    }
+                    $logo_company_id = $item['logo_company']['id'] ?? '';
+                    if ( $logo_company_id ) {
+                        $logo_data = wp_get_attachment_image_src( $logo_company_id, $image_size );
+                        $logo_url = $logo_data[0] ?? '';
+                        $logo_alt = get_post_meta( $logo_company_id, '_wp_attachment_image_alt', true );
+                        $logo_title = get_the_title( $logo_company_id );
                     }
 
                     $skin = $settings['testimonials_skin'] ?? 'default';

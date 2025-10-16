@@ -2,9 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-if ( $settings['avatar_image_top'] === 'yes' ) {
-    $avatar_image_top = 'eel-avatar-image-top';
-}
+$avatar_image_top = ($settings['avatar_image_top'] === 'yes') ? 'eel-avatar-image-top' : '';
 ?>
 <div class="ee--tstml-inner-wrap <?php echo esc_attr($skin); ?> <?php echo esc_attr($avatar_image_top); ?>">
     <?php if ( ! empty( $logo_data ) ) : ?>
@@ -21,7 +19,6 @@ if ( $settings['avatar_image_top'] === 'yes' ) {
             >
         </div>
     <?php endif; ?>
-
     <div class="eel-picture-des-wrap">
         <?php
         if ( $settings['show_image'] === 'yes' && $image_data ) : ?>

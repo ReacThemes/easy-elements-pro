@@ -7,10 +7,15 @@ function easyel_animation_extends( $animations ) {
 
     $animations_extends = [
         'split-lines'       => 'Split Line Bottom',
-        'split-lines-left'  => 'Split Line Left',
+        'split-lines-bottom-v2'  => 'Split Line Bottom v2',
+        'split-lines-left'  => 'Split Line Left v1',
+        'split-lines-leftv2'  => 'Split Line Left v2',        
+        'text-reveal'  => 'Text Reveal',
         'split-lines-up'    => 'Split Line Up',
         'typewriter'        => 'Typewriter',
         'text-bounce'       => 'Text Bounce',
+        'text-word'       => 'Word',
+        'characters'  => 'Characters',
     ];
 
     $all_animations = array_merge(  $animations, $animations_extends );

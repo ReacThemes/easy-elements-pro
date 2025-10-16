@@ -104,15 +104,43 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
                 ]
              );
                 $repeater->add_control(
+                    'current_item_bg_img_yes',
+                    [
+                        'label' => esc_html__( 'Background Image', 'easy-elements' ),
+                        'type' => \Elementor\Controls_Manager::SWITCHER,
+                        'label_on' => esc_html__( 'Yes', 'easy-elements' ),
+                        'label_off' => esc_html__( 'No', 'easy-elements' ),
+                        'return_value' => 'yes',
+                        'default' => 'no',
+                    ]
+                );
+
+                $repeater->add_group_control(
+                    \Elementor\Group_Control_Background::get_type(),
+                    [
+                        'name' => 'current_item_bg_img',
+                        'types' => [ 'classic' ],
+                        'selector' => '{{WRAPPER}} .ee--icon-box-slider{{CURRENT_ITEM}}',
+                        'condition' => [
+                            'current_item_bg_img_yes' => 'yes'
+                        ]
+                    ]
+                );
+                
+                $repeater->add_control(
                     'current_item_bg',
                     [
-                        'label' => __('Background', 'easy-elements'),
+                        'label' => __('Background Color', 'easy-elements'),
                         'type' => \Elementor\Controls_Manager::COLOR,
                         'selectors' => [
                             '{{WRAPPER}} .ee--icon-box-slider{{CURRENT_ITEM}}' => 'background: {{VALUE}};',
                         ],
+                        'condition' => [
+                            'current_item_bg_img_yes!' => 'yes'
+                        ]
                     ]
                 );
+
                 $repeater->add_control(
                     'current_item_icon_color',
                     [
@@ -978,19 +1006,28 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
              ]
          );
 
-         $this->add_control(
+        $this->add_control(
              'navigation_bgcolor',
              [
                  'label' => esc_html__( 'Background Color', 'easy-elements' ),
                  'type' => \Elementor\Controls_Manager::COLOR,
                  'selectors' => [
-                     '{{WRAPPER}} .swiper-prev' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}} !important;',
-                     '{{WRAPPER}} .swiper-next' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}} !important;',            
+                     '{{WRAPPER}} .swiper-prev' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}};',
+                     '{{WRAPPER}} .swiper-next' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}};',            
                  ],
                  'condition' => [ 'navigation' => 'yes' ],
              ]
          );
 
+         $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'navigation_border',
+				'selector' => '{{WRAPPER}} .swiper-prev,{{WRAPPER}} .swiper-next',
+                 'condition' => [ 'navigation' => 'yes' ],
+			]
+		);
+        
          $this->end_controls_tab();
 
          // Hover tab
@@ -1023,16 +1060,92 @@ class Easyel_Icon_Box_Slider__Widget extends \Elementor\Widget_Base {
                  'label' => esc_html__( 'Background Color', 'easy-elements' ),
                  'type' => \Elementor\Controls_Manager::COLOR,
                  'selectors' => [
-                     '{{WRAPPER}} .swiper-prev:hover' => 'background: {{VALUE}} !important; border-color: {{VALUE}} !important;',
-                     '{{WRAPPER}} .swiper-next:hover' => 'background: {{VALUE}} !important; border-color: {{VALUE}} !important;',        
+                     '{{WRAPPER}} .swiper-prev:hover' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}} !important;',
+                     '{{WRAPPER}} .swiper-next:hover' => 'background-color: {{VALUE}} !important; border-color: {{VALUE}} !important;',        
                  ],
                  'condition' => [ 'navigation' => 'yes' ],
-             ]
-         );
+            ]
+        );
+
+        $this->add_group_control(
+			\Elementor\Group_Control_Border::get_type(),
+			[
+				'name' => 'navigation_hover_border',
+				'selector' => '{{WRAPPER}} .swiper-prev:hover,{{WRAPPER}} .swiper-next:hover',
+                 'condition' => [ 'navigation' => 'yes' ],
+			]
+		);
 
          $this->end_controls_tab();
          $this->end_controls_tabs();
 
+         $this->add_responsive_control(
+            'navigation_border_radius',
+            [
+                'label' => __('Border Radius', 'easy-elements'),
+                'type' => \Elementor\Controls_Manager::DIMENSIONS,
+                'size_units' => ['px', '%', 'em'],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-prev' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-next' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+                ],
+                'condition' => [ 'navigation' => 'yes' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'navigation_width',
+            [
+                'label' => esc_html__( 'Navigation Width & Height', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-prev' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-next' => 'width: {{SIZE}}{{UNIT}}; height: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [ 'navigation' => 'yes' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'navigation_position_horizontal',
+            [
+                'label' => esc_html__( 'Position ( Vertical )', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-prev' => 'top: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .swiper-next' => 'top: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [ 'navigation' => 'yes' ],
+            ]
+        );
+
+         $this->add_responsive_control(
+            'navigation_prev_position_vertical',
+            [
+                'label' => esc_html__( 'Prev Position ( Horizontal  )', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-prev' => 'left: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [ 'navigation' => 'yes' ],
+            ]
+        );
+
+        $this->add_responsive_control(
+            'navigation_next_position_vertical',
+            [
+                'label' => esc_html__( 'Next Position ( Horizontal )', 'easy-elements' ),
+                'type' => \Elementor\Controls_Manager::SLIDER,
+                'size_units' => [ 'px', 'em', 'rem', '%' ],
+                'selectors' => [
+                    '{{WRAPPER}} .swiper-next' => 'right: {{SIZE}}{{UNIT}};',
+                ],
+                'condition' => [ 'navigation' => 'yes' ],
+            ]
+        );
 
          $this->add_control(
             'ee_customicon_',

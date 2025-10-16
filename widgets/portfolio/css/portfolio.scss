@@ -76,12 +76,20 @@
 
 .eel-portfolio-title-pro{
     position: relative;
+    transition: all .5s ease;
     i,
     svg{
         position: absolute;
         right: 0;     
         height: 18px;
         width: 18px; 
+        transition: all .3s ease;
+    }
+    &:hover{
+        i,
+        svg{
+            transform: rotate(45deg);
+        }
     }
 }
 
@@ -92,6 +100,7 @@
     i{
         color: currentColor;
         margin-right: 5px;
+        font-size: 22px;
     }
 }
 
@@ -147,8 +156,13 @@
     width: 100%;
     object-fit: cover;
     height: 100%;
+    transform: scale(1.2);
+    transition: transform 0.5s ease;
 }
 
+.eel-portfolio-wrap-pro.pro-skin2 .eel-portfolio-item-pro:hover img {
+    transform: scale(1.2) translateX(10px);
+}
 
 // Mobile responsive
 @media (max-width: 768px) {
