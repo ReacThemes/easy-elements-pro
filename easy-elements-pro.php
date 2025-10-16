@@ -277,6 +277,13 @@ function easy_elements_pro_plugin_init() {
                 'file'  => EASYELEMENTS_PRO_PATH . '/widgets/portfolio/portfolio.php',
                 'tab'   => 'widget'
             ],
+            'protected_content' => [
+                'class' => '\Easy_Protected_Content_Widget',
+                'file'  => EASYELEMENTS_PRO_PATH . '/widgets/protected-content/protected-content.php',
+                'tab'   => 'widget'
+            ],
+
+            
         ];
 
         $extensions_settings = get_option( 'easy_element_extensions', [] );

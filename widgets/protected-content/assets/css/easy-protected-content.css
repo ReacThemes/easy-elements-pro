@@ -1,0 +1,101 @@
+/* ================================
+   EASY PROTECTED CONTENT STYLE
+   ================================ */
+
+.easy-password-proteced-content-wrap {
+  max-width: 700px;
+  width: 100%;
+  text-align: center;
+}
+
+.easy-password-warning-text {
+  font-size: 16px;
+  color: #444;
+  background: #fff7e6;
+  border: 1px solid #ffe58f;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.easy-password-protected-form-main-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.easy-password-protected-form form.easy-content-protected-form {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.easy-password-protected-form input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  outline: none;
+}
+
+.easy-password-protected-form input[type="password"]:focus {
+  border-color: #6c63ff;
+  box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.2);
+}
+
+
+.easy-password-protected-form button {
+  background-color: #6c63ff;
+  border: none;
+  color: #fff;
+  padding: 12px 24px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.easy-password-protected-form button:hover {
+  background-color: #5a52e0;
+  transform: translateY(-1px);
+}
+
+.easy-password-protected-form button:active {
+  transform: translateY(1px);
+}
+
+.easy-protected-warning {
+  font-size: 16px;
+  color: #d93025;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .easy-password-protected-form form.easy-content-protected-form {
+    flex-direction: column;
+  }
+
+  .easy-password-protected-form button {
+    width: 100%;
+  }
+}

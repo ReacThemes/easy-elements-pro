@@ -44,31 +44,30 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
     public function get_script_depends() {
         $deps = [];
 
-        // ✅ Register Isotope if not already registered
+       
         if ( ! wp_script_is( 'isotope-pkgd', 'registered' ) ) {
             wp_register_script(
                 'isotope-pkgd',
                 plugins_url( 'js/isotope.pkgd.js', __FILE__ ),
                 [ 'jquery' ],
                 '3.0.6',
-                true // footer
+                true 
             );
         }
         $deps[] = 'isotope-pkgd';
 
-        // ✅ Register imagesLoaded if not already
         if ( ! wp_script_is( 'imagesloaded', 'registered' ) ) {
             wp_register_script(
                 'imagesloaded',
                 plugins_url( 'js/imagesloaded.pkgd.min.js', __FILE__ ),
                 [ 'jquery' ],
                 '4.1.4',
-                true // footer
+                true 
             );
         }
         $deps[] = 'imagesloaded';
 
-        // ✅ Register your gallery script
+       
         $handle  = 'eel-simple-gallery-filter-script';
         $js_path = plugin_dir_path( __FILE__ ) . 'js/simple-gallery-filter.js';
         $js_url  = plugins_url( 'js/simple-gallery-filter.js', __FILE__ );
@@ -79,7 +78,7 @@ class Easyel__Gallery_Pro_Widget extends \Elementor\Widget_Base {
                 $js_url,
                 [ 'jquery', 'isotope-pkgd', 'imagesloaded' ],
                 ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? filemtime( $js_path ) : '1.0.0',
-                true // ✅ footer load
+                true 
             );
         }
 
