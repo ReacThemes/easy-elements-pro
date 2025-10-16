@@ -1269,7 +1269,5 @@ class Easyel_Process_Slider_Widget extends \Elementor\Widget_Base {
                         endif;
                     }
                 }
-            ?>
-        <?php
     }
-} ?>
+} 

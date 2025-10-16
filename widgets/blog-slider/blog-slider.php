@@ -2073,4 +2073,4 @@ class Easyel_Blog_Slider__Widget extends \Elementor\Widget_Base {
             echo '<p>' . esc_html__( 'No posts found.', 'easy-elements' ) . '</p>';
         endif;
     }
-}?>
+}

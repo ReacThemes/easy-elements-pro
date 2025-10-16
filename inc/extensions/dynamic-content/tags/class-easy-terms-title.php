@@ -34,8 +34,6 @@ class Easy_Terms_Title extends Tag {
      */
     protected function register_controls() {
         easy_get_terms_data_info( $this );
-
-       
     }
 
     protected function register_advanced_section() {
@@ -51,13 +49,11 @@ class Easy_Terms_Title extends Tag {
             return;
         }
 
-        // Get the selected term ID from control
         $term_id = ! empty( $settings['easy_terms_data'] ) ? intval( $settings['easy_terms_data'] ) : 0;
         if ( ! $term_id ) {
             return;
         }
 
-        // Get the term object
         $term = get_term( $term_id );
         if ( ! $term || is_wp_error( $term ) ) {
             return;

@@ -194,4 +194,4 @@ class Easyel_Hr_Image_Scroll_Widget extends \Elementor\Widget_Base {
         <?php
     }
 
-} ?>
+} 

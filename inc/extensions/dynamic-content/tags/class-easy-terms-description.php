@@ -34,8 +34,6 @@ class Easy_Terms_Description extends Tag {
      */
     protected function register_controls() {
         easy_get_terms_data_info( $this );
-
-       
     }
 
     protected function register_advanced_section() {
@@ -65,7 +63,6 @@ class Easy_Terms_Description extends Tag {
 
         $description = ! empty( $term->description ) ? $term->description : '';
         
-        // before/after text
         $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
         $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
 
@@ -90,5 +87,4 @@ class Easy_Terms_Description extends Tag {
 
         return $term->description ?: '';
     }
-
 }

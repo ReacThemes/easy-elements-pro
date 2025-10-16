@@ -78,10 +78,8 @@ protected function render() {
         return;
     }
 
-    // Elementor এর কনটেন্ট ফেচ করা
     $content = \Elementor\Plugin::$instance->frontend->get_builder_content_for_display( get_the_ID() );
 
-    // যদি Elementor কনটেন্ট না থাকে, তাহলে WP Content দেখানো
     if ( empty( $content ) ) {
         $content = apply_filters( 'the_content', $post->post_content );
     }

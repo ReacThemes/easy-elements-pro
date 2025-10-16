@@ -37,4 +37,3 @@ $slider_data_attributes = sprintf(
     esc_attr($settings['effect']),
     esc_attr($settings['mousewheel']) === 'yes' ? 'true' : 'false'
 );
-?>

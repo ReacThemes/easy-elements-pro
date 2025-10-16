@@ -822,4 +822,4 @@ class Easyel_Image_Carousel__Widget extends \Elementor\Widget_Base {
         </div>
         <?php
     }
-} ?>
+} 

@@ -1802,4 +1802,4 @@ class Easyel_Related_Post_Widget extends \Elementor\Widget_Base {
             echo '<p>' . esc_html__( 'No posts found.', 'easy-elements' ) . '</p>';
         endif;
     }
-}?>
+}

@@ -3,7 +3,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 ?>
-
 <div class="ee--tstml-inner-wrap <?php echo esc_attr($skin); ?>">
     <?php if ( ! empty( $logo_data ) ) : ?>
         <div class="eel-company-logo">

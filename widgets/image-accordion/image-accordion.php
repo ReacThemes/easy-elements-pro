@@ -391,4 +391,4 @@ class Easyel_Image_Accordion_Widget extends \Elementor\Widget_Base {
         <?php
     }
 
-} ?>
+} 

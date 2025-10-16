@@ -101,7 +101,4 @@ class Easy_Terms_Meta extends Tag {
 
         return $meta_value;
     }
-
-
-
 }

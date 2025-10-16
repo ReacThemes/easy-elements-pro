@@ -67,7 +67,7 @@ class Easy_Dynamic_Page_Title extends Tag {
 
         $title = easy_apply_word_limit( $title, $settings );
 
-        echo wp_kses_post($before . $title . $after);
+        echo wp_kses_post( $before . $title . $after );
     }
 
 

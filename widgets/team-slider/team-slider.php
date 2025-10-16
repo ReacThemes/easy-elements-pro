@@ -1126,4 +1126,4 @@ class Easyel_Team_Slider__Widget extends \Elementor\Widget_Base {
             <?php endif; ?>
         <?php
     }
-} ?>
+} 

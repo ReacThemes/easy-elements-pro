@@ -94,8 +94,15 @@ class Easy_Dynamic_Request_Parameter extends Tag {
                 break;
         }
 
+        if ( empty( $value ) && ! empty( $settings['easydc_fallback'] ) ) {
+            $value = $settings['easydc_fallback']; 
+        }
+
+        $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
+        $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
+
         if ( ! empty( $value ) ) {
-            echo wp_kses_post( $value );
+            echo wp_kses_post( $before . $value .  $after );
         }
     }
 

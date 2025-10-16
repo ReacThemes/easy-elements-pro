@@ -106,7 +106,14 @@ class Easy_Dynamic_Author_Info extends Tag {
             $value = ucfirst( $roles );
         } 
 
-        echo wp_kses_post( $value );
+        if ( empty( $value ) && ! empty( $settings['easydc_fallback'] ) ) {
+            $value = $settings['easydc_fallback']; 
+        }
+
+        $before = ! empty( $settings['easydc_before'] ) ? $settings['easydc_before'] : '';
+        $after  = ! empty( $settings['easydc_after'] ) ? $settings['easydc_after'] : '';
+
+        echo wp_kses_post( $before . $value . $after );
     }
 
 }

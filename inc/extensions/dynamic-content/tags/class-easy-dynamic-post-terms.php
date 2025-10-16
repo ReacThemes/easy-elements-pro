@@ -162,7 +162,7 @@ class Easy_Dynamic_Post_Terms extends Tag {
         $before = !empty($settings['easydc_before']) ? $settings['easydc_before'] : '';
         $after  = !empty($settings['easydc_after']) ? $settings['easydc_after'] : '';
 
-        echo wp_kses_post($before . implode($separator, $output) . $after);
+        echo wp_kses_post( $before . implode($separator, $output) . $after );
     }
 
 }

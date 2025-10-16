@@ -940,4 +940,4 @@ class Easyel_Timeline_Slider_Widget extends \Elementor\Widget_Base {
             ?>
         <?php
     }
-} ?>
+} 

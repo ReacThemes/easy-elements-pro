@@ -1499,7 +1499,5 @@ class Easyel_Easy_Slider_Widget extends \Elementor\Widget_Base {
                         echo '<div class="swiper-button-next swiper-next"></div>';
                     endif;
                 }                
-            ?>
-        <?php
     }
-} ?>
+} 

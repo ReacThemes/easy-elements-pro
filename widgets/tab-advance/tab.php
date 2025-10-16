@@ -1140,4 +1140,3 @@ class Easyel_Advance_Tab_Widget extends \Elementor\Widget_Base {
     }
         
 }
-?>

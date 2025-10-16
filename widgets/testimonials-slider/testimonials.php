@@ -1371,8 +1371,5 @@ class Easyel_Testimonials_Slider__Widget extends \Elementor\Widget_Base {
                     endif;
                 }
             }
-        ?>
-        
-        <?php
     }
-} ?>
+} 

@@ -67,4 +67,3 @@ $slider_data_attributes = sprintf(
     esc_attr($coverflow_rotate),
     esc_attr($coverflow_stretch)
 );
-?>

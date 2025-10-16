@@ -48,10 +48,9 @@ class Easy_Post_Title_Tag extends Tag {
 
         $settings = $this->get_settings_for_display();
 
-        if (isset($settings['easy_selected_post_type']) && $settings['easy_selected_post_type'] === 'selected' && !empty($settings['dynamic_post'])) {
-            $post_id = is_array($settings['dynamic_post']) ? $settings['dynamic_post'][0] : $settings['dynamic_post'];
-        } else {
-            $post_id = get_the_ID();
+        $post_id = Easy_Dynamic_Tag_Helper::get_post_id( $settings );
+        if ( ! $post_id ) {
+            return;
         }
 
         $title = get_the_title( $post_id );
